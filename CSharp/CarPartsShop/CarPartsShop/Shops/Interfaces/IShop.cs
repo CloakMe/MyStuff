@@ -10,7 +10,7 @@ namespace CarPartsShop.Shops.Interfaces
     public interface IShop
     {
         string Name { get; }
-        Dictionary<ICarPart, float> CarPartsWithPrise { get; }
-        void AddCarPartWithPrise(ICarPart iCarPart, float prise);
+        Dictionary<ICarPart, double> CarPartsWithPrise { get; }
+        void AddCarPartWithPrise(ICarPart iCarPart, double prise);
     }
 }

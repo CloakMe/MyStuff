@@ -17,14 +17,14 @@ namespace CarPartsShop.Shops
 
         public string Name { get; private set; }
 
-        Dictionary<ICarPart, float> carPartsWithPrise = new Dictionary<ICarPart, float>();
-        public Dictionary<ICarPart, float> CarPartsWithPrise
+        Dictionary<ICarPart, double> carPartsWithPrise = new Dictionary<ICarPart, double>();
+        public Dictionary<ICarPart, double> CarPartsWithPrise
         {
             get
             {
-                Dictionary<ICarPart, float> carPartsWithPriseCopy =
-                    new Dictionary<ICarPart, float>();
-                foreach(KeyValuePair<ICarPart, float> kvp in carPartsWithPrise)
+                Dictionary<ICarPart, double> carPartsWithPriseCopy =
+                    new Dictionary<ICarPart, double>();
+                foreach(KeyValuePair<ICarPart, double> kvp in carPartsWithPrise)
                 {
                     carPartsWithPriseCopy.Add(kvp.Key, kvp.Value);
                 }
@@ -32,7 +32,7 @@ namespace CarPartsShop.Shops
             }
         }
 
-        public void AddCarPartWithPrise(ICarPart iCarPart, float prise)
+        public void AddCarPartWithPrise(ICarPart iCarPart, double prise)
         {
             carPartsWithPrise.Add(iCarPart, prise);
         }

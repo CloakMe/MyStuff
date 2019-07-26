@@ -11,26 +11,17 @@ namespace CarPartsShop.DataBase
 {
     public class MyDataBase : IDataBase
     {
-        public MyDataBase(string dataBase, string server, uint port, string userID, string pass)
+        public MyDataBase(MySqlConnection mySqlConnection)
         {
-            MySqlConnectionStringBuilder myBuilder = new MySqlConnectionStringBuilder();
-            myBuilder.Database = dataBase;
-            myBuilder.Server = server;
-            myBuilder.Port = port;
-            myBuilder.UserID = userID;
-            myBuilder.Password = pass;
-
-            MySQLConn = new MySqlConnection(myBuilder.ConnectionString);
-            // Open the database
-            MySQLConn.Open();
+            this.mySqlConnection = mySqlConnection;
         }
 
-        MySqlConnection MySQLConn;
+        MySqlConnection mySqlConnection;
 
         public void AddCar(ICar iCar)
         {
             string query = "insert into Cars (brand, model, `year`) values ( \'" + iCar.Brand + "\', \'" + iCar.Model + "\', \'" + iCar.Year.ToString() + "\') ";
-            MySqlCommand commandDatabase = new MySqlCommand(query, MySQLConn);
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             commandDatabase.CommandTimeout = 15;
             try
             {
@@ -47,8 +38,8 @@ namespace CarPartsShop.DataBase
         {
             foreach (ICar iCar in iCarPart.Cars)
             {
-                string query = "insert into CarParts (name, carID) values (\'" + iCarPart.Name + "\', \'" + iCar.Id + "\') ";
-                MySqlCommand commandDatabase = new MySqlCommand(query, MySQLConn);
+                string query = "insert into CarParts (name, carId) values (\'" + iCarPart.Name + "\', \'" + iCar.Id + "\') ";
+                MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
                 commandDatabase.CommandTimeout = 15;
                 try
                 {
@@ -65,9 +56,9 @@ namespace CarPartsShop.DataBase
 
         public void AssignPartToShop(string shopName, int carPartId, float prise)
         {
-            string query = "insert into CarShop (shopName, carPartID, prise) values ( \'" + shopName + "\', \'" + 
+            string query = "insert into CarShop (shopName, carPartId, prise) values ( \'" + shopName + "\', \'" + 
                 carPartId.ToString() + "\', \'" + prise.ToString() + "\') ";
-            MySqlCommand commandDatabase = new MySqlCommand(query, MySQLConn);
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             commandDatabase.CommandTimeout = 15;
             try
             {
@@ -80,55 +71,9 @@ namespace CarPartsShop.DataBase
             }
         }
 
-        private List<ICar> GetCars()
-        {
-            string query = "select * Cars";
-            MySqlCommand commandDatabase = new MySqlCommand(query, MySQLConn);
-            MySqlDataReader reader;
-            List<ICar> cars = new List<ICar>();
-            try
-            {
-                // Execute the query
-                reader = commandDatabase.ExecuteReader();
-
-                // All succesfully executed, now do something
-
-                // IMPORTANT : 
-                // If your query returns result, use the following processor :
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        // As our database, the array will contain : ID 0, FIRST_NAME 1,LAST_NAME 2, ADDRESS 3
-                        // Do something with every received database ROW
-                        int id = reader.GetInt32(0);
-                        string brand = reader.GetString(1);
-                        string model = reader.GetString(2);
-                        int year = reader.GetInt32(3);
-                        ICar car = new Car(brand, model, year, id);
-                        cars.Add(car);
-                    }
-                }
-                else
-                {
-                    return new List<ICar>();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                // Show any error message.
-                string f = ex.Message;
-                return new List<ICar>();
-            }
-            return cars;
-            
-        }
-
         ~MyDataBase()
         {
-            MySQLConn.Close();
+            mySqlConnection.Close();
         }
     }
 }

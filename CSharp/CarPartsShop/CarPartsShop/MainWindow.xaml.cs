@@ -9,56 +9,24 @@ using CarPartsShop.Shops;
 using CarPartsShop.Cars.Interfaces;
 using CarPartsShop.CarParts.Interfaces;
 using CarPartsShop.CarParts;
+using CarPartsShop.Factory;
 
 namespace CarPartsShop
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
-        private static readonly string server = "sql7.freesqldatabase.com";
-        private static readonly string dataBase = "sql7299547";
-        private static readonly uint port = 3306;
-        private static readonly string userID = "sql7299547";
-        private static readonly string pass = "pAxwgTkKaS";
-
         public MainWindow()
         {
-            //InitializeComponent();
-            db = new MyDataBase(dataBase, server, port, userID, pass);
-            shop = new Shop("Slavejkov");
-
-            //db.AddCar(new Car("Ford", "Focus", 2000));
-            //db.AddCar(new Car("Ford", "Focus", 1999));
-            //db.AddCar(new Car("Ford", "Focus", 2001));
-            //db.AddCar(new Car("Ford", "Fiesta", 2003));
+            InitializeComponent();
+            db = DataBaseFactory.GenerateDadaBase();
+            dbs = DataBaseFactory.GenerateDadaBaseService();
         }
 
         private IDataBase db;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private IShop shop;
-
-        public IShop Shop
-        {
-            get { return shop; }
-            set
-            {
-                if (value.Name != shop.Name || 
-                    value.CarPartsWithPrise.Count != shop.CarPartsWithPrise.Count)
-                {
-                    shop = value;
-                    OnPropertyChanged("Shop");
-                }
-            }
-        }
+        private IDataBaseService dbs;
 
         private void OnAddCarMenuClick(object sender, RoutedEventArgs e)
         {
