@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarPartsShop"
         xmlns:treeNsp="clr-namespace:CarPartsShop.TreeViewControl"
+        xmlns:listNsp="clr-namespace:CarPartsShop.ListViewControl"
         mc:Ignorable="d"
         Title="MainWindow" Background="Transparent" Height="350" Width="525">
     <Grid Background="Beige" Margin="0,0,-15,0">
@@ -90,11 +91,22 @@
             <TabItem Header="Shops" >
                 <Grid Background="Beige">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <treeNsp:MyTreeView x:Name="trvMenuy" Grid.Column="0"/>
-
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Margin="10,2">Search Part</TextBlock>
+                        <TextBox Name="SearchBox"  Grid.Row="1" Margin="5" />
+                        <Button Grid.Row="2" Content="Go" Click="OnGoClick"></Button>
+                    </Grid>
+                    <listNsp:MyListViewControl Grid.Column="1" x:Name="myListvu" />
                 </Grid>
             </TabItem>
         </TabControl>

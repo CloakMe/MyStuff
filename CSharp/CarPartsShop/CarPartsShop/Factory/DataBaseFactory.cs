@@ -29,19 +29,29 @@ namespace CarPartsShop.Factory
             mySqlConnection = new MySqlConnection(myBuilder.ConnectionString);
             // Open the database
             mySqlConnection.Open();
+
+            db = new MyDataBase(mySqlConnection);
+            dbs = new DataBaseService(mySqlConnection);
+
         }
         private static MySqlConnection mySqlConnection;
 
+        private static IDataBase db;
         public static IDataBase GenerateDadaBase()
         {
-            IDataBase db = new MyDataBase(mySqlConnection);
             return db;
         }
 
+        private static IDataBaseService dbs;
         public static IDataBaseService GenerateDadaBaseService()
         {
-            IDataBaseService dbs = new DataBaseService(mySqlConnection);
             return dbs;
+        }
+
+        public static IPartSearch GeneratePartSearch()
+        {
+            IPartSearch partSearch = new PartSearch(mySqlConnection, dbs);
+            return partSearch;
         }
     }
 }

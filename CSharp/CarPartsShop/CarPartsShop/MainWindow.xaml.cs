@@ -68,6 +68,12 @@ namespace CarPartsShop
         {
             db.AssignPartToShop(ShopName.Text, Int32.Parse(PartID.Text), float.Parse(PartPrise.Text) );
         }
+
+        private void OnGoClick(object sender, RoutedEventArgs e)
+        {
+            string searchPart = SearchBox.Text;
+            myListvu.SetItems(searchPart);
+        }
     }
     
 }

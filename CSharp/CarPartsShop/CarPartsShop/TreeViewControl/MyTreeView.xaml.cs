@@ -39,7 +39,7 @@ namespace CarPartsShop.TreeViewControl
                 {
                     MenuItem subChildItem = new MenuItem()
                     {
-                        Title = iCarPartWithPrise.Key.Name + "  " + iCarPartWithPrise.Value.ToString(),
+                        Title = iCarPartWithPrise.Key.Name + "  " + iCarPartWithPrise.Value.ToString() + " lv.",
                         Prise = iCarPartWithPrise.Value
                     };
                     childItem.Items.Add(subChildItem);

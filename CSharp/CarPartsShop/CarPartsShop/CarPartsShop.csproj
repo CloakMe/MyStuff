@@ -66,13 +66,21 @@
     <Compile Include="DataBase\Interfaces\IDataBaseService.cs" />
     <Compile Include="DataBase\Interfaces\IPartSearch.cs" />
     <Compile Include="DataBase\MyDataBase.cs" />
+    <Compile Include="DataBase\PartSearch.cs" />
     <Compile Include="Factory\DataBaseFactory.cs" />
+    <Compile Include="ListViewControl\MyListViewControl.xaml.cs">
+      <DependentUpon>MyListViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Class1.cs" />
     <Compile Include="Shops\Interfaces\IShop.cs" />
     <Compile Include="Shops\Shop.cs" />
     <Compile Include="TreeViewControl\MyTreeView.xaml.cs">
       <DependentUpon>MyTreeView.xaml</DependentUpon>
     </Compile>
+    <Page Include="ListViewControl\MyListViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

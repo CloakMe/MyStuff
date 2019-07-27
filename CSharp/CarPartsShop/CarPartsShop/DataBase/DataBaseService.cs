@@ -26,8 +26,18 @@ namespace CarPartsShop.DataBase
 
         MySqlConnection mySqlConnection;
         
+        public ICollection<ICar> GetCars
+        {
+            get
+            {
+                ICollection<ICar> carsCopy = new List<ICar>();
+                foreach (ICar iCar in cars)
+                    carsCopy.Add(iCar);
+                return carsCopy;
+            }
+        }
         ICollection<ICar> cars = new List<ICar>();
-        public ICollection<ICar> SelectCars()
+        private ICollection<ICar> SelectCars()
         {
             string query = "select * from Cars";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
@@ -65,7 +75,7 @@ namespace CarPartsShop.DataBase
         }
 
         ICollection<ICarPart> carParts = new List<ICarPart>();
-        public ICollection<ICarPart> SelectCarsParts()
+        private ICollection<ICarPart> SelectCarsParts()
         {
             string query = "select * from CarParts";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
@@ -112,7 +122,7 @@ namespace CarPartsShop.DataBase
         }
 
         ICollection<ICarPart> allCarParts = new List<ICarPart>();
-        public ICollection<ICarPart> SelectAllCarsParts()
+        private ICollection<ICarPart> SelectAllCarsParts()
         {
             string query = "select * from CarParts";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
