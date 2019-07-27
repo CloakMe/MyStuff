@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarPartsShop"
+        xmlns:treeNsp="clr-namespace:CarPartsShop.TreeViewControl"
         mc:Ignorable="d"
         Title="MainWindow" Background="Transparent" Height="350" Width="525">
     <Grid Background="Beige" Margin="0,0,-15,0">
         <TabControl>
-            <TabItem Header="Add Car Parts">
-                <Grid >
+            <TabItem Header="Add Car Parts" >
+                <Grid Background="Beige">
                     <StackPanel Grid.Row="0">
                         <ToolBar Background="Transparent">
                             <Menu>
@@ -56,7 +57,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Label>Car Part:</Label>
+                        <Label>Unique Car Part Name:</Label>
                         <TextBox Name="PartName"  Grid.Column="1" Margin="0,0,0,10" />
                         <Label Grid.Row="1">Car ID:</Label>
                         <TextBox Name="CarID" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
@@ -86,13 +87,14 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Shops">
-                <Grid>
+            <TabItem Header="Shops" >
+                <Grid Background="Beige">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="300" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    
+                    <treeNsp:MyTreeView x:Name="trvMenuy" Grid.Column="0"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

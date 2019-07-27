@@ -34,7 +34,8 @@ namespace CarPartsShop.Shops
 
         public void AddCarPartWithPrise(ICarPart iCarPart, double prise)
         {
-            carPartsWithPrise.Add(iCarPart, prise);
+            if(!carPartsWithPrise.ContainsKey(iCarPart))
+                carPartsWithPrise.Add(iCarPart, prise);
         }
     }
 }

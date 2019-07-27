@@ -10,6 +10,7 @@ using CarPartsShop.Cars.Interfaces;
 using CarPartsShop.CarParts.Interfaces;
 using CarPartsShop.CarParts;
 using CarPartsShop.Factory;
+using System.Collections.Generic;
 
 namespace CarPartsShop
 {
@@ -22,11 +23,11 @@ namespace CarPartsShop
         {
             InitializeComponent();
             db = DataBaseFactory.GenerateDadaBase();
-            dbs = DataBaseFactory.GenerateDadaBaseService();
+
+            bool breakPoint = true;
         }
 
         private IDataBase db;
-        private IDataBaseService dbs;
 
         private void OnAddCarMenuClick(object sender, RoutedEventArgs e)
         {

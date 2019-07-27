@@ -67,8 +67,12 @@
     <Compile Include="DataBase\Interfaces\IPartSearch.cs" />
     <Compile Include="DataBase\MyDataBase.cs" />
     <Compile Include="Factory\DataBaseFactory.cs" />
+    <Compile Include="Resources\Class1.cs" />
     <Compile Include="Shops\Interfaces\IShop.cs" />
     <Compile Include="Shops\Shop.cs" />
+    <Compile Include="TreeViewControl\MyTreeView.xaml.cs">
+      <DependentUpon>MyTreeView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +88,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TreeViewControl\MyTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -117,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Factory\Interfaces\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
