@@ -107,6 +107,7 @@
                         <Button Grid.Row="2" Content="Go" Click="OnGoClick"></Button>
                     </Grid>
                     <listNsp:MyListViewControl Grid.Column="1" x:Name="myListvu" />
+                    <TextBlock Name="NothingFound" Grid.Column="1" Margin="10,2" Visibility="Hidden">Nothing found</TextBlock>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -72,7 +72,7 @@ namespace CarPartsShop
         private void OnGoClick(object sender, RoutedEventArgs e)
         {
             string searchPart = SearchBox.Text;
-            myListvu.SetItems(searchPart);
+            myListvu.SetItems(searchPart, NothingFound);
         }
     }
     

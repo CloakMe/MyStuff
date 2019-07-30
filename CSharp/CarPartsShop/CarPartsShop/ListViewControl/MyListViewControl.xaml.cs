@@ -53,7 +53,7 @@ namespace CarPartsShop.ListViewControl
             }
         } 
 
-        public void SetItems(string partName)
+        public void SetItems(string partName, FrameworkElement nothingFound)
         {
             IPartSearch partSearch = DataBaseFactory.GeneratePartSearch();
             ICollection<ListItemS> queryItems = partSearch.SelectCarPartInShops(partName);
@@ -67,6 +67,11 @@ namespace CarPartsShop.ListViewControl
                 li.ShopName = liItem.ShopName;
                 items.Add(li);
             }
+
+            if (items.Count == 0)
+                nothingFound.Visibility = Visibility.Visible;
+            else
+                nothingFound.Visibility = Visibility.Hidden;
 
             Items = items;
         }
