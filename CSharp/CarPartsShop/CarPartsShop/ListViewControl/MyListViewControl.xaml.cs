@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CarPartsShop.Common;
 
 namespace CarPartsShop.ListViewControl
 {
@@ -28,11 +29,7 @@ namespace CarPartsShop.ListViewControl
         public MyListViewControl()
         {
             InitializeComponent();
-            ListItem li = new ListItem();
-            li.PartName = "breaks";
-            li.Prise = "46.79";
-            li.CarName = "Nissan";
-            items.Add(li);
+
             myListView.ItemsSource = items;
         }
 
@@ -59,14 +56,15 @@ namespace CarPartsShop.ListViewControl
         public void SetItems(string partName)
         {
             IPartSearch partSearch = DataBaseFactory.GeneratePartSearch();
-            ICollection<ICarPart> iCarParts = partSearch.SelectCarPartsByName(partName);
-            foreach (ICarPart iCarPart in iCarParts)
+            ICollection<ListItemS> queryItems = partSearch.SelectCarPartInShops(partName);
+            items.Clear();
+            foreach (ListItemS liItem in queryItems)
             {
                 //string partDescription = partName;
                 ListItem li = new ListItem();
-                li.PartName = "hood";
-                li.Prise = "46.79";
-                li.CarName = "Nissan";
+                li.PartName = liItem.PartName;
+                li.Prise = liItem.Prise;
+                li.ShopName = liItem.ShopName;
                 items.Add(li);
             }
 
@@ -82,7 +80,7 @@ namespace CarPartsShop.ListViewControl
 
         }
 
-        public string CarName { get; set; }
+        public string ShopName { get; set; }
         public string PartName { get; set; }
         public string Prise { get; set; }
     }

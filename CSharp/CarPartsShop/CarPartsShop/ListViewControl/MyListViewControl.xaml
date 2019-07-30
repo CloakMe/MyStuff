@@ -17,8 +17,8 @@
                         <TextBlock Text=", " />
                         <TextBlock Text="Prise: " />
                         <TextBlock Text="{Binding Prise}" FontWeight="Bold" />
-                        <TextBlock Text="CarName :" />
-                        <TextBlock Text="{Binding CarName}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                        <TextBlock Text="ShopName :" />
+                        <TextBlock Text="{Binding ShopName}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
                         <TextBlock Text=" |" />
                     </WrapPanel>
                 </DataTemplate>

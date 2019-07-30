@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CarPartsShop.Common;
 
 namespace CarPartsShop.DataBase
 {
@@ -21,7 +22,7 @@ namespace CarPartsShop.DataBase
         IDataBaseService dbs;
         MySqlConnection mySqlConnection;
 
-        public ICollection<ICarPart> SelectCarPartsByName(string partName)
+        private ICarPart SelectCarPartByName(string partName)
         {
             ICollection < ICarPart > carParts = new List<ICarPart>();
             string query = "select * from CarParts where name = \"" + partName + "\"";
@@ -57,16 +58,62 @@ namespace CarPartsShop.DataBase
                 else
                 {
                     reader.Close();
-                    return carParts;
+                    return carParts.FirstOrDefault();
                 }
 
             }
             catch (Exception ex)
             {
                 string f = ex.Message;
-                return carParts;
+                return carParts.FirstOrDefault();
             }
-            return carParts;
+            return carParts.FirstOrDefault();
         }
+
+        public ICollection<ListItemS> SelectCarPartInShops(string partName)
+        {
+            ICarPart iCarPart = SelectCarPartByName(partName);
+
+            ICollection<ListItemS> items = new List<ListItemS>();
+            if (iCarPart == null)
+                return items;
+
+            string query = "select * from Shops where carPartId =" + iCarPart.Id;
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
+            MySqlDataReader reader;
+            ICollection<ICar> cars = dbs.GetCars;
+            try
+            {
+                reader = commandDatabase.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ListItemS item = new ListItemS();
+                        int id = reader.GetInt32(0);
+                        item.ShopName = reader.GetString(1);
+                        int carPartId = reader.GetInt32(2);
+                        item.Prise = reader.GetDouble(3).ToString();
+                        item.PartName = iCarPart.Name;
+                        items.Add(item);
+                    }
+                    reader.Close();
+                }
+                else
+                {
+                    reader.Close();
+                    return items;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string f = ex.Message;
+                return items;
+            }
+            return items;
+        }
+
     }
 }
