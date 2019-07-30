@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CarPartsShop.Common
 {
-    public class ListItemS
+    public class ShopItem
     {
-        public ListItemS()
+        public ShopItem()
         {
 
         }

@@ -70,11 +70,11 @@ namespace CarPartsShop.DataBase
             return carParts.FirstOrDefault();
         }
 
-        public ICollection<ListItemS> SelectCarPartInShops(string partName)
+        public ICollection<ShopItem> SelectCarPartInShops(string partName)
         {
             ICarPart iCarPart = SelectCarPartByName(partName);
 
-            ICollection<ListItemS> items = new List<ListItemS>();
+            ICollection<ShopItem> items = new List<ShopItem>();
             if (iCarPart == null)
                 return items;
 
@@ -90,7 +90,7 @@ namespace CarPartsShop.DataBase
                 {
                     while (reader.Read())
                     {
-                        ListItemS item = new ListItemS();
+                        ShopItem item = new ShopItem();
                         int id = reader.GetInt32(0);
                         item.ShopName = reader.GetString(1);
                         int carPartId = reader.GetInt32(2);

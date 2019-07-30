@@ -62,7 +62,7 @@
     </ApplicationDefinition>
     <Compile Include="CarParts\CarPart.cs" />
     <Compile Include="Cars\Car.cs" />
-    <Compile Include="Common\ListItemS.cs" />
+    <Compile Include="Common\ShopItem.cs" />
     <Compile Include="DataBase\DataBaseService.cs" />
     <Compile Include="DataBase\Interfaces\IDataBaseService.cs" />
     <Compile Include="DataBase\Interfaces\IPartSearch.cs" />

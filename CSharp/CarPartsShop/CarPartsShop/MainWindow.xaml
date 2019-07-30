@@ -7,7 +7,7 @@
         xmlns:treeNsp="clr-namespace:CarPartsShop.TreeViewControl"
         xmlns:listNsp="clr-namespace:CarPartsShop.ListViewControl"
         mc:Ignorable="d"
-        Title="MainWindow" Background="Transparent" Height="350" Width="525">
+        Title="MainWindow" Background="Transparent" Height="350" Width="575">
     <Grid Background="Beige" Margin="0,0,-15,0">
         <TabControl>
             <TabItem Header="Add Car Parts" >

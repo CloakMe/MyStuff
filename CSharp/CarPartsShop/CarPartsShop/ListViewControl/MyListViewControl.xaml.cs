@@ -10,8 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -42,8 +42,8 @@ namespace CarPartsShop.ListViewControl
             }
         }
 
-        ObservableCollection<ListItem> items = new ObservableCollection<ListItem>();
-        public ObservableCollection<ListItem> Items {
+        ObservableCollection<ShopItem> items = new ObservableCollection<ShopItem>();
+        public ObservableCollection<ShopItem> Items {
             get { return items; }
             set
             {
@@ -55,17 +55,12 @@ namespace CarPartsShop.ListViewControl
 
         public void SetItems(string partName, FrameworkElement nothingFound)
         {
-            IPartSearch partSearch = DataBaseFactory.GeneratePartSearch();
-            ICollection<ListItemS> queryItems = partSearch.SelectCarPartInShops(partName);
             items.Clear();
-            foreach (ListItemS liItem in queryItems)
+            IPartSearch partSearch = DataBaseFactory.GeneratePartSearch();
+            ICollection<ShopItem> queryItems = partSearch.SelectCarPartInShops(partName);
+            foreach (ShopItem liItem in queryItems)
             {
-                //string partDescription = partName;
-                ListItem li = new ListItem();
-                li.PartName = liItem.PartName;
-                li.Prise = liItem.Prise;
-                li.ShopName = liItem.ShopName;
-                items.Add(li);
+                items.Add(liItem);
             }
 
             if (items.Count == 0)
@@ -78,16 +73,5 @@ namespace CarPartsShop.ListViewControl
 
     }
 
-    public class ListItem
-    {
-        public ListItem()
-        {
-
-        }
-
-        public string ShopName { get; set; }
-        public string PartName { get; set; }
-        public string Prise { get; set; }
-    }
 
 }

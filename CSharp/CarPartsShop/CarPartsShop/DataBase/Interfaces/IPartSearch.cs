@@ -6,6 +6,6 @@ namespace CarPartsShop.DataBase.Interfaces
 {
     public interface IPartSearch
     {
-        ICollection<ListItemS> SelectCarPartInShops(string partName);
+        ICollection<ShopItem> SelectCarPartInShops(string partName);
     }
 }
