@@ -56,8 +56,8 @@ namespace CarPartsShop.DataBase
 
         public void AssignPartToShop(string shopName, int carPartId, float prise)
         {
-            string query = "insert into CarShop (shopName, carPartId, prise) values ( \'" + shopName + "\', \'" + 
-                carPartId.ToString() + "\', \'" + prise.ToString() + "\') ";
+            string query = "insert into Shops (shopName, carPartId, prise) values ( \'" + shopName + "\', " + 
+                carPartId.ToString() + ", \'" + prise.ToString() + "\') ";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             commandDatabase.CommandTimeout = 15;
             try
