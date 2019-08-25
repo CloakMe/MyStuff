@@ -95,7 +95,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <treeNsp:MyTreeView x:Name="trvMenuy" Grid.Column="0"/>
+                    <treeNsp:MyTreeView Grid.Column="0"/>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
