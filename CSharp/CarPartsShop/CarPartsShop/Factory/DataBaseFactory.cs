@@ -11,11 +11,11 @@ namespace CarPartsShop.Factory
 {
     public static class DataBaseFactory
     {
-        private static readonly string server = "sql7.freesqldatabase.com";
-        private static readonly string dataBase = "sql7299547";
+        private static readonly string server = "remotemysql.com";
+        private static readonly string dataBase = "reBGwYb8G1";
         private static readonly uint port = 3306;
-        private static readonly string userID = "sql7299547";
-        private static readonly string pass = "pAxwgTkKaS";
+        private static readonly string userID = "reBGwYb8G1";
+        private static readonly string pass = "hIuP7fYVnb";
 
         static DataBaseFactory()
         {
@@ -36,14 +36,14 @@ namespace CarPartsShop.Factory
         }
         private static MySqlConnection mySqlConnection;
 
-        private static IDataBase db;
-        public static IDataBase GenerateDadaBase()
+        private static IDataBaseWriter db;
+        public static IDataBaseWriter GenerateDadaBase()
         {
             return db;
         }
 
-        private static IDataBaseService dbs;
-        public static IDataBaseService GenerateDadaBaseService()
+        private static IDataBaseReader dbs;
+        public static IDataBaseReader GenerateDadaBaseService()
         {
             return dbs;
         }

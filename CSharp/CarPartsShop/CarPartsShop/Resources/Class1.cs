@@ -8,11 +8,11 @@ namespace CarPartsShop.Resources
 {
     class Class1
     {
-//Host: sql7.freesqldatabase.com
-//Database name: sql7299547
-//Database user: sql7299547
-//Database password: pAxwgTkKaS
-//Port number: 3306
+//Username: reBGwYb8G1
+//Database name: reBGwYb8G1
+//Password: hIuP7fYVnb
+//Server: remotemysql.com
+//Port: 3306
 
 //same rearMirror for renault and nissan
 //different breaks for renault and nissan

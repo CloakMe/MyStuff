@@ -14,12 +14,12 @@ namespace CarPartsShop.DataBase
 {
     public class PartSearch : IPartSearch
     {
-        public PartSearch(MySqlConnection mySqlConnection, IDataBaseService dbs)
+        public PartSearch(MySqlConnection mySqlConnection, IDataBaseReader dbs)
         {
             this.mySqlConnection = mySqlConnection;
             this.dbs = dbs;
         }
-        IDataBaseService dbs;
+        IDataBaseReader dbs;
         MySqlConnection mySqlConnection;
 
         private ICarPart SelectCarPartByName(string partName)

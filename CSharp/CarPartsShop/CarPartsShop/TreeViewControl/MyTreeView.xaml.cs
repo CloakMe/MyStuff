@@ -28,7 +28,7 @@ namespace CarPartsShop.TreeViewControl
         public MyTreeView()
         {
             InitializeComponent();
-            IDataBaseService dbs = DataBaseFactory.GenerateDadaBaseService();
+            IDataBaseReader dbs = DataBaseFactory.GenerateDadaBaseService();
             ICollection<IShop> shops = dbs.SelectShops();
 
             MenuItem root = new MenuItem() { Title = "Shops Menu" };

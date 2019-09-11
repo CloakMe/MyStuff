@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace CarPartsShop.DataBase.Interfaces
 {
-    public interface IDataBase
+    public interface IDataBaseWriter
     {
         void AddCar(ICar iCar);
         void AddCarPart(ICarPart iCarPart);

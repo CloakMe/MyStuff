@@ -14,7 +14,7 @@ using CarPartsShop.CarParts;
 
 namespace CarPartsShop.DataBase
 {
-    public class DataBaseService : IDataBaseService
+    public class DataBaseService : IDataBaseReader
     {
         public DataBaseService(MySqlConnection mySqlConnection)
         {

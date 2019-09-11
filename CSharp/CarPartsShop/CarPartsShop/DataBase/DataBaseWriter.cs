@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace CarPartsShop.DataBase
 {
-    public class MyDataBase : IDataBase
+    public class MyDataBase : IDataBaseWriter
     {
         public MyDataBase(MySqlConnection mySqlConnection)
         {

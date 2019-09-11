@@ -27,7 +27,7 @@ namespace CarPartsShop
             bool breakPoint = true;
         }
 
-        private IDataBase db;
+        private IDataBaseWriter db;
 
         private void OnAddCarMenuClick(object sender, RoutedEventArgs e)
         {

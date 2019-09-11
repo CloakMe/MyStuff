@@ -9,7 +9,7 @@ using CarPartsShop.Shops.Interfaces;
 
 namespace CarPartsShop.DataBase.Interfaces
 {
-    public interface IDataBaseService
+    public interface IDataBaseReader
     {
         ICollection<ICar> GetCars { get;}
         ICollection<IShop> SelectShops();        
