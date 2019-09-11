@@ -12,6 +12,7 @@ namespace CarPartsShop.DataBase.Interfaces
     public interface IDataBaseReader
     {
         ICollection<ICar> GetCars { get;}
+        ICollection<ICarPart> GetCarPartsUnique { get; }
         ICollection<IShop> SelectShops();        
     }
 }

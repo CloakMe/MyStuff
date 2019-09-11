@@ -13,5 +13,6 @@ namespace CarPartsShop.CarParts.Interfaces
         ICollection<ICar> Cars { get;  }
         void SetPartForCar(ICar iCar);
         int Id { get; }
+        ICollection<int> Ids { get; }
     }
 }

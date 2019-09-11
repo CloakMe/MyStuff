@@ -10,7 +10,10 @@ using CarPartsShop.Cars.Interfaces;
 using CarPartsShop.CarParts.Interfaces;
 using CarPartsShop.CarParts;
 using CarPartsShop.Factory;
+using CarPartsShop.UIControls;
+using CarPartsShop.Common.Interfaces;
 using System.Collections.Generic;
+
 
 namespace CarPartsShop
 {
@@ -22,12 +25,13 @@ namespace CarPartsShop
         public MainWindow()
         {
             InitializeComponent();
-            db = DataBaseFactory.GenerateDadaBase();
+            dbWriter = DataBaseFactory.GetDBWriterInstance();            
 
             bool breakPoint = true;
         }
 
-        private IDataBaseWriter db;
+        private IDataBaseWriter dbWriter;
+        private IDataBaseReader dbReader;
 
         private void OnAddCarMenuClick(object sender, RoutedEventArgs e)
         {
@@ -41,32 +45,55 @@ namespace CarPartsShop
             AddCarPartForm.Visibility = Visibility.Visible;
             AddCarForm.Visibility = Visibility.Collapsed;
             AddPartToShopForm.Visibility = Visibility.Collapsed;
+            
+            IDataBaseReader dbReader = DataBaseFactory.GetDBReaderInstance();
+            ICollection<IName> cars = new List<IName>();
+            foreach (ICar iCar in dbReader.GetCars)
+            {
+                cars.Add(iCar as IName);
+            }
+            myCarCombo.SetItems(cars);
         }
 
-        private void OnAddShopMenuClick(object sender, RoutedEventArgs e)
+        private void OnAsignPartToShopMenuClick(object sender, RoutedEventArgs e)
         {
             AddCarPartForm.Visibility = Visibility.Collapsed;
             AddCarForm.Visibility = Visibility.Collapsed;
             AddPartToShopForm.Visibility = Visibility.Visible;
+
+            IDataBaseReader dbReader = DataBaseFactory.GetDBReaderInstance();
+            ICollection<IName> carParts = new List<IName>();
+            foreach (ICarPart iCarPart in dbReader.GetCarPartsUnique)
+            {
+                carParts.Add(iCarPart as IName);
+            }
+            myCarPartCombo.SetItems(carParts);
         }
 
         private void OnAddCarClick(object sender, RoutedEventArgs e)
         {
             ICar iCar = new Car(CarBrand.Text, CarModel.Text, Int32.Parse(CarYear.Text) );
-            db.AddCar(iCar);
+            dbWriter.AddCar(iCar);
         }
 
         private void OnAddCarPartClick(object sender, RoutedEventArgs e)
         {
             ICarPart iCarPart = new CarPart(PartName.Text);
-            ICar iCar = new Car("", "", 0, Int32.Parse(CarID.Text));
+            ICar iCar = myCarCombo.GetSelectedItem() as ICar;
+            if (iCar == null)
+                return;
             iCarPart.SetPartForCar(iCar);
-            db.AddCarPart(iCarPart);
+            dbWriter.AddCarPart(iCarPart);
+
         }
 
         private void OnAssignPartToShopClick(object sender, RoutedEventArgs e)
         {
-            db.AssignPartToShop(ShopName.Text, Int32.Parse(PartID.Text), float.Parse(PartPrise.Text) );
+            ICarPart iCarPart = myCarPartCombo.GetSelectedItem() as ICarPart;
+            if (iCarPart == null)
+                return;
+            foreach(int id in iCarPart.Ids)
+                dbWriter.AssignPartToShop(ShopName.Text, id, float.Parse(PartPrise.Text));
         }
 
         private void OnGoClick(object sender, RoutedEventArgs e)

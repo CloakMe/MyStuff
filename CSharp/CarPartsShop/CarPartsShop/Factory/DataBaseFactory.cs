@@ -30,27 +30,27 @@ namespace CarPartsShop.Factory
             // Open the database
             mySqlConnection.Open();
 
-            db = new MyDataBase(mySqlConnection);
-            dbs = new DataBaseService(mySqlConnection);
+            dbWriter = new DataBaseWriter(mySqlConnection);
+            dbReader = new DataBaseReader(mySqlConnection);
 
         }
         private static MySqlConnection mySqlConnection;
 
-        private static IDataBaseWriter db;
-        public static IDataBaseWriter GenerateDadaBase()
+        private static IDataBaseWriter dbWriter;
+        public static IDataBaseWriter GetDBWriterInstance()
         {
-            return db;
+            return dbWriter;
         }
 
-        private static IDataBaseReader dbs;
-        public static IDataBaseReader GenerateDadaBaseService()
+        private static IDataBaseReader dbReader;
+        public static IDataBaseReader GetDBReaderInstance()
         {
-            return dbs;
+            return dbReader;
         }
 
         public static IPartSearch GeneratePartSearch()
         {
-            IPartSearch partSearch = new PartSearch(mySqlConnection, dbs);
+            IPartSearch partSearch = new PartSearch(mySqlConnection, dbReader);
             return partSearch;
         }
     }
