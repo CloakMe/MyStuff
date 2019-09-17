@@ -9,17 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarPartsShop.Common;
+using System.Windows;
 
 namespace CarPartsShop.DataBase
 {
     public class PartSearch : IPartSearch
     {
-        public PartSearch(MySqlConnection mySqlConnection, IDataBaseService dbs)
+        public PartSearch(MySqlConnection mySqlConnection, IDataBaseReader dbs)
         {
             this.mySqlConnection = mySqlConnection;
-            this.dbs = dbs;
+            this.dbReader = dbs;
         }
-        IDataBaseService dbs;
+        IDataBaseReader dbReader;
         MySqlConnection mySqlConnection;
 
         private ICarPart SelectCarPartByName(string partName)
@@ -28,7 +29,7 @@ namespace CarPartsShop.DataBase
             string query = "select * from CarParts where name = \"" + partName + "\"";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             MySqlDataReader reader;
-            ICollection<ICar> cars = dbs.GetCars;
+            ICollection<ICar> cars = dbReader.GetCars;
             try
             {
                 reader = commandDatabase.ExecuteReader();
@@ -64,7 +65,8 @@ namespace CarPartsShop.DataBase
             }
             catch (Exception ex)
             {
-                string f = ex.Message;
+                string f2 = ex.Message;
+                MessageBox.Show("Could not do a search over car parts in the database! " + ex.Message);
                 return carParts.FirstOrDefault();
             }
             return carParts.FirstOrDefault();
@@ -81,7 +83,7 @@ namespace CarPartsShop.DataBase
             string query = "select * from Shops where carPartId =" + iCarPart.Id;
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             MySqlDataReader reader;
-            ICollection<ICar> cars = dbs.GetCars;
+            ICollection<ICar> cars = dbReader.GetCars;
             try
             {
                 reader = commandDatabase.ExecuteReader();
@@ -109,7 +111,8 @@ namespace CarPartsShop.DataBase
             }
             catch (Exception ex)
             {
-                string f = ex.Message;
+                MessageBox.Show("Could not do a search (2) over car parts in the database! " + ex.Message);
+                string f2 = ex.Message;
                 return items;
             }
             return items;

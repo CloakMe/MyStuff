@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarPartsShop"
-        xmlns:treeNsp="clr-namespace:CarPartsShop.TreeViewControl"
-        xmlns:listNsp="clr-namespace:CarPartsShop.ListViewControl"
+        xmlns:treeNsp="clr-namespace:CarPartsShop.UIControls"
+        xmlns:listNsp="clr-namespace:CarPartsShop.UIControls"
+        xmlns:cmbNsp="clr-namespace:CarPartsShop.UIControls"
         mc:Ignorable="d"
         Title="MainWindow" Background="Transparent" Height="350" Width="575">
     <Grid Background="Beige" Margin="0,0,-15,0">
@@ -18,7 +19,7 @@
                                 <MenuItem Header="Menu" Foreground="#FF554848">
                                     <MenuItem Header="AddCar" Click="OnAddCarMenuClick"/>
                                     <MenuItem Header="AddCarPart" Click="OnAddCarPartMenuClick"/>
-                                    <MenuItem Header="AsignPartToShop" Click="OnAddShopMenuClick"/>
+                                    <MenuItem Header="AsignPartToShop" Click="OnAsignPartToShopMenuClick"/>
                                 </MenuItem>
                             </Menu>
                         </ToolBar>
@@ -60,8 +61,8 @@
 
                         <Label>Unique Car Part Name:</Label>
                         <TextBox Name="PartName"  Grid.Column="1" Margin="0,0,0,10" />
-                        <Label Grid.Row="1">Car ID:</Label>
-                        <TextBox Name="CarID" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">Select car:</Label>
+                        <cmbNsp:ComboBoxControl x:Name="myCarCombo" Grid.Row="1" Grid.Column="1"/>
                         <Button Grid.Row="2" Grid.Column="1" Content="Insert" Width="50" HorizontalAlignment="Right" Click="OnAddCarPartClick"></Button>
                     </Grid>
 
@@ -80,8 +81,8 @@
 
                         <Label>Shop Name:</Label>
                         <TextBox Name="ShopName" Grid.Column="1" Margin="0,0,0,10" />
-                        <Label Grid.Row="1">Car Part ID:</Label>
-                        <TextBox Name="PartID" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
+                        <Label Grid.Row="1">Select car part:</Label>
+                        <cmbNsp:ComboBoxControl x:Name="myCarPartCombo" Grid.Row="1" Grid.Column="1"/>
                         <Label Grid.Row="2">Prise:</Label>
                         <TextBox Name="PartPrise" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"  />
                         <Button Grid.Row="3" Grid.Column="1" Content="Insert" Width="50" HorizontalAlignment="Right" Click="OnAssignPartToShopClick"></Button>

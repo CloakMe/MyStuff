@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarPartsShop.TreeViewControl
+namespace CarPartsShop.UIControls
 {
     /// <summary>
     /// Interaction logic for MyTreeView.xaml
@@ -28,8 +28,8 @@ namespace CarPartsShop.TreeViewControl
         public MyTreeView()
         {
             InitializeComponent();
-            IDataBaseService dbs = DataBaseFactory.GenerateDadaBaseService();
-            ICollection<IShop> shops = dbs.SelectShops();
+            IDataBaseReader dbReader = DataBaseFactory.GetDBReaderInstance();
+            ICollection<IShop> shops = dbReader.SelectShops();
 
             MenuItem root = new MenuItem() { Title = "Shops Menu" };
             foreach (IShop iShop in shops)

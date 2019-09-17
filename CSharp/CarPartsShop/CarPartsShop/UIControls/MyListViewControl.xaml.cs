@@ -19,7 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CarPartsShop.Common;
 
-namespace CarPartsShop.ListViewControl
+namespace CarPartsShop.UIControls
 {
     /// <summary>
     /// Interaction logic for MyListViewControl.xaml

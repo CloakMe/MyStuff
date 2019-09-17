@@ -11,12 +11,13 @@ using CarPartsShop.Shops;
 using CarPartsShop.Cars;
 using CarPartsShop.CarParts.Interfaces;
 using CarPartsShop.CarParts;
+using System.Windows;
 
 namespace CarPartsShop.DataBase
 {
-    public class DataBaseService : IDataBaseService
+    public class DataBaseReader : IDataBaseReader
     {
-        public DataBaseService(MySqlConnection mySqlConnection)
+        public DataBaseReader(MySqlConnection mySqlConnection)
         {
             this.mySqlConnection = mySqlConnection;
             SelectCars();
@@ -36,127 +37,16 @@ namespace CarPartsShop.DataBase
                 return carsCopy;
             }
         }
-        ICollection<ICar> cars = new List<ICar>();
-        private ICollection<ICar> SelectCars()
+
+        public ICollection<ICarPart> GetCarPartsUnique
         {
-            string query = "select * from Cars";
-            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
-            MySqlDataReader reader;
-            try
+            get
             {
-                reader = commandDatabase.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        int id = reader.GetInt32(0);
-                        string brand = reader.GetString(1);
-                        string model = reader.GetString(2);
-                        int year = reader.GetInt32(3);
-                        ICar car = new Car(brand, model, year, id);
-                        cars.Add(car);
-                    }
-                    reader.Close();
-                }
-                else
-                {
-                    reader.Close();
-                    return new List<ICar>();
-                }
-
+                ICollection<ICarPart> carsPartsCopy = new List<ICarPart>();
+                foreach (ICarPart iCarPart in carParts)
+                    carsPartsCopy.Add(iCarPart);
+                return carsPartsCopy;
             }
-            catch (Exception ex)
-            {
-                string f = ex.Message;
-                return new List<ICar>();
-            }
-            return cars;
-        }
-
-        ICollection<ICarPart> carParts = new List<ICarPart>();
-        private ICollection<ICarPart> SelectCarsParts()
-        {
-            string query = "select * from CarParts";
-            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
-            MySqlDataReader reader;
-            try
-            {
-                reader = commandDatabase.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        int id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        int carId = reader.GetInt32(2);
-                        ICarPart carPartTest = carParts.FirstOrDefault(cp => cp.Name == name);
-                        ICar iCar = cars.FirstOrDefault(c => c.Id == carId);
-                        if (carPartTest == null)
-                        {
-                            ICarPart carPart = new CarPart(name, id);
-                            carPart.SetPartForCar(iCar);
-                            carParts.Add(carPart);
-                        }
-                        else
-                        {
-                            carPartTest.SetPartForCar(iCar);
-                        }
-                    }
-                    reader.Close();
-                }
-                else
-                {
-                    reader.Close();
-                    return carParts;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                string f = ex.Message;
-                return carParts;
-            }
-            return carParts;
-        }
-
-        ICollection<ICarPart> allCarParts = new List<ICarPart>();
-        private ICollection<ICarPart> SelectAllCarsParts()
-        {
-            string query = "select * from CarParts";
-            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
-            MySqlDataReader reader;
-            try
-            {
-                reader = commandDatabase.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        int id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        int carId = reader.GetInt32(2);
-                        ICarPart carPart = new CarPart(name, id);
-                        allCarParts.Add(carPart);
-                    }
-                    reader.Close();
-                }
-                else
-                {
-                    reader.Close();
-                    return allCarParts;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                string f = ex.Message;
-                return allCarParts;
-            }
-
-            return allCarParts;
         }
 
         ICollection<IShop> shops = new List<IShop>();
@@ -203,11 +93,139 @@ namespace CarPartsShop.DataBase
             }
             catch (Exception ex)
             {
-                // Show any error message.
-                string f = ex.Message;
+                MessageBox.Show("Could not load car shop from the database! " + ex.Message);
+                string f2 = ex.Message;
                 return shops;
             }
             return shops;
+        }
+
+        ICollection<ICar> cars = new List<ICar>();
+        private ICollection<ICar> SelectCars()
+        {
+            string query = "select * from Cars";
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
+            MySqlDataReader reader;
+            try
+            {
+                reader = commandDatabase.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string brand = reader.GetString(1);
+                        string model = reader.GetString(2);
+                        int year = reader.GetInt32(3);
+                        ICar car = new Car(brand, model, year, id);
+                        cars.Add(car);
+                    }
+                    reader.Close();
+                }
+                else
+                {
+                    reader.Close();
+                    return new List<ICar>();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not load car model, brand and year from the database! " + ex.Message);
+                string f2 = ex.Message;
+                return new List<ICar>();
+            }
+            return cars;
+        }
+
+        ICollection<ICarPart> carParts = new List<ICarPart>();
+        private ICollection<ICarPart> SelectCarsParts()
+        {
+            string query = "select * from CarParts";
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
+            MySqlDataReader reader;
+            try
+            {
+                reader = commandDatabase.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        int carId = reader.GetInt32(2);
+                        ICarPart carPartTest = carParts.FirstOrDefault(cp => cp.Name == name);
+                        ICar iCar = cars.FirstOrDefault(c => c.Id == carId);
+                        if (carPartTest == null)
+                        {
+                            ICarPart carPart = new CarPart(name, id);
+                            carPart.SetPartForCar(iCar);
+                            carPart.Ids.Add(id);
+                            carParts.Add(carPart);
+                        }
+                        else
+                        {
+                            carPartTest.SetPartForCar(iCar);
+                            carPartTest.Ids.Add(id);
+                        }
+                    }
+                    reader.Close();
+                }
+                else
+                {
+                    reader.Close();
+                    return carParts;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not load car part from the database! " + ex.Message);
+                string f2 = ex.Message;
+                return carParts;
+            }
+            return carParts;
+        }
+
+        ICollection<ICarPart> allCarParts = new List<ICarPart>();
+        private ICollection<ICarPart> SelectAllCarsParts()
+        {
+            string query = "select * from CarParts";
+            MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
+            MySqlDataReader reader;
+            try
+            {
+                reader = commandDatabase.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        int carId = reader.GetInt32(2);
+                        ICarPart carPart = new CarPart(name, id);
+                        allCarParts.Add(carPart);
+                    }
+                    reader.Close();
+                }
+                else
+                {
+                    reader.Close();
+                    return allCarParts;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not load car part (2) from the database! " + ex.Message);
+                string f2 = ex.Message;
+                return allCarParts;
+            }
+
+            return allCarParts;
         }
 
     }

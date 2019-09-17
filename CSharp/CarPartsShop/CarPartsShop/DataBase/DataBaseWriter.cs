@@ -6,12 +6,13 @@ using CarPartsShop.DataBase.Interfaces;
 using System;
 using CarPartsShop.Cars;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace CarPartsShop.DataBase
 {
-    public class MyDataBase : IDataBase
+    public class DataBaseWriter : IDataBaseWriter
     {
-        public MyDataBase(MySqlConnection mySqlConnection)
+        public DataBaseWriter(MySqlConnection mySqlConnection)
         {
             this.mySqlConnection = mySqlConnection;
         }
@@ -30,7 +31,8 @@ namespace CarPartsShop.DataBase
             catch (Exception ex)
             {
                 // Show any error message.
-                string f = ex.Message;
+                MessageBox.Show("Could not save car model, brand and year to the database! " + ex.Message);
+                string f2 = ex.Message;
             }
         }
 
@@ -48,7 +50,8 @@ namespace CarPartsShop.DataBase
                 catch (Exception ex)
                 {
                     // Show any error message.
-                    string f  = ex.Message;
+                    MessageBox.Show("Could not save car part to the database! " + ex.Message);
+                    string f2  = ex.Message;
                 }
             }
             
@@ -67,11 +70,12 @@ namespace CarPartsShop.DataBase
             catch (Exception ex)
             {
                 // Show any error message.
-                string f = ex.Message;
+                MessageBox.Show("Could not assign car part to given shop in the database! " + ex.Message);
+                string f2 = ex.Message;
             }
         }
 
-        ~MyDataBase()
+        ~DataBaseWriter()
         {
             mySqlConnection.Close();
         }
