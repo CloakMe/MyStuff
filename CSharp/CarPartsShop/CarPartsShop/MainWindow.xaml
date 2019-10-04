@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Background="Transparent" Height="350" Width="575">
     <Grid Background="Beige" Margin="0,0,-15,0">
-        <TabControl>
+        <TabControl SelectionChanged="OnSelectionChanged" >
             <TabItem Header="Add Car Parts" >
                 <Grid Background="Beige">
                     <StackPanel Grid.Row="0">
@@ -89,14 +89,14 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Shops" >
+            <TabItem Name="shopTab" Header="Shops" >
                 <Grid Background="Beige">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <treeNsp:MyTreeView Grid.Column="0"/>
+                    <treeNsp:MyTreeView x:Name="myTree" Grid.Column="0"/>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

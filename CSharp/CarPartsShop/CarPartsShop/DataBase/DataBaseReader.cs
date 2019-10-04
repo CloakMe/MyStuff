@@ -20,9 +20,6 @@ namespace CarPartsShop.DataBase
         public DataBaseReader(MySqlConnection mySqlConnection)
         {
             this.mySqlConnection = mySqlConnection;
-            SelectCars();
-            SelectCarsParts();
-            SelectAllCarsParts();
         }
 
         MySqlConnection mySqlConnection;
@@ -31,6 +28,9 @@ namespace CarPartsShop.DataBase
         {
             get
             {
+                if (cars.Count > 0)
+                    cars.Clear();
+                SelectCars();
                 ICollection<ICar> carsCopy = new List<ICar>();
                 foreach (ICar iCar in cars)
                     carsCopy.Add(iCar);
@@ -42,6 +42,9 @@ namespace CarPartsShop.DataBase
         {
             get
             {
+                if (carParts.Count > 0)
+                    carParts.Clear();
+                SelectCarsParts();
                 ICollection<ICarPart> carsPartsCopy = new List<ICarPart>();
                 foreach (ICarPart iCarPart in carParts)
                     carsPartsCopy.Add(iCarPart);
@@ -52,6 +55,17 @@ namespace CarPartsShop.DataBase
         ICollection<IShop> shops = new List<IShop>();
         public ICollection<IShop> SelectShops()
         {
+            if (shops.Count > 0)
+                shops.Clear();
+
+            if (carParts.Count > 0)
+                carParts.Clear();
+            if (allCarParts.Count > 0)
+                allCarParts.Clear();
+
+            SelectCarsParts();
+            SelectAllCarsParts();
+
             string query = "select * from Shops";
             MySqlCommand commandDatabase = new MySqlCommand(query, mySqlConnection);
             MySqlDataReader reader;

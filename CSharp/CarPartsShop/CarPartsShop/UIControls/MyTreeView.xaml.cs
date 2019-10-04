@@ -46,7 +46,44 @@ namespace CarPartsShop.UIControls
                 }
                 root.Items.Add(childItem);
             }
+
             trvMenu.Items.Add(root);
+        }
+
+        public void RefreshTree()
+        {
+            foreach (MenuItem mainShopMenu in trvMenu.Items)
+            {
+                foreach (MenuItem shop in mainShopMenu.Items)
+                {
+                    shop.Items.Clear();
+                }
+                mainShopMenu.Items.Clear();
+            }
+            
+            trvMenu.Items.Clear();
+
+            IDataBaseReader dbReader = DataBaseFactory.GetDBReaderInstance();
+            ICollection<IShop> shops = dbReader.SelectShops();
+
+            MenuItem root = new MenuItem() { Title = "Shops Menu" };
+            foreach (IShop iShop in shops)
+            {
+                MenuItem childItem = new MenuItem() { Title = iShop.Name };
+                foreach (KeyValuePair<ICarPart, double> iCarPartWithPrise in iShop.CarPartsWithPrise)
+                {
+                    MenuItem subChildItem = new MenuItem()
+                    {
+                        Title = iCarPartWithPrise.Key.Name + "  " + iCarPartWithPrise.Value.ToString() + " lv.",
+                        Prise = iCarPartWithPrise.Value
+                    };
+                    childItem.Items.Add(subChildItem);
+                }
+                root.Items.Add(childItem);
+            }
+
+            trvMenu.Items.Add(root);
+
         }
 
     }

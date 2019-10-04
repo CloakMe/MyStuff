@@ -13,6 +13,7 @@ using CarPartsShop.Factory;
 using CarPartsShop.UIControls;
 using CarPartsShop.Common.Interfaces;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 
 namespace CarPartsShop
@@ -100,6 +101,21 @@ namespace CarPartsShop
         {
             string searchPart = SearchBox.Text;
             myListvu.SetItems(searchPart, NothingFound);
+        }
+
+        private void OnSelectionChanged(Object sender, SelectionChangedEventArgs args)
+        {
+            var tc = sender as TabControl; //The sender is a type of TabControl...
+
+            if (tc != null)
+            {
+                if (tc.SelectedItem is TabItem)
+                {
+                    TabItem item = (TabItem)tc.SelectedItem;
+                    if (item.Name == "shopTab")
+                        myTree.RefreshTree();
+                }
+            }
         }
     }
     
