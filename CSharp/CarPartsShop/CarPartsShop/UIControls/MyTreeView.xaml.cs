@@ -28,26 +28,7 @@ namespace CarPartsShop.UIControls
         public MyTreeView()
         {
             InitializeComponent();
-            IDataBaseReader dbReader = DataBaseFactory.GetDBReaderInstance();
-            ICollection<IShop> shops = dbReader.SelectShops();
-
-            MenuItem root = new MenuItem() { Title = "Shops Menu" };
-            foreach (IShop iShop in shops)
-            {
-                MenuItem childItem = new MenuItem() { Title = iShop.Name };
-                foreach (KeyValuePair<ICarPart, double> iCarPartWithPrise in iShop.CarPartsWithPrise)
-                {
-                    MenuItem subChildItem = new MenuItem()
-                    {
-                        Title = iCarPartWithPrise.Key.Name + "  " + iCarPartWithPrise.Value.ToString() + " lv.",
-                        Prise = iCarPartWithPrise.Value
-                    };
-                    childItem.Items.Add(subChildItem);
-                }
-                root.Items.Add(childItem);
-            }
-
-            trvMenu.Items.Add(root);
+            RefreshTree();
         }
 
         public void RefreshTree()
