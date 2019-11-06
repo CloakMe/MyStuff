@@ -8,12 +8,34 @@ int GetMid(int a, int b)
 	return (a + b ) / 2;
 }
 
+struct FOO
+{
+	explicit FOO(int);
+	operator int() const;
+};
+
+class C
+{
+public:
+	void f1();
+	void f2() const;
+};
 //struct my
 //{
 //
 //}
 int _tmain(int argc, _TCHAR* argv[])
 {
+	C c;
+	const C& cr =c;
+
+	//FOO f1(1);
+	//FOO f2 = 1;
+	//FOO f1= FOO(1);
+	//int f1 = FOO(1);
+	//cr.f1();
+	//	cr.f2();
+
 	typedef int (* MidFun_ptr) (int, int);
 	MidFun_ptr getMid_ptr = &GetMid;
 	int p = getMid_ptr(3,5);
