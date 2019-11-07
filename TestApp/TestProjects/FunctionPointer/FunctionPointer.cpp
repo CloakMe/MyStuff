@@ -10,15 +10,20 @@ int GetMid(int a, int b)
 
 struct FOO
 {
-	explicit FOO(int);
-	operator int() const;
-};
+	explicit FOO(int i) : mI(i){} //constructor
+	operator int() const {
+		return mI;
+	}
 
+private:
+	int mI;
+};
+//
 class C
 {
 public:
-	void f1();
-	void f2() const;
+	void f1(){}
+	void f2() const{}
 };
 //struct my
 //{
@@ -26,15 +31,15 @@ public:
 //}
 int _tmain(int argc, _TCHAR* argv[])
 {
-	C c;
-	const C& cr =c;
+	//C c;
+	//const C& cr =c;
 
 	//FOO f1(1);
 	//FOO f2 = 1;
 	//FOO f1= FOO(1);
-	//int f1 = FOO(1);
+	int f1 = FOO(7);
 	//cr.f1();
-	//	cr.f2();
+	//cr.f2();
 
 	typedef int (* MidFun_ptr) (int, int);
 	MidFun_ptr getMid_ptr = &GetMid;
