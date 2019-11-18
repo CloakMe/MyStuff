@@ -29,6 +29,8 @@ public:
     static std::string GetMapLocations(const std::string& object, const ObjectLocation& loc);
 
     static std::list<std::string> SplitString(const std::string& str, char delimiter);
+
+    static bool IsFloat(const std::string& str);
     //static void TrimString(std::string& str);
 private:
 	static std::list<MapLocation> mLocations;

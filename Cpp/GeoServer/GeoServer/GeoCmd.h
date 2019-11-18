@@ -29,7 +29,7 @@ public:
 
 private:
     std::list<std::string> cmd;
-    void SetLocation(ObjectLocation& loc, std::string& objectName) const;
+    bool SetLocation(ObjectLocation& loc, std::string& objectName) const;
     void SetObjectName(std::string& objectName) const;
 };
 

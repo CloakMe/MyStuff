@@ -25,18 +25,24 @@ char const * const GeoCmd::GetCmdType() const
 }
 
 
-void GeoCmd::SetLocation(ObjectLocation& loc, std::string& objectName) const
+bool GeoCmd::SetLocation(ObjectLocation& loc, std::string& objectName) const
 {
-        std::list<std::string>::const_iterator str = cmd.begin();
+    std::list<std::string>::const_iterator str = cmd.begin();
 
-        str++; // set
-        objectName = *str; //name
-        str++;
-        loc.latitude = static_cast<float>(std::atof(str->c_str()));  //lati
-        str++;
-        loc.longtitude = static_cast<float>(std::atof(str->c_str())); //longti
+    str++; // set
+    objectName = *str; //name
+    str++;
+    if( !Utilities::IsFloat(*str) )
+        return false;
+    loc.latitude = static_cast<float>(std::atof(str->c_str()));  //lati
+    str++;
+    if( !Utilities::IsFloat(*str) )
+        return false;
+    loc.longtitude = static_cast<float>(std::atof(str->c_str())); //longti
 
-        loc.time = time(NULL);
+    loc.time = time(NULL);
+
+    return true;
 }
 
 void GeoCmd::SetObjectName(std::string& objectName) const
@@ -54,17 +60,22 @@ std::string GeoCmd::CmdResponse() const
     {
         ObjectLocation loc;
         std::string objectName;
-        SetLocation(loc, objectName);
-        Utilities::SetObjectLocation(objectName, loc);
-        //to do create server response
-        response = Utilities::GetMapLocations(objectName, loc);
+        if(SetLocation(loc, objectName))
+        {
+            Utilities::SetObjectLocation(objectName, loc);
+            //to do create server response
+            response = Utilities::GetMapLocations(objectName, loc);
+        }
     }else if(GetCmdType() == Constants::CMD_SPEED)
     {
         std::string objectName;
         SetObjectName(objectName);
-        float averageVelocity = Utilities::GetAverageVelocity(objectName);
-        response = std::to_string(averageVelocity);
-        response.append(" m/s");
+        if(!objectName.empty())
+        {
+            float averageVelocity = Utilities::GetAverageVelocity(objectName);
+            response = std::to_string(averageVelocity);
+            response.append(" m/s");
+        }
     }//else
     return response;
 }

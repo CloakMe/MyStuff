@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Constants.h"
 #include <string>
+#include <ctype.h>
 
 std::list<MapLocation> Utilities::mLocations;
 std::map<std::string, std::list<ObjectLocation>> Utilities::mObjects;
@@ -34,12 +35,19 @@ bool Utilities::ReadLocations(const std::string& pathFileName)
 					newLocation.name = *str;
 				}else if(counter == 1) 
 				{
+                    if( !IsFloat(*str) )
+                        break;
 					newLocation.latitude = static_cast<float>(std::atof(str->c_str()));
+
 				}else if(counter == 2)
 				{
+                    if( !IsFloat(*str) )
+                        break;
 					newLocation.longtitude = static_cast<float>(std::atof(str->c_str()));
 				}else if(counter == 3)
 				{
+                    if( !IsFloat(*str) )
+                        break;
 					newLocation.radius = 1000.0f * static_cast<float>(std::atof(str->c_str()));
 				}else{
 					readGeoLocationsFile.close();
@@ -189,4 +197,30 @@ std::string Utilities::GetMapLocations(const std::string& object, const ObjectLo
     }
 
     return mapLocations;
+}
+
+bool Utilities::IsFloat(const std::string& string)
+{    
+    std::string::const_iterator it = string.begin();
+    bool decimalPoint = false;
+    unsigned int minSize = 0;
+    if( string.size()>0 && (string[0] == '-' || string[0] == '+')){
+        it++;
+        minSize++;
+    }
+    while(it != string.end())
+    {
+        if(*it == '.')
+        {
+            if(!decimalPoint) 
+                decimalPoint = true;
+            else 
+                break;
+        }else if(!isdigit(*it) && ((*it!='f') || it+1 != string.end() || !decimalPoint))
+        {
+            break;
+        }
+        ++it;
+    }
+    return string.size()>minSize && it == string.end();
 }

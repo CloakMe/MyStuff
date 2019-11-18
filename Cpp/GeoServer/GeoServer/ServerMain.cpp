@@ -14,33 +14,7 @@ void main()
 		std::cerr << "Can not Initialize GeoLocations! Quitting" << std::endl;
         return;
 	}
-	//ObjectLocation objLoc;
-	//objLoc.latitude = 21;
-	//objLoc.longtitude = 22;
- //   objLoc.time = time(NULL);
-	//std::string objN1 = "hi";
-	//Utilities::SetObjectLocation(objN1, objLoc);
-	//objN1.append("f");
-	//
-	//Utilities::SetObjectLocation(objN1, objLoc);
-	//std::string objN2 = "hi";
- //   objLoc.latitude = 24;
-	//objLoc.longtitude = 22;
- //   objLoc.time += 4;
-	//Utilities::SetObjectLocation(objN2, objLoc);
-
- //   objLoc.latitude = 24;
-	//objLoc.longtitude = 26;
- //   objLoc.time += 4;
-	//Utilities::SetObjectLocation(objN2, objLoc);
-
- //   objLoc.latitude = 13;
-	//objLoc.longtitude = 14;
- //   objLoc.time += 12;
-	//Utilities::SetObjectLocation(objN2, objLoc);
- //   float result = Utilities::GetAverageVelocity(objN2);
-
-    
+   
 	// Initialize winsock
 	WSADATA wsData;
 	WORD ver = MAKEWORD(2,2);
@@ -204,7 +178,7 @@ void main()
                     client_socket[i] = 0;
 				}                     
                 else
-                {   //Echo back the message that came in  
+                {   //Echo back the result message 
                     //set the string terminating NULL byte on the end  
                     //of the data read  
                     buffer[bytesReceived] = '\0';
