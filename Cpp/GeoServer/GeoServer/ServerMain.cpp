@@ -1,12 +1,42 @@
 #include <iostream>
 #include <WS2tcpip.h>
+#include "Utilities.h"
+#include "Constants.h"
 
 #pragma comment (lib, "ws2_32.lib")
 
-using namespace std;
-
 void main() 
 {
+	bool flag = Utilities::ReadLocations("GeoLocations.txt");
+	if(!flag)
+	{
+		std::cerr << "Can not Initialize GeoLocations! Quitting" << std::endl;
+	}
+	ObjectLocation objLoc;
+	objLoc.latitude = 21;
+	objLoc.longtitude = 22;
+    objLoc.time = time(NULL);
+	std::string objN1 = "hi";
+	Utilities::SetObjectLocation(objN1, objLoc);
+	objN1.append("f");
+	
+	Utilities::SetObjectLocation(objN1, objLoc);
+	std::string objN2 = "hi";
+    objLoc.latitude = 24;
+	objLoc.longtitude = 22;
+    objLoc.time += 4;
+	Utilities::SetObjectLocation(objN2, objLoc);
+
+    objLoc.latitude = 24;
+	objLoc.longtitude = 26;
+    objLoc.time += 4;
+	Utilities::SetObjectLocation(objN2, objLoc);
+
+    objLoc.latitude = 13;
+	objLoc.longtitude = 14;
+    objLoc.time += 12;
+	Utilities::SetObjectLocation(objN2, objLoc);
+    float result = Utilities::GetAverageVelocity(objN2);
 	// Initialize winsock
 	WSADATA wsData;
 	WORD ver = MAKEWORD(2,2);
@@ -14,93 +44,166 @@ void main()
 	int wsok = WSAStartup(ver, &wsData );
 	if(wsok != 0)
 	{
-		cerr << "Can not Initialize winsock! Quitting" << endl;
-		return;
+		std::cerr << "Can not Initialize winsock! Quitting" << std::endl;
 	}
 
-	// Create a socket
-	SOCKET listening = socket(AF_INET, SOCK_STREAM, 0);
-	if(listening == INVALID_SOCKET)
+	//create a master socket  
+    SOCKET masterSocket = socket(AF_INET, SOCK_STREAM, 0);
+	if(masterSocket == INVALID_SOCKET)
 	{
-		cerr << "Can not create a socket! Quitting" << endl;
+		std::cerr << "Can not create a socket! Quitting" << std::endl;
 	}
-	
+     
+    //set master socket to allow multiple connections ,  
+    //this is just a good habit, it will work without this  
+	int opt = TRUE;
+	int code = setsockopt(masterSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt));
+    if( code < 0 )   
+    {   
+        std::cerr << "Can not set socket options! Quitting" << std::endl;  
+    }   
+		
 	// Bind the ip address and port to the socket
-	sockaddr_in hint;
-	hint.sin_family = AF_INET;
-	hint.sin_port = htons(54000);
-	hint.sin_addr.S_un.S_addr = INADDR_ANY; //Could also use inet_pton...
+	sockaddr_in address;
+	address.sin_family = AF_INET;
+	address.sin_port = htons(Constants::PORT);
+	address.sin_addr.S_un.S_addr = INADDR_ANY; //Could also use inet_pton...
+    //address.sin_addr.s_addr = INADDR_ANY;
+	int addressLen = sizeof(address);
 
-	bind(listening, (sockaddr*)&hint, sizeof(hint));
+	code = bind(masterSocket, (sockaddr*)&address, sizeof(address));
+	if(code)
+	{
+		std::cerr << "Could not bind ip and port to the socket!" << std::endl;
+	}
 
 	// Tell Winsock the socket is for listening
-	listen(listening, SOMAXCONN);
-
-	// Wait for a connection
-	sockaddr_in client;
-	int clientSize = sizeof(client);
-
-	SOCKET clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
-	if( clientSocket == INVALID_SOCKET )
+	code = listen(masterSocket, SOMAXCONN);
+	if (code < 0)
 	{
-		//DO something
-		cerr << "Can not create a socket! Quitting" << endl;
-		return;
-	}
-	
-	char host[NI_MAXHOST];     //Client's remote name
-	char service[NI_MAXSERV];
-	
-	ZeroMemory(host, NI_MAXHOST); // same as memset(host, 0, NI_MAXHOST);
-	ZeroMemory(service, NI_MAXSERV);
-
-	if(getnameinfo((sockaddr*)&client, clientSize, host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0 )
-	{
-		cout << host << " connect on port " << service << endl;
-	}
-	else
-	{
-		inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
-		cout << host << " connected on port_ " << 
-			ntohs(client.sin_port) << endl;
+		std::cerr << "Could not set up listen on the socket! Quitting" << std::endl;
 	}
 
+	//==============================
+	//set of socket descriptors  
+    fd_set readfds;
+	int max_sd, i, client_socket[Constants::SOCK_SIZE], sd, activity, newSocket;
+	int max_clients = Constants::SOCK_SIZE;
 
-	// Close listening socket
-	closesocket(listening); // do not close that soon...
+	for (i = 0; i < max_clients; i++)   
+    {   
+        client_socket[i] = 0;   
+    }   
 
-	// While loop: accept and echo message back to client
-	const int BSIZE = 4096;
-	char buf[BSIZE];
+	char *message = "ECHO Daemon v1.0 \r\n"; 
+	char buffer[Constants::BUF_SIZE];  //data buffer of 1K  
 
-	while(true)
-	{
-		ZeroMemory(buf, BSIZE);
+	while(TRUE)   
+    {   
+        //clear the socket set  
+        FD_ZERO(&readfds);   
+     
+        //add master socket to set  
+        FD_SET(masterSocket, &readfds);   
+        max_sd = masterSocket;
 
-		//Wait for client to send data
-		int bytesReceived = recv(clientSocket, buf, BSIZE, 0);
-		if( bytesReceived == SOCKET_ERROR)
-		{
-			cerr << "Error in recv(). Quitting" << endl;
-			break;
-		}
+        //add child sockets to set
+        for ( i = 0 ; i < max_clients ; i++)   
+        {   
+            //socket descriptor  
+            sd = client_socket[i];   
+                 
+            //if valid socket descriptor then add to read list  
+            if(sd > 0)   
+                FD_SET( sd , &readfds);   
+                 
+            //highest file descriptor number, need it for the select function  
+            if(sd > max_sd)   
+                max_sd = sd;   
+        }   
+     
+        //wait for an activity on one of the sockets , timeout is NULL ,  
+        //so wait indefinitely  
+        activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);   
+       
+        if ((activity < 0) && (errno!=EINTR))   
+        {   
+            printf("select error\n");
+        }   
 
-		if( bytesReceived == 0)
-		{
-			cout << "Client disconnected " << endl;
-			break;
-		}
+        //If something happened on the master socket ,  
+        //then its an incoming connection  
+        if (FD_ISSET(masterSocket, &readfds))   
+        {   
+			newSocket = accept(masterSocket,  (sockaddr *)&address, (socklen_t*)&addressLen);
+            if ( newSocket < 0 )   
+            {   
+				std::cerr << "accept error" << std::endl;
+            }   
+             
+            //inform user of socket number - used in send and receive commands  
+            printf("New connection , socket fd is %d , ip is : %s , port : %d \n",
+				newSocket , inet_ntoa(address.sin_addr) , ntohs(address.sin_port) );
+           
+            //send new connection greeting message  
+            if( send(newSocket, message, strlen(message), 0) != strlen(message) )   
+            {   
+                std::cerr << "send error" << std::endl;   
+            }   
+                 
+            puts("Welcome message sent successfully");   
+                 
+            //add new socket to array of sockets  
+            for (i = 0; i < max_clients; i++)   
+            {   
+                //if position is empty  
+                if( client_socket[i] == 0 )   
+                {   
+                    client_socket[i] = newSocket;   
+                    printf("Adding to list of sockets as %d\n" , i);                         
+                    break;   
+                }   
+            }   
+        }   
+             
+        //else its some IO operation on some other socket 
+        for (i = 0; i < max_clients; i++)   
+        {   
+            sd = client_socket[i];   
+                 
+            if (FD_ISSET( sd , &readfds))   
+            {   
+                //Check if it was for closing , and also read the  
+                //incoming message
+                int bytesReceived = recv(sd, buffer, Constants::BUF_SIZE-1, 0);
 
-		//Echo message back to client
-		send(clientSocket, buf, bytesReceived + 1, 0); //automatically sends the terminating \0 char		
-	}
-
-	// Close the sock
-	closesocket(clientSocket);
+				if( bytesReceived == SOCKET_ERROR)
+				{
+					std::cerr << "Error in recv(). Quitting" << std::endl;
+				}
+				if( bytesReceived == 0)
+				{
+					//Somebody disconnected , get his details and print  
+                    getpeername(sd, (sockaddr*)&address, (socklen_t*)&addressLen);   
+                    printf("Host disconnected , ip %s , port %d \n" ,  
+                          inet_ntoa(address.sin_addr) , ntohs(address.sin_port));   
+                         
+                    //Close the socket and mark as 0 in list for reuse  
+                    closesocket(sd);  
+                    client_socket[i] = 0;
+				}                     
+                else
+                {   //Echo back the message that came in  
+                    //set the string terminating NULL byte on the end  
+                    //of the data read  
+                    buffer[bytesReceived] = '\0';
+                    
+                    send(sd ,buffer ,bytesReceived + 1 ,0 );
+                }   
+            }   
+        }
+    }   
 
 	// Cleanup winsock
-	WSACleanup();
-	return;
-	//Sloan Kelly
-	//https://www.geeksforgeeks.org/socket-programming-in-cc-handling-multiple-clients-on-server-without-multi-threading/
+	WSACleanup();	
 }

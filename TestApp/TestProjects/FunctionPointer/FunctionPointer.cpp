@@ -48,8 +48,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	char f[2];
 	f[0] = '1';
 	f[1] = '2';
-	typedef const char * charp;
-	const charp pp  = f;
+	typedef const char * charPtr;
+	charPtr pp  = f;
+	pp = "foo";
 	//pp[0] = '0';
 	//pp = "12";
 	const char *pp2 = f;
