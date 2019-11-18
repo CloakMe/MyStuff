@@ -2,6 +2,7 @@
 #include <WS2tcpip.h>
 #include "Utilities.h"
 #include "Constants.h"
+#include "GeoCmd.h"
 
 #pragma comment (lib, "ws2_32.lib")
 
@@ -11,32 +12,35 @@ void main()
 	if(!flag)
 	{
 		std::cerr << "Can not Initialize GeoLocations! Quitting" << std::endl;
+        return;
 	}
-	ObjectLocation objLoc;
-	objLoc.latitude = 21;
-	objLoc.longtitude = 22;
-    objLoc.time = time(NULL);
-	std::string objN1 = "hi";
-	Utilities::SetObjectLocation(objN1, objLoc);
-	objN1.append("f");
-	
-	Utilities::SetObjectLocation(objN1, objLoc);
-	std::string objN2 = "hi";
-    objLoc.latitude = 24;
-	objLoc.longtitude = 22;
-    objLoc.time += 4;
-	Utilities::SetObjectLocation(objN2, objLoc);
+	//ObjectLocation objLoc;
+	//objLoc.latitude = 21;
+	//objLoc.longtitude = 22;
+ //   objLoc.time = time(NULL);
+	//std::string objN1 = "hi";
+	//Utilities::SetObjectLocation(objN1, objLoc);
+	//objN1.append("f");
+	//
+	//Utilities::SetObjectLocation(objN1, objLoc);
+	//std::string objN2 = "hi";
+ //   objLoc.latitude = 24;
+	//objLoc.longtitude = 22;
+ //   objLoc.time += 4;
+	//Utilities::SetObjectLocation(objN2, objLoc);
 
-    objLoc.latitude = 24;
-	objLoc.longtitude = 26;
-    objLoc.time += 4;
-	Utilities::SetObjectLocation(objN2, objLoc);
+ //   objLoc.latitude = 24;
+	//objLoc.longtitude = 26;
+ //   objLoc.time += 4;
+	//Utilities::SetObjectLocation(objN2, objLoc);
 
-    objLoc.latitude = 13;
-	objLoc.longtitude = 14;
-    objLoc.time += 12;
-	Utilities::SetObjectLocation(objN2, objLoc);
-    float result = Utilities::GetAverageVelocity(objN2);
+ //   objLoc.latitude = 13;
+	//objLoc.longtitude = 14;
+ //   objLoc.time += 12;
+	//Utilities::SetObjectLocation(objN2, objLoc);
+ //   float result = Utilities::GetAverageVelocity(objN2);
+
+    
 	// Initialize winsock
 	WSADATA wsData;
 	WORD ver = MAKEWORD(2,2);
@@ -45,6 +49,7 @@ void main()
 	if(wsok != 0)
 	{
 		std::cerr << "Can not Initialize winsock! Quitting" << std::endl;
+        return;
 	}
 
 	//create a master socket  
@@ -52,6 +57,7 @@ void main()
 	if(masterSocket == INVALID_SOCKET)
 	{
 		std::cerr << "Can not create a socket! Quitting" << std::endl;
+        return;
 	}
      
     //set master socket to allow multiple connections ,  
@@ -61,6 +67,7 @@ void main()
     if( code < 0 )   
     {   
         std::cerr << "Can not set socket options! Quitting" << std::endl;  
+        return;
     }   
 		
 	// Bind the ip address and port to the socket
@@ -75,6 +82,7 @@ void main()
 	if(code)
 	{
 		std::cerr << "Could not bind ip and port to the socket!" << std::endl;
+        return;
 	}
 
 	// Tell Winsock the socket is for listening
@@ -82,6 +90,7 @@ void main()
 	if (code < 0)
 	{
 		std::cerr << "Could not set up listen on the socket! Quitting" << std::endl;
+        return;
 	}
 
 	//==============================
@@ -139,6 +148,7 @@ void main()
             if ( newSocket < 0 )   
             {   
 				std::cerr << "accept error" << std::endl;
+                return;
             }   
              
             //inform user of socket number - used in send and receive commands  
@@ -180,6 +190,7 @@ void main()
 				if( bytesReceived == SOCKET_ERROR)
 				{
 					std::cerr << "Error in recv(). Quitting" << std::endl;
+                    return;
 				}
 				if( bytesReceived == 0)
 				{
@@ -197,8 +208,12 @@ void main()
                     //set the string terminating NULL byte on the end  
                     //of the data read  
                     buffer[bytesReceived] = '\0';
-                    
-                    send(sd ,buffer ,bytesReceived + 1 ,0 );
+                    std::string bufferToString(buffer);
+
+                    GeoCmd geoCmd(bufferToString);
+                    std::string result = geoCmd.CmdResponse();
+                    if(!result.empty())
+                        send(sd, result.c_str(), result.size()+1, 0 );
                 }   
             }   
         }

@@ -1,22 +1,20 @@
 #include <string>
 #include <list>
-struct ObjectLocation;
+#include "Utilities.h"
 
-struct CmdResult{
-    virtual ~CmdResult(void){}
-};
-
-struct LObjectResult : public CmdResult{
-    ObjectLocation* objectLocation;
-    //~LObjectResult{
-
-    //}
-};
-
-struct SpeedResult : public CmdResult{
-    float averageSpeed;
-
-};
+//struct CmdResult{
+//    virtual ~CmdResult(void){}
+//};
+//
+//struct LObjectResult : public CmdResult{
+//    ObjectLocation objectLocation;
+//    ~LObjectResult(){}
+//};
+//
+//struct SpeedResult : public CmdResult{
+//    float averageSpeed;
+//    ~SpeedResult(){}
+//};
 
 class GeoCmd
 {
@@ -26,10 +24,12 @@ public:
     ~GeoCmd(void);
 
     char const * const GetCmdType() const;
-
-    CmdResult GetResult();
+    
+    std::string CmdResponse() const;
 
 private:
     std::list<std::string> cmd;
+    void SetLocation(ObjectLocation& loc, std::string& objectName) const;
+    void SetObjectName(std::string& objectName) const;
 };
 

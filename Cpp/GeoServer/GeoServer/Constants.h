@@ -1,7 +1,8 @@
 namespace Constants
 {
     char const* const TRIM_CHARS = " \t\n\r\f\v";
-	char const DELIMITER = ',';
+	char const COMMA = ',';
+    char const SPACE = ' ';
 	int const BUF_SIZE = 1025;
 	int const SOCK_SIZE = 30;
     int const PORT = 54000;

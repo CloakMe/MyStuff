@@ -1,11 +1,11 @@
 #include "GeoCmd.h"
 #include "Utilities.h"
 #include "Constants.h"
-#include "Utilities.h"
+#include <time.h>  
 
 GeoCmd::GeoCmd(const std::string& cmd)
 {
-    this->cmd = Utilities::SplitString(cmd);
+    this->cmd = Utilities::SplitString(cmd, Constants::SPACE);
 }
 
 char const * const GeoCmd::GetCmdType() const
@@ -24,18 +24,49 @@ char const * const GeoCmd::GetCmdType() const
     return Constants::CMD_UNKNOWN;
 }
 
-CmdResult GeoCmd::GetResult() 
+
+void GeoCmd::SetLocation(ObjectLocation& loc, std::string& objectName) const
 {
-    char const * const type = GetCmdType();
-    if(type == Constants::CMD_SET)
+        std::list<std::string>::const_iterator str = cmd.begin();
+
+        str++; // set
+        objectName = *str; //name
+        str++;
+        loc.latitude = static_cast<float>(std::atof(str->c_str()));  //lati
+        str++;
+        loc.longtitude = static_cast<float>(std::atof(str->c_str())); //longti
+
+        loc.time = time(NULL);
+}
+
+void GeoCmd::SetObjectName(std::string& objectName) const
+{
+        std::list<std::string>::const_iterator str = cmd.begin();
+
+        str++; // speed
+        objectName = *str; //name
+}
+
+std::string GeoCmd::CmdResponse() const
+{
+    std::string response;
+    if(GetCmdType() == Constants::CMD_SET)
     {
-        LObjectResult result;
         ObjectLocation loc;
-        std::list<std::string>::iterator it = cmd.begin();
-
-        //loc.latitude = 
-    }
-
+        std::string objectName;
+        SetLocation(loc, objectName);
+        Utilities::SetObjectLocation(objectName, loc);
+        //to do create server response
+        response = Utilities::GetMapLocations(objectName, loc);
+    }else if(GetCmdType() == Constants::CMD_SPEED)
+    {
+        std::string objectName;
+        SetObjectName(objectName);
+        float averageVelocity = Utilities::GetAverageVelocity(objectName);
+        response = std::to_string(averageVelocity);
+        response.append(" m/s");
+    }//else
+    return response;
 }
 
 GeoCmd::~GeoCmd(void)

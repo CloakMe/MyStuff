@@ -4,7 +4,7 @@
 #include "Constants.h"
 #include <string>
 
-std::list<Location> Utilities::mLocations;
+std::list<MapLocation> Utilities::mLocations;
 std::map<std::string, std::list<ObjectLocation>> Utilities::mObjects;
 
 bool Utilities::ReadLocations(const std::string& pathFileName)
@@ -18,9 +18,12 @@ bool Utilities::ReadLocations(const std::string& pathFileName)
 		while (!readGeoLocationsFile.eof()) 
 		{
 			getline(readGeoLocationsFile, output); 
-			std::list<std::string> splitOutput = SplitString(output);
+            if(output.size()<=1)
+                continue;
 
-			Location newLocation;
+            std::list<std::string> splitOutput = SplitString(output, Constants::COMMA);
+            
+			MapLocation newLocation;
             std::list<std::string>::iterator str = splitOutput.begin();
             int counter = 0;
 			for( ; str != splitOutput.end(); counter++, str++)
@@ -31,13 +34,13 @@ bool Utilities::ReadLocations(const std::string& pathFileName)
 					newLocation.name = *str;
 				}else if(counter == 1) 
 				{
-					newLocation.latitude = std::atof(str->c_str());
+					newLocation.latitude = static_cast<float>(std::atof(str->c_str()));
 				}else if(counter == 2)
 				{
-					newLocation.longtitude = std::atof(str->c_str());
+					newLocation.longtitude = static_cast<float>(std::atof(str->c_str()));
 				}else if(counter == 3)
 				{
-					newLocation.radius = std::atof(str->c_str());
+					newLocation.radius = 1000.0f * static_cast<float>(std::atof(str->c_str()));
 				}else{
 					readGeoLocationsFile.close();
 					return false;
@@ -76,9 +79,9 @@ void Utilities::SetObjectLocation(const std::string& object, const ObjectLocatio
 	}
 }
 
-float Utilities::GetAverageVelocity(const std::string& object)
+float Utilities::GetAverageVelocity(const std::string& objectName)
 {
-	std::map<std::string, std::list<ObjectLocation> >::iterator it = mObjects.find(object);
+	std::map<std::string, std::list<ObjectLocation> >::iterator it = mObjects.find(objectName);
 
 	if(it == mObjects.end())
 	{
@@ -98,8 +101,8 @@ float Utilities::GetAverageVelocity(const std::string& object)
 		double distance = 0.0;
 		
 		std::list<ObjectLocation>::iterator listIt = it->second.begin();
-		double longtitude = listIt->longtitude;
-		double latitude = listIt->latitude;
+		float longtitude = listIt->longtitude;
+		float latitude = listIt->latitude;
 		++listIt;
 		for(  ;listIt != it->second.end(); ++listIt)
 		{
@@ -132,13 +135,13 @@ double Utilities::GeoToMeters(float lat1, float lon1, float lat2, float lon2)
 //    str.erase(0, str.find_first_not_of(Constants::TRIM_CHARS));
 //}
 
-std::list<std::string> Utilities::SplitString(const std::string& output)
+std::list<std::string> Utilities::SplitString(const std::string& output, const char delimiter)
 {
     std::list<std::string> splitedString;
     unsigned int start = 0U;
-	unsigned int end = output.find(Constants::DELIMITER);
+	unsigned int end = output.find(delimiter);
 
-	Location newLocation;
+	MapLocation newLocation;
 	while (true)// split string
 	{
 		std::string str = output.substr(start, end - start);
@@ -153,8 +156,37 @@ std::list<std::string> Utilities::SplitString(const std::string& output)
 			break;
 
 		start = end + 1;
-		end = output.find(Constants::DELIMITER, start);
+		end = output.find(delimiter, start);
 	} //end while split string
 
     return splitedString;
+}
+
+std::string Utilities::GetMapLocations(const std::string& object, const ObjectLocation& loc)
+{
+    std::string mapLocations;
+    if(mLocations.empty())
+        return mapLocations;
+
+    std::list<MapLocation>::const_iterator iterator =  mLocations.begin();
+    for( ;iterator != mLocations.end(); iterator++)
+    {
+        double distance = GeoToMeters(iterator->latitude, iterator->longtitude, loc.latitude, loc.longtitude);
+        if(distance <= iterator->radius)
+        {
+            mapLocations.append(" ");
+            mapLocations.append(iterator->name);
+            mapLocations.append(",");
+        }
+    }
+
+    if(!mapLocations.empty())
+    {
+        mapLocations.pop_back(); //erase trailing comma
+        mapLocations.append("\r\n");
+        std::string insertStr = object + " is in";
+        mapLocations.insert(0, insertStr);
+    }
+
+    return mapLocations;
 }
