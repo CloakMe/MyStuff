@@ -1,7 +1,7 @@
 #include "GeoCmd.h"
 #include "Utilities.h"
 #include "Constants.h"
-#include <time.h>  
+#include <time.h> 
 
 GeoCmd::GeoCmd(const std::string& cmd)
 {
@@ -16,11 +16,13 @@ char const * const GeoCmd::GetCmdType() const
     if(cmd.begin()->compare( Constants::CMD_SET ) == 0 && cmd.size() == Constants::CMD_SET_SIZE )
     {
         return Constants::CMD_SET;
-    }
-
-    if(cmd.begin()->compare( Constants::CMD_SPEED ) == 0 && cmd.size() == Constants::CMD_SPEED_SIZE )
+    }else if(cmd.begin()->compare( Constants::CMD_SPEED ) == 0 && cmd.size() == Constants::CMD_SPEED_SIZE )
+    {
         return Constants::CMD_SPEED;
-
+    }else if(cmd.begin()->compare( Constants::CMD_EXIT ) == 0 && cmd.size() == Constants::CMD_EXIT_SIZE )
+    {
+        return Constants::CMD_EXIT;
+    }//else
     return Constants::CMD_UNKNOWN;
 }
 
@@ -62,9 +64,9 @@ std::string GeoCmd::CmdResponse() const
         std::string objectName;
         if(SetLocation(loc, objectName))
         {
-            Utilities::SetObjectLocation(objectName, loc);
+            Database::SetObjectLocation(objectName, loc);
             //to do create server response
-            response = Utilities::GetMapLocations(objectName, loc);
+            response = Database::GetMapLocations(objectName, loc);
         }
     }else if(GetCmdType() == Constants::CMD_SPEED)
     {
@@ -72,12 +74,43 @@ std::string GeoCmd::CmdResponse() const
         SetObjectName(objectName);
         if(!objectName.empty())
         {
-            float averageVelocity = Utilities::GetAverageVelocity(objectName);
+            float averageVelocity = Database::GetAverageVelocity(objectName);
             response = std::to_string(averageVelocity);
-            response.append(" m/s");
+            response.append(" m/s\r\n");
         }
+    }else if(GetCmdType() == Constants::CMD_EXIT)
+    {
+        response.append("exit");
     }//else
     return response;
+}
+
+std::string GeoCmd::CmdWrapper(std::string input)
+{
+    std::list<std::string> splitedString = Utilities::SplitString(input, '\n');
+    
+    if(splitedString.size() == 0)
+        return std::string();
+    else if(splitedString.size() == 1)
+    {
+        GeoCmd geoCmd(*splitedString.begin());
+        return geoCmd.CmdResponse();
+    }//else
+
+    std::string multipleResponse;        
+    for(std::list<std::string>::const_iterator it = splitedString.begin();
+        it != splitedString.end();
+        it++)
+    {
+        GeoCmd geoCmd(*it);
+        std::string cmdResponse = geoCmd.CmdResponse();
+        if(!cmdResponse.empty())
+        {
+            multipleResponse.append( cmdResponse );
+            multipleResponse.append("\r\n");
+        }
+    }
+    return multipleResponse;
 }
 
 GeoCmd::~GeoCmd(void)

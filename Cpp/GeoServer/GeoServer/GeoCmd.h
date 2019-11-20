@@ -1,6 +1,6 @@
 #include <string>
 #include <list>
-#include "Utilities.h"
+#include "Database.h"
 
 //struct CmdResult{
 //    virtual ~CmdResult(void){}
@@ -12,7 +12,7 @@
 //};
 //
 //struct SpeedResult : public CmdResult{
-//    float averageSpeed;
+//    std::string objectName;
 //    ~SpeedResult(){}
 //};
 
@@ -27,6 +27,7 @@ public:
     
     std::string CmdResponse() const;
 
+    static std::string CmdWrapper(std::string input);
 private:
     std::list<std::string> cmd;
     bool SetLocation(ObjectLocation& loc, std::string& objectName) const;
