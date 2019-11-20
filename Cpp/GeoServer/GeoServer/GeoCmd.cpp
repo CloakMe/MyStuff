@@ -96,7 +96,11 @@ std::string GeoCmd::CmdWrapper(std::string input)
         GeoCmd geoCmd(*splitedString.begin());
         return geoCmd.CmdResponse();
     }//else
+    //just process the last message, otherwise it is a bug
+    //GeoCmd geoCmd(*splitedString.rbegin());
+    //return geoCmd.CmdResponse();
 
+    //for the sake of testing:
     std::string multipleResponse;        
     for(std::list<std::string>::const_iterator it = splitedString.begin();
         it != splitedString.end();
@@ -110,6 +114,7 @@ std::string GeoCmd::CmdWrapper(std::string input)
             multipleResponse.append("\r\n");
         }
     }
+        
     return multipleResponse;
 }
 

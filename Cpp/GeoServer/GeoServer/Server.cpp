@@ -152,13 +152,21 @@ void Server::Run()
 				if( bytesReceived == SOCKET_ERROR)
 				{
                     int code = WSAGetLastError();
-                                        
+                    std::cerr << "err code = " << code << std::endl;
+                    char *s = NULL;
+                    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
+                                    NULL, code,
+                                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                                    (LPSTR)&s, 0, NULL);
+                    std::cerr << s;
+                    LocalFree(s);                  
                     if(code == WSAECONNABORTED)
                     {
-                        printf("Number of maximum connections was reached.\n");
+                        printf("Client with ip %s and port %d disconnected. Possible Reasons:\n");
                         getpeername(sd, (sockaddr*)&address, (socklen_t*)&addressLen);
-                        printf("Client with ip %s and port %d has disconnected while being in the queue of pending connections.\n" ,  
+                        printf("1.Client has disconnected while being in the queue of pending connections.\n" ,  
                           inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
+                        printf("2.Newtork connection interrupted.\n");
 
                         //Close the socket and mark as 0 in list for reuse
                         closesocket(sd);
@@ -166,14 +174,6 @@ void Server::Run()
                         client_socket[i] = 0;
                     }else
                     {
-                        std::cerr << "err code = " << code << std::endl;
-                        char *s = NULL;
-                        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
-                                        NULL, code,
-                                        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                                        (LPSTR)&s, 0, NULL);
-                        std::cerr << s;
-                        LocalFree(s);
                         return;
                     }
 
