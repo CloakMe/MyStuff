@@ -22,7 +22,7 @@ void Server::Run()
 	}
 
 	//create a master socket  
-    SOCKET mMasterSocket = socket(AF_INET, SOCK_STREAM, 0);
+    mMasterSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if(mMasterSocket == INVALID_SOCKET)
 	{
         Cleanup();
@@ -65,14 +65,13 @@ void Server::Run()
         return;
 	}
 
-	//==============================
 	//set of socket descriptors  
     fd_set readfds;
 	int max_sd, i, sd, activity, newSocket;
 
     int socketCount = 0;
 	char *message = "ECHO Daemon v1.0 \r\n"; 
-	char buffer[Constants::BUF_SIZE];  //data buffer of 1K  
+	char buffer[Constants::BUF_SIZE];
 
 	while(true)
     {   
@@ -96,52 +95,50 @@ void Server::Run()
                 max_sd = sd;   
         }   
      
-        //wait for an activity on one of the sockets , timeout is NULL ,  
-        //so wait indefinitely  
-        activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);   
-       
+        //wait for an activity on each socket, timeout is NULL, so wait indefinitely
+        activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);
+        
         if ((activity < 0) && (errno!=EINTR))
         {
             std::cerr << "Waiting for an activity on one of the sockets failed!" << std::endl;
         }
 
-        //If something happened on the master socket,  
-        //then its an incoming connection
+        //If something happened on the master socket, then its an incoming connection
         int fdResult = FD_ISSET(mMasterSocket, &readfds);
         bool flag = socketCount < Constants::MAX_CLIENTS ? true : false;
         if (fdResult != 0 && flag)
         {
 			newSocket = accept(mMasterSocket,  (sockaddr *)&address, (socklen_t*)&addressLen);
             if ( newSocket < 0 )
-            {   
+            {
                 Cleanup();
 				std::cerr << "Could not accept new connection! Quitting" << std::endl;
                 return;
-            }   
-             
-            //inform user of socket number - used in send and receive commands  
+            }
+            
+            //inform user of socket number - used in send and receive commands
             printf("New connection , socket fd is %d , ip is : %s , port : %d \n",
 				newSocket , inet_ntoa(address.sin_addr) , ntohs(address.sin_port) );
-           
-            //send new connection greeting message  
-            if( send(newSocket, message, strlen(message), 0) != strlen(message) )   
-            {   
+            
+            //send new connection greeting message
+            if( send(newSocket, message, strlen(message), 0) != strlen(message) )
+            {
                 std::cerr << "Could not send greeting message" << std::endl;   
-            }   
-                 
-            printf("Welcome message sent successfully\n");   
-            //add new socket to array of sockets  
+            }
+            
+            printf("Welcome message sent successfully\n");
+            //add new socket to array of sockets
             for (i = 0; i < Constants::MAX_CLIENTS; i++)   
-            {   
-                //if position is empty  
-                if( mClientSocket[i] == 0 )   
+            {
+                //if position is empty
+                if( mClientSocket[i] == 0 )
                 {   
                     mClientSocket[i] = newSocket;
                     ++socketCount;
                     printf("Adding to list of sockets as %d\n" , i);                         
                     break;   
-                }   
-            }   
+                }
+            }
         }// incoming connection 
              
         //else its some IO operation on some other socket 
@@ -151,8 +148,7 @@ void Server::Run()
                  
             if (FD_ISSET( sd , &readfds))   
             {   
-                //Check if it was for closing , and also read the  
-                //incoming message
+                //Check if it was for closing , and also read the incoming message
                 int bytesReceived = recv(sd, buffer, Constants::BUF_SIZE-1, 0);
 
 				if( bytesReceived == SOCKET_ERROR)
@@ -165,7 +161,7 @@ void Server::Run()
                                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                                     (LPSTR)&s, 0, NULL);
                     std::cerr << s;
-                    LocalFree(s);                    
+                    LocalFree(s);
                     Cleanup();
                     return;
 				}
@@ -183,18 +179,11 @@ void Server::Run()
 				}                     
                 else
                 {
-                    //set the string terminating NULL byte on the end  
-                    //of the data read
                     buffer[bytesReceived] = '\0';
                     std::string bufferToString(buffer);
 
-                    // Send back the result message.
-                    // CmdWrapper process all commands at once using the GeoCmd class.
-                    // GeoCmd class process one command at a time depending on the command type.
-                    std::string result = GeoCmd::CmdWrapper(bufferToString);
-
-                    //graceful server stop from an inside client only
-                    if(result.find("exit") != std::string::npos)
+                    //graceful exit from an inside client only
+                    if(bufferToString.compare("exit") == 0)
                     {
                         getpeername(sd, (sockaddr*)&address, (socklen_t*)&addressLen);  
                         std::string adr(inet_ntoa(address.sin_addr));
@@ -205,6 +194,10 @@ void Server::Run()
                         }
                     }
 
+                    // Send back the result message.
+                    // CmdWrapper process all commands at once using the GeoCmd class.
+                    // GeoCmd class process one command at a time depending on the command type.
+                    std::string result = GeoCmd::CmdWrapper(bufferToString);
                     if(!result.empty())
                         send(sd, result.c_str(), result.size()+1, 0 );
                     
@@ -222,10 +215,9 @@ void Server::Cleanup()
     if(mMasterSocket != 0 && mMasterSocket != INVALID_SOCKET)
         closesocket(mMasterSocket);
 
-    //close other opened sockets
+    //close client opened sockets
     for (int i = 0; i < Constants::MAX_CLIENTS; i++)   
     {   
-        //if position is empty  
         if( mClientSocket[i] != 0 && mClientSocket[i] != INVALID_SOCKET)   
         {   
             closesocket(mClientSocket[i]);

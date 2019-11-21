@@ -13,10 +13,8 @@ namespace Constants
 
     char const* const CMD_SET = "set";
     char const* const CMD_SPEED = "speed";
-    char const* const CMD_EXIT = "exit";
     char const* const CMD_UNKNOWN = "unknown";
 
     int const CMD_SET_SIZE = 4;
     int const CMD_SPEED_SIZE = 2;
-    int const CMD_EXIT_SIZE = 1;
 }
