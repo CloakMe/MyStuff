@@ -1,20 +1,7 @@
+#pragma once
 #include <string>
 #include <list>
 #include "Database.h"
-
-//struct CmdResult{
-//    virtual ~CmdResult(void){}
-//};
-//
-//struct LObjectResult : public CmdResult{
-//    ObjectLocation objectLocation;
-//    ~LObjectResult(){}
-//};
-//
-//struct SpeedResult : public CmdResult{
-//    std::string objectName;
-//    ~SpeedResult(){}
-//};
 
 class GeoCmd
 {

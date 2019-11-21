@@ -6,7 +6,7 @@ namespace Constants
     char const SPACE = ' ';
 	int const BUF_SIZE = 1025;
 	int const MAX_CLIENTS = 30;
-    int const MAX_PENDING_CONNECTIONS = 3;
+    int const MAX_PENDING_CONNECTIONS = 150;
     int const PORT = 54000;
     float const EARTH_RADIUS = 6378137; // Radius of earth in Meters
     double const PI = 3.14159265358979323846;  /* pi */

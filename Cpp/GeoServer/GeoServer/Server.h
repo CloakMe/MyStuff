@@ -7,8 +7,12 @@
 
 class Server
 {
-public:
-    ~Server();
-    void Run();
+public:  
+    Server();
+    void Run();    
+private:
+    void Cleanup();
+    SOCKET mClientSocket[Constants::MAX_CLIENTS];
+    SOCKET mMasterSocket;
 };
 
