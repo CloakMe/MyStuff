@@ -124,7 +124,6 @@ float Database::GetAverageVelocity(const std::string& objectName)
 	}
 }
 
-
 std::string Database::GetMapLocations(const std::string& object, const ObjectLocation& loc)
 {
     std::string mapLocations;
@@ -153,7 +152,6 @@ std::string Database::GetMapLocations(const std::string& object, const ObjectLoc
 
     return mapLocations;
 }
-
 
 unsigned int Database::ObjectCount()
 {
