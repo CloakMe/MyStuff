@@ -8,22 +8,30 @@ def CalculateLeadMass( dataMatrix1, dataMatrix2 ):
     H = dataMatrix1[:,0]
     MPerpendicular = dataMatrix1[:,2]
     Mparallel = dataMatrix2[:,2]
-
-    
+    print H
+    print Mparallel
+    print MPerpendicular
+    print '============================='
     factor1 = numpy.divide( Mparallel, H )
     factor2 = numpy.divide( MPerpendicular, ( 2*MPerpendicular + Mparallel ) )
-
-    HelpVec = [ - 8.0 * math.pi * ro[0] ] * H.shape[0]
-    HelpVecAsMatrix = numpy.matrix( HelpVec )
-    factor3 = numpy.multiply( HelpVecAsMatrix.T, factor1 )
+   
+    ResultVec = - 8.0 * math.pi * ro[0] * numpy.multiply( factor1, factor2 )
     
-    ResultVec = numpy.multiply( factor2, factor3 )
-
+    
+    #=============================
+    #mPerpH = numpy.divide( MPerpendicular, H )
+    #mParaH = numpy.divide( Mparallel, H )
+    #inside = numpy.divide(mParaH, 2*mPerpH)
+    #ResultVecCheck = -4 * math.pi * ro[0] * numpy.divide(mParaH, inside+1)
+    #=============================
+    
     print
     
     #print ResultVec
     
     numpy.savetxt( 'Output/ResultVec.txt', ResultVec,  fmt="%0.8f" )
+    #numpy.savetxt( 'Output/ResultVecCheck.txt', ResultVecCheck,  fmt="%0.8f" )
+    
     ResultVal = sum( ResultVec ) / float( len( ResultVec ) )
     print "Mass mean value: " + str( str( ResultVal )[ 1:-1 ] )[ 1:-1 ]
 
