@@ -1,0 +1,24 @@
+    Download the appropriate py2exe library for your system.
+    http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/
+    Create a new python script:
+
+        from distutils.core import setup
+        import py2exe
+        setup(console=["filename.py"])
+
+    Save this as <<<   setup.py   >>> in the same folder as the python file that needs to be converted.
+    Open Start>Accessories>Command Prompt
+    Know the path to your python installation. It is usually in the C: drive as a folder.
+        Eg: The path to a python 2.7 installation would usually be c:/python27
+    In the Command Prompt, enter the following line:
+        PATH;"C:/python27";%PATH%
+        (replace "C:/python27" with the python installation folder on your computer)
+    Navigate to the folder in which the filename.py and the setup.py are stored using the following command:
+        cd "path to your folder"
+    Enter the following line in command prompt:
+
+        python setup.py py2exe
+
+    A subfolder called dist will be created.
+    Inside the dist subfolder, copy-paste all the external media like pictures and audio files used by your program (if they were in subfolders, keep names etc the same).
+    The exe file in your dist folder is now your program! (you need the while dist folder to run the program)
