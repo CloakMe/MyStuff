@@ -18,7 +18,7 @@ def CalculateLeadMass( dataMatrix1, dataMatrix2 ):
     factor2 = numpy.divide( MPerpendicular, ( 2*MPerpendicular + Mparallel ) )
    
     ResultVec = - 8.0 * math.pi * ro[0] * numpy.multiply( factor1, factor2 )
-    etaVec = 1 + 2*factor2
+    etaVec = 2*factor2
 
     print
     
