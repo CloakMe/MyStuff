@@ -1,0 +1,47 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+Tampa Bay 	
+Philadelphia
+	3:20 AM	FOX/NFL NET	Tickets as low as $85	Lincoln Financial Field, Philadelphia	
+Sunday, October 17
+matchup		time  (EEST)	nat tv	tickets	location	
+Miami 	
+Jacksonville
+	4:30 PM	CBS	Tickets as low as $89	Tottenham Hotspur Stadium, London	
+Green Bay 	
+Chicago
+	8:00 PM	FOX	Tickets as low as $231	Soldier Field, Chicago	
+Cincinnati 	
+Detroit
+	8:00 PM	FOX	Tickets as low as $32	Ford Field, Detroit	
+Houston 	
+Indianapolis
+	8:00 PM	CBS	Tickets as low as $22	Lucas Oil Stadium, Indianapolis	
+Los Angeles R	
+New York G
+	8:00 PM	FOX	Tickets as low as $49	MetLife Stadium, East Rutherford	
+Kansas City 	
+Washington
+	8:00 PM	CBS	Tickets as low as $46	FedExField, Landover	
+Minnesota 	
+Carolina
+	8:00 PM	FOX	Tickets as low as $50	Bank of America Stadium, Charlotte	
+Los Angeles C 	
+Baltimore
+	8:00 PM	CBS	Tickets as low as $78	M&T Bank Stadium, Baltimore	
+Arizona 	
+Cleveland
+	11:05 PM	FOX	Tickets as low as $78	FirstEnergy Stadium, Cleveland	
+Las Vegas 	
+Denver
+	11:25 PM	CBS	Tickets as low as $84	Empower Field at Mile High, Denver	
+Dallas 	
+New England
+	11:25 PM	CBS	Tickets as low as $156	Gillette Stadium, Foxboro	
+Seattle 	
+Pittsburgh
+	3:20 AM	NBC	Tickets as low as $83	Heinz Field, Pittsburgh	
+Monday, October 18
+matchup		time  (EEST)	nat tv	tickets	location	
+Buffalo 	
+Tennessee
+	3:15 AM	ESPN	Tickets as low as $91	Nissan Stadium, Nashville

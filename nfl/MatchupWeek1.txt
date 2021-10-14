@@ -1,0 +1,53 @@
+matchup		result	passing leader	rushing leader	receiving leader	
+Dallas 	
+Tampa Bay
+	TB 31, DAL 29	Dak Prescott 403	Ezekiel Elliott 33	Amari Cooper 139	
+Sunday, September 12
+matchup		result	passing leader	rushing leader	receiving leader	
+Philadelphia 	
+Atlanta
+	PHI 32, ATL 6	Jalen Hurts 264	Miles Sanders 74	DeVonta Smith 71	
+Pittsburgh 	
+Buffalo
+	PIT 23, BUF 16	Josh Allen 270	Devin Singletary 72	Stefon Diggs 69	
+Minnesota 	
+Cincinnati
+	CIN 27, MIN 24 (OT)	Kirk Cousins 351	Joe Mixon 127	Ja'Marr Chase 101	
+San Francisco 	
+Detroit
+	SF 41, DET 33	Jared Goff 338	Elijah Mitchell 104	Deebo Samuel 189	
+Arizona 	
+Tennessee
+	ARI 38, TEN 13	Kyler Murray 289	Chase Edmonds 63	DeAndre Hopkins 83	
+Seattle 	
+Indianapolis
+	SEA 28, IND 16	Russell Wilson 254	Chris Carson 91	Tyler Lockett 100	
+Los Angeles C 	
+Washington
+	LAC 20, WSH 16	Justin Herbert 337	Antonio Gibson 90	Keenan Allen 100	
+New York J 	
+Carolina
+	CAR 19, NYJ 14	Sam Darnold 279	Christian McCaffrey 98	Corey Davis 97	
+Jacksonville 	
+Houston
+	HOU 37, JAX 21	Trevor Lawrence 332	Mark Ingram II 85	Brandin Cooks 132	
+Cleveland 	
+Kansas City
+	KC 33, CLE 29	Patrick Mahomes 337	Nick Chubb 83	Tyreek Hill 197	
+Miami 	
+New England
+	MIA 17, NE 16	Mac Jones 281	Damien Harris 100	DeVante Parker 81	
+Green Bay 	
+New Orleans
+	NO 38, GB 3	Jameis Winston 148	Alvin Kamara 83	Deonte Harris 72	
+Denver 	
+New York G
+	DEN 27, NYG 13	Daniel Jones 267	Melvin Gordon III 101	Sterling Shepard 113	
+Chicago 	
+Los Angeles R
+	LAR 34, CHI 14	Matthew Stafford 321	David Montgomery 108	Cooper Kupp 108	
+Monday, September 13
+matchup		result	passing leader	rushing leader	receiving leader	
+Baltimore 	
+Las Vegas
+	LV 33, BAL 27 (OT)	Derek Carr 435	Lamar Jackson 86	Darren Waller 105
