@@ -1,0 +1,48 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+New York J	
+Indianapolis
+	2:20 AM	FOX/NFL NET	Tickets as low as $24	Lucas Oil Stadium, Indianapolis	
+Sunday, November 7
+matchup		time  (EEST)	nat tv	tickets	location	
+Cleveland 	
+Cincinnati
+	8:00 PM	CBS	Tickets as low as $141	Paul Brown Stadium, Cincinnati	
+Denver 	
+Dallas
+	8:00 PM	FOX	Tickets as low as $61	AT&T Stadium, Arlington	
+Houston 	
+Miami
+	8:00 PM	FOX	Tickets as low as $26	Hard Rock Stadium, Miami Gardens	
+Atlanta 	
+New Orleans
+	8:00 PM	FOX	Tickets as low as $57	Caesars Superdome, New Orleans	
+Las Vegas 	
+New York G
+	8:00 PM	CBS	Tickets as low as $56	MetLife Stadium, East Rutherford	
+New England 	
+Carolina
+	8:00 PM	CBS	Tickets as low as $110	Bank of America Stadium, Charlotte	
+Buffalo 	
+Jacksonville
+	8:00 PM	CBS	Tickets as low as $49	TIAA Bank Field, Jacksonville	
+Minnesota 	
+Baltimore
+	8:00 PM	FOX	Tickets as low as $58	M&T Bank Stadium, Baltimore	
+Los Angeles C	
+Philadelphia
+	11:05 PM	CBS	Tickets as low as $111	Lincoln Financial Field, Philadelphia	
+Green Bay 	
+Kansas City
+	11:25 PM	FOX	Tickets as low as $242	GEHA Field at Arrowhead Stadium, Kansas City	
+Arizona 	
+San Francisco
+	11:25 PM	FOX	Tickets as low as $80	Levi's Stadium, Santa Clara	
+Tennessee 	
+Los Angeles R
+	3:20 AM	NBC	Tickets as low as $60	SoFi Stadium, Inglewood	
+Monday, November 8
+matchup		time  (EEST)	nat tv	tickets	location	
+Chicago 	
+Pittsburgh
+	3:15 AM	ESPN	Tickets as low as $78	Heinz Field, Pittsburgh	
+BYE

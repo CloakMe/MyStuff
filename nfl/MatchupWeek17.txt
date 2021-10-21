@@ -1,0 +1,51 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+Atlanta 	
+Buffalo
+	8:00 PM	FOX	Tickets as low as $32	Highmark Stadium, Orchard Park	
+New York G	
+Chicago
+	8:00 PM	CBS	Tickets as low as $59	Soldier Field, Chicago	
+Kansas City 	
+Cincinnati
+	8:00 PM	CBS	Tickets as low as $49	Paul Brown Stadium, Cincinnati	
+Arizona 	
+Dallas
+	8:00 PM	FOX	Tickets as low as $28	AT&T Stadium, Arlington	
+Miami 	
+Tennessee
+	8:00 PM	CBS	Tickets as low as $52	Nissan Stadium, Nashville	
+Las Vegas 	
+Indianapolis
+	8:00 PM	CBS	Tickets as low as $40	Lucas Oil Stadium, Indianapolis	
+Jacksonville 	
+New England
+	8:00 PM	CBS	Tickets as low as $97	Gillette Stadium, Foxboro	
+Carolina 	
+New Orleans
+	8:00 PM	FOX	Tickets as low as $48	Caesars Superdome, New Orleans	
+Tampa Bay 	
+New York J
+	8:00 PM	FOX	Tickets as low as $35	MetLife Stadium, East Rutherford	
+Philadelphia 	
+Washington
+	8:00 PM	FOX	Tickets as low as $39	FedExField, Landover	
+Denver 	
+Los Angeles C
+	11:05 PM	CBS	Tickets as low as $62	SoFi Stadium, Inglewood	
+Houston 	
+San Francisco
+	11:05 PM	CBS	Tickets as low as $51	Levi's Stadium, Santa Clara	
+Detroit 	
+Seattle
+	11:25 PM	FOX	Tickets as low as $77	Lumen Field, Seattle	
+Los Angeles R	
+Baltimore
+	11:25 PM	FOX	Tickets as low as $51	M&T Bank Stadium, Baltimore	
+Minnesota 	
+Green Bay
+	3:20 AM	NBC	Tickets as low as $114	Lambeau Field, Green Bay	
+Monday, January 3
+matchup		time  (EEST)	nat tv	tickets	location	
+Cleveland 	
+Pittsburgh
+	3:15 AM	ESPN	Tickets as low as $78	Heinz Field, Pittsburgh	

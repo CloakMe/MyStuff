@@ -1,0 +1,53 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+Kansas City 	
+Los Angeles C
+	3:20 AM	FOX/NFL NET	Tickets as low as $104	SoFi Stadium, Inglewood	
+Sunday, December 19
+matchup		time  (EEST)	nat tv	tickets	location	
+Carolina 	
+Buffalo
+	TBD		Tickets as low as $36	Highmark Stadium, Orchard Park	
+Las Vegas 	
+Cleveland
+	TBD		Tickets as low as $66	FirstEnergy Stadium, Cleveland	
+New England 	
+Indianapolis
+	TBD		Tickets as low as $37	Lucas Oil Stadium, Indianapolis	
+New York J 	
+Miami
+	TBD			Hard Rock Stadium, Miami Gardens	
+Washington 	
+Philadelphia
+	TBD			Lincoln Financial Field, Philadelphia	
+Arizona 	
+Detroit
+	8:00 PM	FOX	Tickets as low as $31	Ford Field, Detroit	
+Dallas 	
+New York G
+	8:00 PM	FOX	Tickets as low as $86	MetLife Stadium, East Rutherford	
+Tennessee 	
+Pittsburgh
+	8:00 PM	CBS	Tickets as low as $69	Heinz Field, Pittsburgh	
+Houston 	
+Jacksonville
+	8:00 PM	CBS	Tickets as low as $19	TIAA Bank Field, Jacksonville	
+Green Bay 	
+Baltimore
+	8:00 PM	FOX	Tickets as low as $107	M&T Bank Stadium, Baltimore	
+Cincinnati 	
+Denver
+	11:05 PM	CBS	Tickets as low as $67	Empower Field at Mile High, Denver	
+Atlanta 	
+San Francisco
+	11:05 PM	CBS	Tickets as low as $64	Levi's Stadium, Santa Clara	
+Seattle 	
+Los Angeles R
+	11:25 PM	FOX	Tickets as low as $85	SoFi Stadium, Inglewood	
+New Orleans 	
+Tampa Bay
+	3:20 AM	NBC	Tickets as low as $130	Raymond James Stadium, Tampa	
+Monday, December 20
+matchup		time  (EEST)	nat tv	tickets	location	
+Minnesota 	
+Chicago
+	3:15 AM	ESPN	Tickets as low as $83	Soldier Field, Chicago	

@@ -1,0 +1,53 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+Green Bay 	
+Arizona
+	3:20 AM	FOX/NFL NET	Tickets as low as $177	State Farm Stadium, Glendale	
+Sunday, October 31
+matchup		time  (EEST)	nat tv	tickets	location	
+Carolina 	
+Atlanta
+	7:00 PM	FOX	Tickets as low as $31	Mercedes-Benz Stadium, Atlanta	
+Miami 	
+Buffalo
+	7:00 PM	CBS	Tickets as low as $73	Highmark Stadium, Orchard Park	
+San Francisco 	
+Chicago
+	7:00 PM	FOX	Tickets as low as $164	Soldier Field, Chicago	
+Pittsburgh 	
+Cleveland
+	7:00 PM	CBS	Tickets as low as $177	FirstEnergy Stadium, Cleveland	
+Philadelphia 	
+Detroit
+	7:00 PM	FOX	Tickets as low as $37	Ford Field, Detroit	
+Tennessee 	
+Indianapolis
+	7:00 PM	CBS	Tickets as low as $32	Lucas Oil Stadium, Indianapolis	
+Cincinnati 	
+New York J
+	7:00 PM	CBS	Tickets as low as $18	MetLife Stadium, East Rutherford	
+Los Angeles R	
+Houston
+	7:00 PM	FOX	Tickets as low as $22	NRG Stadium, Houston	
+New England 	
+Los Angeles C
+	10:05 PM	CBS	Tickets as low as $77	SoFi Stadium, Inglewood	
+Jacksonville 	
+Seattle
+	10:05 PM	CBS	Tickets as low as $73	Lumen Field, Seattle	
+Washington 	
+Denver
+	10:25 PM	FOX	Tickets as low as $90	Empower Field at Mile High, Denver	
+Tampa Bay 	
+New Orleans
+	10:25 PM	FOX	Tickets as low as $74	Caesars Superdome, New Orleans	
+Dallas 	
+Minnesota
+	2:20 AM	NBC	Tickets as low as $79	U.S. Bank Stadium, Minneapolis	
+Monday, November 1
+matchup		time  (EEST)	nat tv	tickets	location	
+New York G	
+Kansas City
+	2:15 AM	ESPN	Tickets as low as $66	GEHA Field at Arrowhead Stadium, Kansas City	
+BYE
+Las Vegas
+Baltimore

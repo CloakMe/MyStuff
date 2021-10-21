@@ -1,0 +1,800 @@
+1
+	
+New Orleans Saints New Orleans Saints
+	3
+	5
+	30
+	3
+	5
+	1
+	3
+	4
+	13
+	19
+	9
+	2
+	2
+	2
+	6
+	1
+	2
+	1
+	1
+	5
+	7
+	19
+2
+	
+Buffalo Bills Buffalo Bills
+	3
+	1
+	12
+	2
+	1
+	2
+	5
+	1
+	1
+	16
+	6
+	2
+	7
+	6
+	8
+	2
+	8
+	3
+	4
+	1
+	6
+	5
+3
+	
+Arizona Cardinals Arizona Cardinals
+	3
+	2
+	5
+	6
+	3
+	3
+	16
+	13
+	9
+	14
+	12
+	9
+	23
+	13
+	3
+	7
+	10
+	9
+	12
+	10
+	3
+	2
+4
+	
+Denver Broncos Denver Broncos
+	16
+	7
+	9
+	15
+	19
+	4
+	4
+	8
+	13
+	8
+	1
+	6
+	4
+	8
+	8
+	5
+	1
+	2
+	11
+	2
+	19
+	6
+5
+	
+Cincinnati Bengals Cincinnati Bengals
+	16
+	11
+	9
+	11
+	19
+	5
+	24
+	11
+	16
+	29
+	30
+	4
+	9
+	9
+	8
+	4
+	13
+	9
+	10
+	10
+	17
+	13
+6
+	
+San Francisco 49ers San Francisco 49ers
+	3
+	22
+	22
+	30
+	31
+	6
+	2
+	2
+	1
+	2
+	2
+	8
+	10
+	7
+	16
+	7
+	8
+	16
+	28
+	4
+	4
+	2
+7
+	
+Carolina Panthers Carolina Panthers
+	3
+	12
+	5
+	15
+	19
+	7
+	7
+	6
+	3
+	8
+	6
+	16
+	17
+	10
+	8
+	13
+	5
+	12
+	26
+	3
+	2
+	2
+7
+	
+New York Jets New York Jets
+	16
+	23
+	12
+	32
+	28
+	7
+	6
+	7
+	7
+	5
+	15
+	1
+	11
+	17
+	24
+	2
+	22
+	4
+	2
+	9
+	9
+	22
+9
+	
+Baltimore Ravens Baltimore Ravens
+	16
+	13
+	9
+	15
+	19
+	9
+	13
+	19
+	25
+	25
+	22
+	9
+	3
+	3
+	16
+	14
+	10
+	4
+	7
+	21
+	4
+	6
+10
+	
+Chicago Bears Chicago Bears
+	3
+	5
+	1
+	15
+	13
+	10
+	14
+	10
+	10
+	4
+	8
+	16
+	18
+	20
+	6
+	7
+	16
+	4
+	3
+	12
+	18
+	11
+11
+	
+Los Angeles Rams Los Angeles Rams
+	16
+	10
+	3
+	4
+	5
+	11
+	28
+	22
+	22
+	31
+	31
+	4
+	12
+	13
+	24
+	7
+	22
+	12
+	9
+	28
+	23
+	1
+11
+	
+New England Patriots New England Patriots
+	16
+	13
+	12
+	6
+	10
+	11
+	25
+	18
+	18
+	16
+	12
+	9
+	19
+	25
+	3
+	7
+	13
+	4
+	5
+	14
+	14
+	22
+13
+	
+Indianapolis Colts Indianapolis Colts
+	3
+	4
+	19
+	11
+	4
+	13
+	17
+	21
+	21
+	10
+	19
+	31
+	16
+	20
+	1
+	14
+	16
+	16
+	18
+	19
+	20
+	26
+14
+	
+Pittsburgh Steelers Pittsburgh Steelers
+	16
+	18
+	8
+	25
+	26
+	14
+	21
+	15
+	17
+	22
+	18
+	19
+	12
+	16
+	2
+	5
+	13
+	4
+	5
+	8
+	13
+	19
+15
+	
+Green Bay Packers Green Bay Packers
+	16
+	18
+	12
+	6
+	7
+	15
+	8
+	9
+	6
+	13
+	16
+	26
+	15
+	11
+	8
+	20
+	5
+	25
+	32
+	16
+	25
+	15
+16
+	
+Minnesota Vikings Minnesota Vikings
+	3
+	8
+	1
+	15
+	13
+	16
+	22
+	17
+	15
+	16
+	10
+	6
+	23
+	19
+	16
+	7
+	2
+	9
+	25
+	17
+	1
+	19
+17
+	
+Tampa Bay Buccaneers Tampa Bay Buccaneers
+	2
+	8
+	19
+	5
+	7
+	17
+	8
+	12
+	27
+	32
+	32
+	28
+	1
+	1
+	3
+	17
+	16
+	16
+	18
+	17
+	23
+	10
+17
+	
+Las Vegas Raiders Las Vegas Raiders
+	3
+	15
+	5
+	15
+	13
+	17
+	28
+	16
+	12
+	24
+	25
+	9
+	25
+	22
+	24
+	17
+	2
+	14
+	30
+	21
+	8
+	18
+19
+	
+Dallas Cowboys Dallas Cowboys
+	1
+	3
+	22
+	1
+	2
+	19
+	8
+	23
+	30
+	25
+	24
+	22
+	5
+	3
+	8
+	20
+	16
+	22
+	23
+	14
+	9
+	26
+20
+	
+Atlanta Falcons Atlanta Falcons
+	16
+	31
+	29
+	30
+	30
+	20
+	1
+	3
+	5
+	3
+	4
+	19
+	8
+	5
+	8
+	22
+	10
+	14
+	20
+	6
+	27
+	6
+21
+	
+Seattle Seahawks Seattle Seahawks
+	16
+	26
+	25
+	25
+	19
+	21
+	32
+	32
+	28
+	28
+	29
+	16
+	30
+	31
+	16
+	14
+	32
+	16
+	7
+	32
+	12
+	13
+22
+	
+Los Angeles Chargers Los Angeles Chargers
+	16
+	16
+	12
+	6
+	7
+	22
+	20
+	20
+	4
+	5
+	12
+	9
+	32
+	26
+	29
+	17
+	24
+	25
+	22
+	26
+	25
+	9
+23
+	
+Cleveland Browns Cleveland Browns
+	16
+	18
+	3
+	25
+	28
+	23
+	8
+	5
+	11
+	10
+	4
+	28
+	6
+	12
+	8
+	22
+	16
+	22
+	23
+	7
+	28
+	25
+24
+	
+Philadelphia Eagles Philadelphia Eagles
+	3
+	16
+	22
+	11
+	19
+	24
+	27
+	14
+	8
+	12
+	21
+	22
+	28
+	32
+	16
+	22
+	16
+	25
+	27
+	29
+	30
+	12
+25
+	
+Tennessee Titans Tennessee Titans
+	3
+	21
+	12
+	15
+	26
+	25
+	18
+	24
+	24
+	23
+	19
+	22
+	12
+	13
+	24
+	22
+	29
+	22
+	13
+	20
+	15
+	15
+26
+	
+Jacksonville Jaguars Jacksonville Jaguars
+	16
+	32
+	30
+	25
+	31
+	26
+	23
+	29
+	31
+	14
+	23
+	9
+	21
+	26
+	30
+	27
+	29
+	30
+	17
+	24
+	22
+	31
+26
+	
+Houston Texans Houston Texans
+	16
+	27
+	25
+	6
+	10
+	26
+	19
+	26
+	19
+	7
+	10
+	9
+	31
+	26
+	32
+	27
+	26
+	16
+	14
+	23
+	16
+	22
+26
+	
+Detroit Lions Detroit Lions
+	16
+	23
+	12
+	15
+	13
+	26
+	12
+	25
+	20
+	1
+	3
+	22
+	26
+	30
+	16
+	22
+	5
+	16
+	31
+	12
+	11
+	32
+29
+	
+Kansas City Chiefs Kansas City Chiefs
+	3
+	29
+	32
+	15
+	19
+	29
+	14
+	28
+	25
+	19
+	17
+	19
+	27
+	18
+	31
+	31
+	24
+	32
+	29
+	27
+	29
+	29
+30
+	
+Miami Dolphins Miami Dolphins
+	3
+	23
+	25
+	25
+	13
+	30
+	30
+	30
+	29
+	27
+	27
+	26
+	22
+	24
+	24
+	27
+	27
+	25
+	16
+	30
+	31
+	26
+30
+	
+New York Giants New York Giants
+	16
+	29
+	25
+	11
+	10
+	30
+	26
+	27
+	23
+	21
+	26
+	28
+	29
+	29
+	16
+	30
+	27
+	30
+	20
+	25
+	21
+	30
+32
+	
+Washington Football Team Washington Football Team
+	16
+	28
+	19
+	15
+	13
+	32
+	31
+	31
+	32
+	30
+	28
+	32
+	20
+	22
+	16
+	31
+	29
+	25
+	15
+	31
+	32
+	15

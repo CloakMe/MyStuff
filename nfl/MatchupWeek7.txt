@@ -14,7 +14,7 @@ Tennessee
 Atlanta 	
 Miami
 	8:00 PM	FOX	Tickets as low as $24	Hard Rock Stadium, Miami Gardens	
-New York 	
+New York J	
 New England
 	8:00 PM	CBS	Tickets as low as $117	Gillette Stadium, Foxboro	
 Carolina 	
@@ -27,7 +27,7 @@ Philadelphia
 Las Vegas
 	11:05 PM	FOX	Tickets as low as $206	Allegiant Stadium, Las Vegas	
 Detroit 	
-Los Angeles
+Los Angeles R
 	11:05 PM	FOX	Tickets as low as $79	SoFi Stadium, Inglewood	
 Houston 	
 Arizona

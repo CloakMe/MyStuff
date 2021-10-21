@@ -1,0 +1,55 @@
+matchup		time  (EEST)	nat tv	tickets	location	
+San Francisco 	
+Tennessee
+	3:20 AM	NFL NET	Tickets as low as $56	Nissan Stadium, Nashville	
+Saturday, December 25
+matchup		time  (EEST)	nat tv	tickets	location	
+Cleveland 	
+Green Bay
+	11:30 PM	FOX/NFL NET	Tickets as low as $103	Lambeau Field, Green Bay	
+Indianapolis 	
+Arizona
+	3:15 AM	NFL NET	Tickets as low as $60	State Farm Stadium, Glendale	
+Sunday, December 26
+matchup		time  (EEST)	nat tv	tickets	location	
+Detroit 	
+Atlanta
+	8:00 PM	FOX	Tickets as low as $25	Mercedes-Benz Stadium, Atlanta	
+Baltimore 	
+Cincinnati
+	8:00 PM	CBS	Tickets as low as $42	Paul Brown Stadium, Cincinnati	
+Los Angeles R	
+Minnesota
+	8:00 PM	FOX	Tickets as low as $47	U.S. Bank Stadium, Minneapolis	
+Buffalo 	
+New England
+	8:00 PM	CBS	Tickets as low as $116	Gillette Stadium, Foxboro	
+Jacksonville 	
+New York J
+	8:00 PM	CBS	Tickets as low as $17	MetLife Stadium, East Rutherford	
+New York G 	
+Philadelphia
+	8:00 PM	FOX	Tickets as low as $83	Lincoln Financial Field, Philadelphia	
+Tampa Bay 	
+Carolina
+	8:00 PM	FOX	Tickets as low as $106	Bank of America Stadium, Charlotte	
+Los Angeles C	
+Houston
+	8:00 PM	CBS	Tickets as low as $18	NRG Stadium, Houston	
+Chicago 	
+Seattle
+	11:05 PM	FOX	Tickets as low as $103	Lumen Field, Seattle	
+Pittsburgh 	
+Kansas City
+	11:25 PM	CBS	Tickets as low as $111	GEHA Field at Arrowhead Stadium, Kansas City	
+Denver 	
+Las Vegas
+	11:25 PM	CBS	Tickets as low as $186	Allegiant Stadium, Las Vegas	
+Washington 	
+Dallas
+	3:20 AM	NBC	Tickets as low as $22	AT&T Stadium, Arlington	
+Monday, December 27
+matchup		time  (EEST)	nat tv	tickets	location	
+Miami 	
+New Orleans
+	3:15 AM	ESPN	Tickets as low as $59	Caesars Superdome, New Orleans	
