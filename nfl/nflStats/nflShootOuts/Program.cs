@@ -15,8 +15,12 @@ namespace nflShootOuts
             int counter = 0;
             int subCounter = 0;
             string[] OffensiveRankingFPTS = new string[32];
+            Console.WriteLine("Select week ranking:");
+            string weekrank = Console.ReadLine();
+            string offensiveRankFileName = @"F:\who\MyStuff\nfl\OffensiveRankingFPTSw";
+            offensiveRankFileName += weekrank + ".txt";
             // Read the file and display it line by line.  
-            using (StreamReader reader = new StreamReader(@"F:\who\MyStuff\nfl\OffensiveRankingFPTS.txt"))
+            using (StreamReader reader = new StreamReader(offensiveRankFileName))
             {
                 string line = reader.ReadLine();
 
@@ -35,7 +39,9 @@ namespace nflShootOuts
 
             string[] DefensiveRanking = new string[32];
             subCounter = 0;
-            using (StreamReader reader = new StreamReader(@"F:\who\MyStuff\nfl\DefensiveRanking.txt"))
+            string defensiveRankFileName = @"F:\who\MyStuff\nfl\DefensiveRankingw";
+            defensiveRankFileName += weekrank + ".txt";
+            using (StreamReader reader = new StreamReader(defensiveRankFileName))
             {
                 string line = reader.ReadLine();
 
