@@ -20,41 +20,58 @@ namespace nflShootOuts
             string offensiveRankFileName = @"F:\who\MyStuff\nfl\OffensiveRankingFPTSw";
             offensiveRankFileName += weekrank + ".txt";
             // Read the file and display it line by line.  
-            using (StreamReader reader = new StreamReader(offensiveRankFileName))
+            try
             {
-                string line = reader.ReadLine();
-
-                while (line != null)
+                using (StreamReader reader = new StreamReader(offensiveRankFileName))
                 {
-                    if (line.Count() > 12)
+                    string line = reader.ReadLine();
+
+                    while (line != null)
                     {
-                        OffensiveRankingFPTS[subCounter] = line;
-                        subCounter++;
+                        if (line.Count() > 12)
+                        {
+                            OffensiveRankingFPTS[subCounter] = line;
+                            subCounter++;
+                        }
+                        counter++;
+                        line = reader.ReadLine();
                     }
-                    counter++;
-                    line = reader.ReadLine();
                 }
             }
+            catch (Exception)
+            {
+                Console.WriteLine("Could not read/find week OFENSIVE ranking file!");
+                return;
+            }
+            
             System.Console.WriteLine("There were {0} lines.", counter);
 
             string[] DefensiveRanking = new string[32];
             subCounter = 0;
             string defensiveRankFileName = @"F:\who\MyStuff\nfl\DefensiveRankingw";
             defensiveRankFileName += weekrank + ".txt";
-            using (StreamReader reader = new StreamReader(defensiveRankFileName))
+            try
             {
-                string line = reader.ReadLine();
-
-                while (line != null)
+                using (StreamReader reader = new StreamReader(defensiveRankFileName))
                 {
-                    if (line.Count() > 12)
+                    string line = reader.ReadLine();
+
+                    while (line != null)
                     {
-                        DefensiveRanking[subCounter] = line;
-                        subCounter++;
+                        if (line.Count() > 12)
+                        {
+                            DefensiveRanking[subCounter] = line;
+                            subCounter++;
+                        }
+                        counter++;
+                        line = reader.ReadLine();
                     }
-                    counter++;
-                    line = reader.ReadLine();
                 }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Could not read/find week DEFENSIVE ranking file!");
+                return;
             }
             System.Console.WriteLine("There were {0} lines.", counter);
 
@@ -66,8 +83,17 @@ namespace nflShootOuts
                 {
                     break;
                 }
+                try
+                {
+                    CreateMatchupTable(OffensiveRankingFPTS, DefensiveRanking, command);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                    Console.WriteLine("\nTry again\n");
+                }
 
-                CreateMatchupTable(OffensiveRankingFPTS, DefensiveRanking, command);
             }
             
         }
