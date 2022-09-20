@@ -117,7 +117,9 @@ namespace nflShootOuts
                         break;
                     if (subCounter == 1 && 
                         !line.Contains("Monday") &&
+                        !line.Contains("Tuesday") &&
                         !line.Contains("matchup") && 
+                        !line.Contains("MATCHUP") && 
                         !line.Contains("Thursday") && 
                         !line.Contains("Friday") && !line.Contains("Saturday") && !line.Contains("Sunday"))
                     {//next line after matchup

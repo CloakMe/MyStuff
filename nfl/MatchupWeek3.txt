@@ -1,0 +1,54 @@
+MATCHUP 	
+Pittsburgh
+Cleveland
+	3:15 AM	PRIME VIDEO	Tickets as low as $101	FirstEnergy Stadium, Cleveland, OH	
+Sunday, September 25, 2022
+MATCHUP	
+Houston
+Chicago
+	8:00 PM	CBS	Tickets as low as $111	Soldier Field, Chicago, IL	
+Las Vegas
+Tennessee
+	8:00 PM	FOX	Tickets as low as $45	Nissan Stadium, Nashville, TN	
+Kansas City
+Indianapolis
+	8:00 PM	CBS	Tickets as low as $67	Lucas Oil Stadium, Indianapolis, IN	
+Buffalo
+Miami
+	8:00 PM	CBS	Tickets as low as $148	Hard Rock Stadium, Miami Gardens, FL	
+Detroit
+Minnesota
+	8:00 PM	FOX	Tickets as low as $44	U.S. Bank Stadium, Minneapolis, MN	
+Baltimore
+New England
+	8:00 PM	FOX	Tickets as low as $137	Gillette Stadium, Foxboro, MA
+Cincinnati
+New York
+	8:00 PM	CBS	Tickets as low as $33	MetLife Stadium, East Rutherford, NJ	
+Philadelphia
+Washington
+	8:00 PM	FOX	Tickets as low as $88 FedExField, Landover, MD	
+New Orleans
+Carolina
+	8:00 PM	FOX	Tickets as low as $41	Bank of America Stadium, Charlotte, NC	
+Jacksonville
+Los Angeles
+	11:05 PM	CBS	Tickets as low as $8	SoFi Stadium, Inglewood, CA	
+Los Angeles
+Arizona
+	11:25 PM	FOX	Tickets as low as $18	State Farm Stadium, Glendale, AZ	
+Atlanta
+Seattle
+	11:25 PM	FOX	Tickets as low as $8 4Lumen Field, Seattle, WA
+Green Bay
+Tampa Bay
+	11:25 PM	FOX	Tickets as low as $194	Raymond James Stadium, Tampa, FL	
+San Francisco
+Denver
+	3:20 AM	NBC	Tickets as low as $169	Empower Field at Mile High, Denver, CO	
+Tuesday, September 27, 2022
+MATCHUP	
+Dallas
+New York
+	3:15 AM	ESPNABC	Tickets as low as $113	MetLife Stadium, East Rutherford, NJ
+	
