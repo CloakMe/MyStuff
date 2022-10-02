@@ -23,7 +23,7 @@ Baltimore
 New England
 	8:00 PM	FOX	Tickets as low as $137	Gillette Stadium, Foxboro, MA
 Cincinnati
-New York
+New York J
 	8:00 PM	CBS	Tickets as low as $33	MetLife Stadium, East Rutherford, NJ	
 Philadelphia
 Washington
@@ -32,9 +32,9 @@ New Orleans
 Carolina
 	8:00 PM	FOX	Tickets as low as $41	Bank of America Stadium, Charlotte, NC	
 Jacksonville
-Los Angeles
+Los Angeles C
 	11:05 PM	CBS	Tickets as low as $8	SoFi Stadium, Inglewood, CA	
-Los Angeles
+Los Angeles R
 Arizona
 	11:25 PM	FOX	Tickets as low as $18	State Farm Stadium, Glendale, AZ	
 Atlanta
@@ -49,6 +49,6 @@ Denver
 Tuesday, September 27, 2022
 MATCHUP	
 Dallas
-New York
+New York G
 	3:15 AM	ESPNABC	Tickets as low as $113	MetLife Stadium, East Rutherford, NJ
 	

@@ -144,7 +144,7 @@ namespace nflShootOuts
                         continue;
                     }
 
-                    if (line.Contains("matchup") || line.Contains("Tickets") || line[0] == '\t')
+                    if (line.Contains("matchup") || line.Contains("MATCHUP") || line.Contains("Tickets") || line[0] == '\t')
                     {
                         subCounter = 0;
                         subCounter++;
