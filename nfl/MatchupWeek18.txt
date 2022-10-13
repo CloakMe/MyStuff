@@ -1,0 +1,49 @@
+MATCHUP
+Tampa Bay
+Atlanta
+	TBD
+New England
+Buffalo
+	TBD
+Minnesota
+Chicago
+	TBD
+Baltimore
+Cincinnati
+	TBD
+Los Angeles C
+Denver
+	TBD
+Detroit
+Green Bay
+	TBD
+Houston
+Indianapolis
+	TBD
+Kansas City
+Las Vegas
+	TBD
+New York J
+Miami
+	TBD
+Carolina
+New Orleans
+	TBD
+New York G
+Philadelphia
+	TBD
+Cleveland
+Pittsburgh
+	TBD
+Arizona
+San Francisco
+	TBD
+Los Angeles R
+Seattle
+	TBD
+Dallas
+Washington
+	TBD
+Tennessee
+Jacksonville
+	TBD

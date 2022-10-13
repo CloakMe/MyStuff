@@ -1,0 +1,55 @@
+MATCHUP
+Jacksonville
+New York J
+	3:15 AM	
+Saturday, December 24, 2022
+MATCHUP
+Buffalo
+Chicago
+	8:00 PM	
+New Orleans
+Cleveland
+	8:00 PM	
+Houston
+Tennessee
+	8:00 PM	
+Seattle
+Kansas City
+	8:00 PM	
+New York G
+Minnesota
+	8:00 PM	
+Cincinnati
+New England
+	8:00 PM	
+Detroit
+Carolina
+	8:00 PM	
+Atlanta
+Baltimore
+	8:00 PM	
+Washington
+San Francisco
+	11:05 PM	
+Philadelphia
+Dallas
+	11:25 PM	
+Las Vegas
+Pittsburgh
+	3:15 AM	
+Sunday, December 25, 2022
+MATCHUP
+Green Bay
+Miami
+	8:00 PM	
+Denver
+Los Angeles R
+	11:30 PM	
+Tampa Bay
+Arizona
+	3:20 AM	
+Tuesday, December 27, 2022
+MATCHUP
+Los Angeles C
+Indianapolis
+	3:15 AM
