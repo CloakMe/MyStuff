@@ -14,10 +14,10 @@ namespace nflShootOuts
         {
             int counter = 0;
             int subCounter = 0;
-            string[] OffensiveRankingFPTS = new string[32];
+            string[] OffensiveRanking = new string[32];
             Console.WriteLine("Select week ranking:");
             string weekrank = Console.ReadLine();
-            string offensiveRankFileName = @"F:\who\MyStuff\nfl\OffensiveRankingFPTSw";
+            string offensiveRankFileName = @"F:\who\MyStuff\nfl\OffensiveRankingw";
             offensiveRankFileName += weekrank + ".txt";
             // Read the file and display it line by line.  
             try
@@ -30,16 +30,20 @@ namespace nflShootOuts
                     {
                         if (line.Count() > 12)
                         {
-                            OffensiveRankingFPTS[subCounter] = line;
-                            subCounter++;
+                            if (subCounter == 0 || (!line.Contains(OffensiveRanking[subCounter-1]) && !OffensiveRanking[subCounter-1].Contains(line)))
+                            {
+                                OffensiveRanking[subCounter] = line;
+                                subCounter++;
+                            }
                         }
                         counter++;
                         line = reader.ReadLine();
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 Console.WriteLine("Could not read/find week OFENSIVE ranking file!");
                 return;
             }
@@ -60,8 +64,11 @@ namespace nflShootOuts
                     {
                         if (line.Count() > 12)
                         {
-                            DefensiveRanking[subCounter] = line;
-                            subCounter++;
+                            if (subCounter == 0 || (!line.Contains(DefensiveRanking[subCounter - 1]) && !DefensiveRanking[subCounter - 1].Contains(line)))
+                            {
+                                DefensiveRanking[subCounter] = line;
+                                subCounter++;
+                            }
                         }
                         counter++;
                         line = reader.ReadLine();
@@ -85,7 +92,7 @@ namespace nflShootOuts
                 }
                 try
                 {
-                    CreateMatchupTable(OffensiveRankingFPTS, DefensiveRanking, command);
+                    CreateMatchupTable(OffensiveRanking, DefensiveRanking, command);
                 }
                 catch(Exception ex)
                 {
@@ -98,7 +105,7 @@ namespace nflShootOuts
             
         }
 
-        static void CreateMatchupTable(string[] OffensiveRankingFPTS, string[] DefensiveRanking, string fileNumber)
+        static void CreateMatchupTable(string[] OffensiveRanking, string[] DefensiveRanking, string fileNumber)
         {
             int counter = 0;
             int subCounter = 0;
@@ -115,7 +122,8 @@ namespace nflShootOuts
                     line = reader.ReadLine();
                     if (line == null)
                         break;
-                    if (subCounter == 1 && 
+                    if (subCounter == 1 &&                        
+                        !line.Contains("------") &&
                         !line.Contains("Monday") &&
                         !line.Contains("Tuesday") &&
                         !line.Contains("matchup") && 
@@ -124,7 +132,7 @@ namespace nflShootOuts
                         !line.Contains("Friday") && !line.Contains("Saturday") && !line.Contains("Sunday"))
                     {//next line after matchup
                         matchup.awayTeam = line.Replace("[\n\r]", "").Trim();
-                        matchup.awayTeamOffensiveRankFPTS = 1 + Array.FindIndex(OffensiveRankingFPTS, (x) => x.Contains(matchup.awayTeam));
+                        matchup.awayTeamOffensiveRank = 1 + Array.FindIndex(OffensiveRanking, (x) => x.Contains(matchup.awayTeam));
                         matchup.awayTeamDefensiveRank = 1 + Array.FindIndex(DefensiveRanking, (x) => x.Contains(matchup.awayTeam));
                         subCounter++;
                         flag = true;
@@ -134,7 +142,7 @@ namespace nflShootOuts
                     if (subCounter == 2 && flag)
                     {//next next line after matchup
                         matchup.homeTeam = line.Replace("[\n\r]", "").Trim();
-                        matchup.homeTeamOffensiveRankFPTS = 1 + Array.FindIndex(OffensiveRankingFPTS, (x) => x.Contains(matchup.homeTeam));
+                        matchup.homeTeamOffensiveRank = 1 + Array.FindIndex(OffensiveRanking, (x) => x.Contains(matchup.homeTeam));
                         matchup.homeTeamDefensiveRank = 1 + Array.FindIndex(DefensiveRanking, (x) => x.Contains(matchup.homeTeam));
                         subCounter++;
                         matchups.Add(matchup);
@@ -144,7 +152,7 @@ namespace nflShootOuts
                         continue;
                     }
 
-                    if (line.Contains("matchup") || line.Contains("MATCHUP") || line.Contains("Tickets") || line[0] == '\t')
+                    if (line.Contains("matchup") || line.Contains("------") || line.Contains("MATCHUP") || line.Contains("Tickets") || line[0] == '\t')
                     {
                         subCounter = 0;
                         subCounter++;
