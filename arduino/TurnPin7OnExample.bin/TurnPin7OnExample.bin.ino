@@ -1,4 +1,3 @@
-int ALWAYS_ON_PIN = 3;
 int OK_BUTTON_PIN = 7;
 int RED_DIAL_BUTTON_PIN = 8;
 int POWER_ON_OFF_PIN = 2;
@@ -13,8 +12,6 @@ int THOUSAND_MS = 1000;
 void setup() 
 {
   // put your setup code here, to run once:
-  pinMode(ALWAYS_ON_PIN, OUTPUT);
-  digitalWrite(ALWAYS_ON_PIN, HIGH);
   pinMode(OK_BUTTON_PIN, OUTPUT);
   pinMode(RED_DIAL_BUTTON_PIN, OUTPUT);
   pinMode(POWER_ON_OFF_PIN, OUTPUT);
