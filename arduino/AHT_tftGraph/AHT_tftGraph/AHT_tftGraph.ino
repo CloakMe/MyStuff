@@ -34,7 +34,7 @@ void setup()
   delay(500);
   
   tft.setTextColor(ST7735_RED);
-  tft.setTextSize(1);
+  tft.setTextSize(2);
   tft.setCursor(3, 3);
   tft.println("--Hello <3--");
   
@@ -59,7 +59,7 @@ void setup()
   tft.println("--AHT15 OK--");
   delay(4000);
   tft.fillScreen(ST7735_BLACK);
-  
+  tft.setTextSize(1);
   tft.setCursor(2, 1);
   tft.println(F("65"));
   
@@ -95,9 +95,16 @@ void loop()
 
   if (ahtValue != AHTXX_ERROR) //AHTXX_ERROR = 255, library returns 255 if error occurs
   {
-    int y = (int)(124.0 - ahtValue*1.2);
-    tft.drawRect(cur_pos, y, 2, (int)(ahtValue*1.2), ST7735_GREEN);
+    if( ahtValue <= 35 )
+      ahtValue = 35;
+    if( ahtValue >= 65 )
+      ahtValue = 65;
+    float newAhtValue = (ahtValue - 35) * 4;
+    //Serial.println(F("newAhtValue "));
+    //Serial.println(newAhtValue);
+    tft.drawRect(cur_pos, (int)(124.0 - newAhtValue), 2, (int)newAhtValue, ST7735_GREEN);
   }
+  
   tft.drawRect(20, 21, 139, 1, ST7735_RED);
   tft.drawRect(20, 41, 139, 1, ST7735_RED);
   tft.drawRect(20, 61, 139, 1, ST7735_RED);
@@ -105,7 +112,7 @@ void loop()
   tft.drawRect(20, 101, 139, 1, ST7735_RED);
   //measurement with high frequency leads to heating of the sensor, see NOTE
   delay(462000); //7.7 min
-  //delay(10000); for testing
+  //delay(10000); //for testing
   --i;
   cur_pos = cur_pos+2;
 }
