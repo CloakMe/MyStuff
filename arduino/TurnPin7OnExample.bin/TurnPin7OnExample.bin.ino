@@ -19,14 +19,14 @@ void setup()
   pinMode(FIVE_BUTTON_PIN, OUTPUT);
   pinMode(SIX_BUTTON_PIN, OUTPUT);  
   
-  pinMode(A4, INPUT);
+  pinMode(A3, INPUT);
 
   Serial.begin(9600);
   Serial.print(F("HI\n"));
 }
 
 void loop() {
-  int x = analogRead(A4);
+  int x = analogRead(A3);
   Serial.print ( "Analog value : ");
   Serial.println (x);
   if (x > 200)
