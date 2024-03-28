@@ -15,35 +15,50 @@ SoftwareSerial SIM900A(7,8); // RX | TX
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-
-void setup() 
+bool displayInit = false;
+bool displaySerial = false;
+void setup()
 {
     // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
     if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
         //Serial.println(F("SSD1306 allocation failed"));
-        for(;;); // Don't proceed, loop forever
+        //for(;;); // Don't proceed, loop forever
+        displayInit = false;
     }
-    display.display();
+    else
+        displayInit = true;
+    
+    if(displayInit)
+    {
+        //display.setRotation(2);
+        display.display();
+    }
     delay(2000); // Pause for 2 seconds
     // start th serial communication with the host computer
-    //Serial.begin(9600);
-    //while(!Serial);
-    //Serial.println("Serial begin at 9600");
-
+    if(displaySerial)
+    {
+        Serial.begin(9600);
+        while(!Serial);
+        Serial.println("Serial begin at 9600");
+    }
     // start communication with the SIM900A in 9600
     SIM900A.begin(115200);
-    //Serial.println("SIM900A begin at 115200");
-    display.clearDisplay();
-    
-    display.setTextSize(1); // Draw 2X-scale text
-    display.setTextColor(SSD1306_WHITE);
-    //display.setCursor(10, 0);
-    display.println(F("SIM900A at 115200"));
-    display.display();     
-    delay(1000);
+    if(displaySerial)
+        Serial.println("SIM900A begin at 115200");
+    if(displayInit)
+    {
+        display.clearDisplay();
+        display.setTextSize(1); // Draw 2X-scale text
+        display.setTextColor(SSD1306_WHITE);
+        //display.setCursor(10, 0);
+        DisplayPrint("SIM900A at 115200");
+    }
+
+    delay(2000);
+    SIM900A.println("AT");
 }
 
-char c;
+char c = '0';
 int ok = 0;
 bool CheckRing(char r)
 {
@@ -82,39 +97,101 @@ bool CheckRing(char r)
     return false;
 }
 
+char lastChar = '\a';
+bool CheckOk(char r)
+{
+    switch(r)
+    {
+        case 'O':
+        {
+            lastChar = 'O';
+            return false;
+        }
+        case 'K':
+        {
+            if(lastChar == 'O')
+                return true;
+            else
+                lastChar = '\a';
+        }
+    }
+    return false;
+}
+
+unsigned long working = 0;
+unsigned long startMillis = millis(); // Start of sample window
 void loop()
 {
     // Keep reading from SIM900A and send to Arduino Serial Monitor
     if (SIM900A.available())
-    { 
+    {
         c = SIM900A.read();
         if(c != -16)
         {
             //int yo = c;
-            //Serial.write(c);
+            if(displaySerial)
+                Serial.write(c);
             //Serial.print(yo);
-            display.write(c);
-            CheckClearScreen();
+            if(false)
+            {
+                display.write(c);
+                display.display();
+                CheckClearScreen();              
+            }
+            if(CheckOk(c))
+            {
+                if(displaySerial)
+                    Serial.println("--ringing--");
+                if(displayInit)
+                {
+                    DisplayWrite("ok");
+                }
+            }
             if(CheckRing(c))
             {
-                //Serial.println("--ringing--");
-                display.println(F("--ringing--"));
-                CheckClearScreen();
+                if(displaySerial)
+                    Serial.println("--ringing--");
+                if(displayInit)
+                {
+                    DisplayPrint("--ringing--");
+                }
                 SIM900A.println("ATA");
             }
+        }
+        working++;
+    }
+    else
+    {
+        if(millis() - startMillis > 15000)
+        {
+          String buffer("SIM avail: ");
+          buffer += working;
+          //if(displayInit)
+          //    DisplayPrint(buffer.c_str());
+          if(displaySerial)
+              Serial.println(buffer.c_str());
+          startMillis = millis();
+          working = 0;
+          SIM900A.println("AT");
         }
     }
 
     // Keep reading from Arduino Serial Monitor and send to SIM900A
-    //if (Serial.available())
-    //{ 
-    //    c = Serial.read();
-    //    SIM900A.write(c);
-    //}
+    if(displaySerial)
+        if (Serial.available())
+        { 
+            c = Serial.read();
+            SIM900A.write(c);
+        }
 }
 
 void CheckClearScreen()
 {
+    int16_t xpos = display.getCursorX();
+    if(xpos >= SCREEN_WIDTH)
+    {
+        display.setCursor(0, display.getCursorY()+8);
+    }
     int16_t ypos = display.getCursorY();
     if(ypos >= SCREEN_HEIGHT)
     {
@@ -122,4 +199,18 @@ void CheckClearScreen()
         display.clearDisplay();
         display.setCursor(0, 0);
     }
+}
+
+void DisplayPrint(const char * message)
+{
+    display.println(message);
+    display.display();
+    CheckClearScreen();
+}
+
+void DisplayWrite(const char * message)
+{
+    display.write(message);
+    display.display();
+    CheckClearScreen();
 }
