@@ -71,6 +71,9 @@ void loop()
   tft.print(F("T:"));  
   if (ahtValue != AHTXX_ERROR) //AHTXX_ERROR = 255, library returns 255 if error occurs
   {    
+    Serial.print("T = ");
+    Serial.print(ahtValue);
+    Serial.println("C");
     tft.print(ahtValue);
     tft.println(F("C"));
   }
@@ -93,7 +96,9 @@ void loop()
   
   if (ahtValue != AHTXX_ERROR) //AHTXX_ERROR = 255, library returns 255 if error occurs
   {
-    
+    Serial.print("H = ");
+    Serial.print(ahtValue);
+    Serial.println("%");
     tft.print(ahtValue);
     tft.println(F("%"));
   }
