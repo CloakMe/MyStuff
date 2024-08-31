@@ -7,9 +7,6 @@
 #define powerPin 7   // Digital pin to control the power to the sensor
 #define valvePin 4   // Set the solenoid valve pin as an output
 
-void setup() {
-    Serial.begin(9600); // Initialize serial communication
-}
 
 void setup() 
 {
@@ -50,8 +47,8 @@ void loop() {
     digitalWrite(powerPin, LOW);
 
     // Sleep for 12 hours (43,200,000 milliseconds)
-    for (unsigned long i = 0; i < 3600; i++) { // 3600 cycles of ~8 seconds
-        // Set up the watchdog timer for 8 seconds
+    for (unsigned long i = 0; i < 5; i++) { // 3600 cycles of ~8 seconds  --- 3600
+        // Set up the watchdog timer for 8 seconds 
         wdt_enable(WDTO_8S);
         // Enter sleep mode
         asm volatile ("sleep");
