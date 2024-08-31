@@ -1,0 +1,7 @@
+The Capacitive Soil Moisture Sensor v1.2 consumes less than 5 mA of current during operation. 
+This low current draw makes it suitable for battery-powered applications and ensures minimal impact on 
+the overall power consumption of your project. The sensor operates within a voltage range of 3.3 to 5.5 V, 
+and its output voltage varies depending on the moisture level in the soil, typically ranging from about 1.5 V 
+(wet soil) to 3 V (dry soil) when powered at 5 V.
+https://lastminuteengineers.com/capacitive-soil-moisture-sensor-arduino/
+https://ielectrony.com/en/product/capacitive-soil-moisture-sensor-v1-2/
