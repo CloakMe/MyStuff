@@ -1,6 +1,9 @@
 // Pin definitions
 #include <avr/wdt.h>
 #include <avr/sleep.h>
+#include <EEPROM.h>
+#include "U8glib.h"
+U8GLIB_SSD1306_128X32 u8g(U8G_I2C_OPT_NONE);  // I2C / TWI 
 
 #define soilWet 300  // Threshold for wet soil (adjust based on your sensor)
 #define soilDry 600  // Threshold for dry soil (adjust based on your sensor)
@@ -10,8 +13,26 @@
 
 #define ledPin  13
 
+void setupDisplay()
+{
+  // assign default color value
+  if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
+    u8g.setColorIndex(255);     // white
+  }
+  else if ( u8g.getMode() == U8G_MODE_GRAY2BIT ) {
+    u8g.setColorIndex(3);         // max intensity
+  }
+  else if ( u8g.getMode() == U8G_MODE_BW ) {
+    u8g.setColorIndex(1);         // pixel on
+  }
+  else if ( u8g.getMode() == U8G_MODE_HICOLOR ) {
+    u8g.setHiColorByRGB(255,255,255);
+  }
+}
+
 void setup()
 {
+  setupDisplay();
   Serial.begin(9600);
   Serial.print(F("Hello! Open pins\n"));
 
@@ -27,17 +48,30 @@ void setup()
   Serial.print(F("Init Done\n"));
 }
 
-void loop() {
-  int moisture = getSoilMoisture();
-  TryWater(moisture); //with 1 hour delay
+void draw(String str) 
+{
+  u8g.firstPage();  
+  do {
+      // graphic commands to redraw the complete screen should be placed here  
+      u8g.setFont(u8g_font_unifont);
+      //u8g.setFont(u8g_font_osb21);
+      u8g.drawStr( 0, 22, str.c_str());
+  } while( u8g.nextPage() );
+}
 
+int eeAddress = 0;
+void loop() {
+  SaveMoistureValueToEEPROM(getSoilMoisture());
+  //draw(String(moisture));
+  TryWater(700); //with 1 hour delay
+  TryWater(700); //with 1 hour delay
+  
+  SaveMoistureValueToEEPROM(getSoilMoisture());
   delay(36000000); //wait for 10 hours
   // Code to execute after waking up
   Serial.println("Woke up after 10 hours!");
-
-  moisture = getSoilMoisture();
-  TryWater(moisture); //with 1 hour delay
-  delay(43200000); //wait for 10 hours
+  SaveMoistureValueToEEPROM(getSoilMoisture());
+  delay(43200000); //wait for 12 hours
 }
 
 
@@ -48,8 +82,8 @@ int getSoilMoisture()
   delay(200); // Allow time for the sensor to stabilize
 
   // Read the moisture level
-  //int moisture = readSensor();
-  int moisture = 700;
+  int moisture = readSensor();
+  //int moisture = 700;
   Serial.print("Analog Output: ");
   Serial.println(moisture); // Print the moisture level
   // Power down the sensor
@@ -57,6 +91,12 @@ int getSoilMoisture()
   return moisture;
 }
 
+void SaveMoistureValueToEEPROM(int moisture)
+{
+  EEPROM.put(eeAddress, moisture);
+  eeAddress++;
+}
+// takes 6  minutes and waters 600-700 mililiters of water
 void TryWater(int moisture)
 {
   // Determine the soil status
@@ -78,7 +118,7 @@ int readSensor() {
   return analogRead(sensorPin); // Read and return the analog value from the sensor
 }
 
-void waterStep() // takes 6  minutes
+void waterStep() // takes 6  minutes and waters 600-700 mililiters of water
 {
   digitalWrite(ledPin, HIGH);
   Serial.println("Status: watering procedure: 1 min water; 5 min sleep to cool the solenoid!");

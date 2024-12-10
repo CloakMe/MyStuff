@@ -154,7 +154,10 @@ void setup(void) {
   
   // set SPI backup if required
   //u8g.setHardwareBackup(u8g_backup_avr_spi);
-
+  
+  Serial.begin(9600);
+  Serial.print(F("Hello!\n"));
+  
   // assign default color value
   if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
     u8g.setColorIndex(255);     // white
@@ -168,17 +171,21 @@ void setup(void) {
   else if ( u8g.getMode() == U8G_MODE_HICOLOR ) {
     u8g.setHiColorByRGB(255,255,255);
   }
-  
-  pinMode(8, OUTPUT);
-}
-
-void loop(void) {
-  // picture loop
   u8g.firstPage();  
   do {
     draw();
   } while( u8g.nextPage() );
+  //pinMode(8, OUTPUT);
+}
+
+void loop(void) {
+  // picture loop
+  //u8g.firstPage();  
+  //do {
+  //  draw();
+  //} while( u8g.nextPage() );
   
   // rebuild the picture after some delay
-  //delay(50);
+  delay(5000);
+  Serial.print(F("Hi again!\n"));
 }
