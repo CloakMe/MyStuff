@@ -1,24 +1,33 @@
-#include <iostream>
-using namespace std;
 #include "Resource.h"
+
+#include <iostream>
+#include "windows.h"
+#define _CRTDBG_MAP_ALLOC //to get more details
+#include <stdlib.h>  
+#include <crtdbg.h>   //for malloc and free
+
+using namespace std;
 
 int main()
 {
 	cout << "hello world Resource" << endl;
-	Resource resource(2, 10);
-	cout << resource << endl;
-	Resource other = resource;
-	other[3] = 3;
-	other[0] = 4;
-	cout << other << endl;
-	cout << resource << endl;
-	Resource newResource = other.add(resource);
-	cout << newResource << endl;
-	newResource = resource.add(other);
-	cout << newResource << endl;
-	newResource = Resource(5, 5);
-	cout << newResource << endl;
-	int a = 54;
-	int b = 45 + a;
-	return b;
+	_CrtMemState sOld;
+	_CrtMemState sNew;
+	_CrtMemState sDiff;
+	_CrtMemCheckpoint(&sOld); //take a snapshot
+	RuleOfFive();
+
+	OutputDebugString("hi");
+	_CrtMemCheckpoint(&sNew); //take a snapshot 
+	if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
+	{
+		OutputDebugString("-----------_CrtMemDumpStatistics ---------");
+		_CrtMemDumpStatistics(&sDiff);
+		OutputDebugString("-----------_CrtMemDumpAllObjectsSince ---------");
+		_CrtMemDumpAllObjectsSince(&sOld);
+		OutputDebugString("-----------_CrtDumpMemoryLeaks ---------");
+		_CrtDumpMemoryLeaks();
+	}
+	return 0;
 }
+

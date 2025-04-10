@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+using namespace std;
 
 class Resource
 {
@@ -85,6 +86,8 @@ Resource& Resource::operator=(const Resource& rhs)
     }
 
 	size = rhs.size;
+	if (data)
+		delete[] data;
 	data = new int[size];
 
 	for (int i = 0; i < size; i++)
@@ -96,16 +99,20 @@ Resource& Resource::operator=(const Resource& rhs)
 Resource::Resource(Resource&& rhs) noexcept
 {
     cout << "move constructor" << endl;
-    data = std::move(rhs.data);
+    data = rhs.data;
 	size = rhs.size;
+
 	rhs.data = nullptr;
 }
 
 Resource& Resource::operator=(Resource&& rhs) noexcept
 {
-    cout << "move assignment operator" << endl; 
-    data = std::move(rhs.data);
+    cout << "move assignment operator" << endl;
+	if (data)
+		delete[] data;
+    data = rhs.data;
 	size = rhs.size;
+
 	rhs.data = nullptr;
     return *this;
 }
@@ -114,4 +121,21 @@ Resource::~Resource()
 {
 	if(data)
 		delete [] data;
+}
+
+void RuleOfFive()
+{
+	Resource resource(2, 10);
+	cout << resource << endl;
+	Resource other = resource;
+	other[3] = 3;
+	other[0] = 4;
+	cout << other << endl;
+	cout << resource << endl;
+	Resource newResource = other.add(resource);
+	cout << newResource << endl;
+	newResource = resource.add(other);
+	cout << newResource << endl;
+	newResource = Resource(5, 5);
+	cout << newResource << endl;
 }
