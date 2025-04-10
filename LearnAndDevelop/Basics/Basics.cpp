@@ -5,6 +5,7 @@
 #define _CRTDBG_MAP_ALLOC //to get more details
 #include <stdlib.h>  
 #include <crtdbg.h>   //for malloc and free
+#include "PerfectForwarding.h"
 
 using namespace std;
 
@@ -15,6 +16,12 @@ int main()
 	_CrtMemState sNew;
 	_CrtMemState sDiff;
 	_CrtMemCheckpoint(&sOld); //take a snapshot
+	
+	int x = 5;
+	int * pX = &x;
+	int & rX = x;
+	ForwardAB(x, &x, rX, pX);
+
 	RuleOfFive();
 
 	OutputDebugString("hi");

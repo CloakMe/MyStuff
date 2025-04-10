@@ -154,6 +154,7 @@
     <ClCompile Include="Basics.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PerfectForwarding.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
