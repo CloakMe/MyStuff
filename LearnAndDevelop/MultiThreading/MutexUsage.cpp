@@ -4,9 +4,11 @@
 #include "MutexUsage.h"
 using namespace std;
 
+MutexUsage::MutexUsage() : m_x(0), m_condition_flag(false) {}
+
 void MutexUsage::runTwoJobs(std::function<void(int, std::mutex&)> job1, std::function<void(double, std::mutex&)> job2) const
 {
-	std::mutex mutex;
+	mutex mutex;
 	int i = 1;
 	double d = 2.4;
 	std::thread thread1(job1, i, std::ref(mutex));
@@ -15,5 +17,42 @@ void MutexUsage::runTwoJobs(std::function<void(int, std::mutex&)> job1, std::fun
 	thread1.join();
 	thread2.join();
 
-	cout << "jobs are done!\n";
+	cout << "jobs using mutexes are done!\n";
+}
+
+void MutexUsage::runAJob()
+{
+	unique_lock<mutex> unique_lock(m_condition_mutex);
+	m_condition_flag = false;
+
+	std::thread thread1(&MutexUsage::AJob, this);
+	
+	m_condition_var.wait(unique_lock, [this]() {return m_condition_flag; });
+
+	thread1.join();
+	cout << "the cv job is done!\n";
+}
+
+void MutexUsage::runAJobUsingJthread()
+{
+	{
+		lock_guard<mutex> lock(m_condition_mutex);
+		m_x = 1;
+		m_condition_flag = false;
+	}
+	{
+		std::jthread jthread(&MutexUsage::AJob, this);
+	}	
+	cout << "the jthread job is done!\n";
+}
+
+void MutexUsage::AJob()
+{
+	{
+		lock_guard lock(m_condition_mutex);
+		m_condition_flag = true;
+		m_x = 45;
+		cout << "x=" << m_x << endl;
+	}
+	m_condition_var.notify_one();
 }
