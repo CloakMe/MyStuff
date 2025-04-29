@@ -1,16 +1,15 @@
-// MultiThreading.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <mutex>
 #include "MutexUsage.h"
+#include "LatchUsage.h"
+#include "BarrierUsage.h"
 using namespace std;
 
 static void display(int i, std::mutex& mutex)
 {
 	mutex.lock();
 	i++;
-	std::cout << "i = " << i << "!\n";
+	cout << "i = " << i << "!\n";
 	mutex.unlock();
 }
 
@@ -18,7 +17,7 @@ static void display(double d, std::mutex& mutex)
 {
 	mutex.lock();
 	d = d * d;
-	std::cout << "d = " << d << "!\n";
+	cout << "d = " << d << "!\n";
 	mutex.unlock();
 }
 
@@ -29,6 +28,15 @@ int main()
 	mutexUsage.runTwoJobs(
 		static_cast<void(*)(int, std::mutex&)>(display), 
 		static_cast<void(*)(double, std::mutex&)>(display));
+	mutexUsage.runAJobUsingJthread();
+	mutexUsage.runAJob();
+		
+	LatchUsage latchUsage;
+	latchUsage.runTwoJobs();
+
+	BarrierUsage barrierUsage;
+	barrierUsage.runTwoJobs();
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
