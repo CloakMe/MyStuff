@@ -1,5 +1,6 @@
 #include "FizzBuzz.h"
 #include <vector>
+#include <sstream>
 #include <thread>
 #include <mutex>
 
