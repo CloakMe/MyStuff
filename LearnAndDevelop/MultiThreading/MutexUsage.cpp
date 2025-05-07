@@ -40,9 +40,18 @@ void MutexUsage::runAJobUsingJthread()
 		m_x = 1;
 		m_condition_flag = false;
 	}
+#if __cplusplus >= 202002L
+	// C++20 or above
 	{
 		std::jthread jthread(&MutexUsage::AJob, this);
-	}	
+	}
+#else
+	// C++17 or below
+	{
+		std::thread simple_thread(&MutexUsage::AJob, this);
+		simple_thread.join();
+	}
+#endif	
 	cout << "the jthread job is done!\n";
 }
 
