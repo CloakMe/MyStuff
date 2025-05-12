@@ -4,6 +4,8 @@
 #include <iostream>
 #include <mutex>
 #include "MutexUsage.h"
+#include "LatchUsage.h"
+#include "BarrierUsage.h"
 using namespace std;
 
 static void display(int i, std::mutex& mutex)
@@ -29,6 +31,15 @@ int main()
 	mutexUsage.runTwoJobs(
 		static_cast<void(*)(int, std::mutex&)>(display), 
 		static_cast<void(*)(double, std::mutex&)>(display));
+
+	mutexUsage.runAJob();
+	mutexUsage.runAJobUsingJthread();
+
+	LatchUsage latchUsage;
+	latchUsage.runTwoJobs();
+
+	BarrierUsage barrierUsage;
+	barrierUsage.runTwoJobs();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

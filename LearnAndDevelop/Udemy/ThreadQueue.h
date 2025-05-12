@@ -45,20 +45,7 @@ private:
 };
 
 template <>
-bool ThreadQueue<std::future<void>>::try_pop(std::future<void>& value)
-{
-	std::lock_guard<std::mutex> lock(m_mutex);
-	if (m_queue.empty()) 
-		return false;
-		
-	if (m_queue.front().wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
-		return false;
-	}
-
-	value = std::move(m_queue.front()); // Move, do not copy!
-	m_queue.pop();
-	return true;
-}
+bool ThreadQueue<std::future<void>>::try_pop(std::future<void>& value);
 //class Worker {
 //public:
 //	using Task = std::function<void()>;
