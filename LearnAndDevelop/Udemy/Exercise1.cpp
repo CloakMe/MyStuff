@@ -2,6 +2,7 @@
 #include <string>
 #include <thread>
 #include <mutex>
+#include <atomic>
 
 #include <functional>
 
@@ -10,55 +11,63 @@
 
 using namespace std;
 
-//mutex mtx;
-//int counter = 0;
-//void incrementCounter()
-//{
-//	lock_guard<mutex> lock(mtx);
-//	++counter;
-//}
+
+class some_type 
+{
+public:
+	void do_it() { }
+};
+
+atomic<some_type*> ptr{ nullptr };            // Variable to be lazily initialized
+mutex process_mutex;
+
+void process() {
+	if (!ptr) {                     // First check of ptr
+		lock_guard<mutex> lk(process_mutex);
+
+		if (!ptr)                  // Second check of ptr
+			ptr = new some_type;   // Initialize ptr
+		cout << ptr.load() << endl;
+	}
+	ptr.load()->do_it();	
+}
+
 
 int main()
 {
-	FizzBuzz game;
+	char in;
+	do
+	{
+		cout << "Please choose\n1 for FizzBuzz game\n2 for executing IncrementTask on many threads\n3 for Lazy Initialization\n";
+		cin >> in;
+
+	} while (in < '1' || '3' < in);
 	
-	thread thread(&FizzBuzz::PlayGame, &game, 20);
-	thread.join();
-	cout << game.GetResult();
-
-	ThreadBenchmark threadBenchmark;
-	function<void()> task1 = bind(&ThreadBenchmark::Task1, &threadBenchmark);
-	function<void()> task2 = bind(&ThreadBenchmark::Task2, &threadBenchmark);
-	threadBenchmark.startMain(task1);
-	threadBenchmark.startMain(task2);
-	//threadBenchmark.startMain(bind(&ThreadBenchmark::Task2, threadBenchmark));
-	/*auto start = std::chrono::steady_clock::now();
-
-	for (int i = 0; i < 100000; i++)
+	if (in == '1')
 	{
-		std::thread thrd(&incrementCounter);
-		thrd.join();
+		FizzBuzz game;
+
+		thread thread(&FizzBuzz::PlayGame, &game, 20);
+		thread.join();
+		cout << game.GetResult();
 	}
-
-	cout << endl << "counter = " << counter << endl;
-	auto end = std::chrono::steady_clock::now();
-	chrono::milliseconds elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	cout << "Elapsed time1: " << elapsed.count() << " ms\n";
-
-	counter = 0;
-	start = std::chrono::steady_clock::now();
-	Worker worker;
-	for (int i = 0; i < 100000; i++)
+	else if (in == '2')
 	{
-		function fun(&incrementCounter);
-		worker.add(fun);
-		worker.joinFinishedUntilFirstRunning(500);
+		ThreadBenchmark threadBenchmark;
+		function<void()> task1 = bind(&ThreadBenchmark::Task1, &threadBenchmark);
+		function<void()> task2 = bind(&ThreadBenchmark::Task2, &threadBenchmark);
+		threadBenchmark.startMain(task1);
+		threadBenchmark.startMain(task2);
 	}
-	worker.joinAll();
-	cout << endl << "counter = " << counter << endl;
-	end = std::chrono::steady_clock::now();
-	elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	cout << "Elapsed time2: " << elapsed.count() << " ms\n";*/
+	else if (in == '3')
+	{
+		thread thr1{ process };
+		thread thr2{ process };
+
+		thr1.join();
+		thr2.join();
+	}
+	
 
 	return 0;
 }
