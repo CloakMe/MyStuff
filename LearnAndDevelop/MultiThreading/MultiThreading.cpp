@@ -6,6 +6,8 @@
 #include "MutexUsage.h"
 #include "LatchUsage.h"
 #include "BarrierUsage.h"
+#include "CondVariable.h"
+
 using namespace std;
 
 static void display(int i, std::mutex& mutex)
@@ -40,6 +42,13 @@ int main()
 
 	BarrierUsage barrierUsage;
 	barrierUsage.runTwoJobs();
+
+	CondVariable condVarUsage;
+	thread thr1(&CondVariable::Write, condVarUsage/*, "yo"*/);
+	thread thr2(&CondVariable::Read, condVarUsage);
+
+	thr1.join();
+	thr2.join();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
