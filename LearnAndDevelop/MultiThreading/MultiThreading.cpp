@@ -7,6 +7,7 @@
 #include "LatchUsage.h"
 #include "BarrierUsage.h"
 #include "CondVariable.h"
+#include "FutureUsage.h"
 
 using namespace std;
 
@@ -44,11 +45,22 @@ int main()
 	barrierUsage.runTwoJobs();
 
 	CondVariable condVarUsage;
-	thread thr1(&CondVariable::Write, condVarUsage/*, "yo"*/);
-	thread thr2(&CondVariable::Read, condVarUsage);
+	thread thr2(&CondVariable::Read, &condVarUsage);
+	thread thr1(&CondVariable::Write, &condVarUsage, "ho");
+	
+	thread thr4(&CondVariable::Write, &condVarUsage, "-ho");
+	thread thr5(&CondVariable::Write, &condVarUsage, "-ho, Santa is here!");
+	thread thr3(&CondVariable::Read, &condVarUsage);
 
 	thr1.join();
 	thr2.join();
+	
+	thr4.join();
+	thr5.join();
+	thr3.join();
+
+	FutureUsage futureUsage;
+	futureUsage.RunTwoJobs();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

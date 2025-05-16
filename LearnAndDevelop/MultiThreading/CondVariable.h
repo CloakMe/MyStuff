@@ -2,15 +2,16 @@
 #include <string>
 #include <condition_variable>
 #include <mutex>
-#include <string>
 
 class CondVariable
 {
 public:
-	CondVariable() : m_cv_flag(true)
+	CondVariable() : 
+		m_cv_flag(true),
+		m_resource("")
 	{}
 	void Read();
-	void Write(/*std::string str*/);
+	void Write(std::string str);
 private:
 	std::string m_resource;
 	std::condition_variable m_cv;
