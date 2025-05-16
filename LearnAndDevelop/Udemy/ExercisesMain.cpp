@@ -8,6 +8,7 @@
 
 #include "FizzBuzz.h"
 #include "ThreadBenchmark.h"
+#include "ConcurentStructuresModifier.h"
 
 using namespace std;
 
@@ -38,10 +39,13 @@ int main()
 	char in;
 	do
 	{
-		cout << "Please choose\n1 for FizzBuzz game\n2 for executing IncrementTask on many threads\n3 for Lazy Initialization\n";
+		cout << "Please choose\n1 for FizzBuzz game\n"
+			"2 for executing IncrementTask on many threads\n"
+			"3 for Lazy Initialization\n"
+			"4 for Concurent access inside elements of std::forward_list\n";
 		cin >> in;
 
-	} while (in < '1' || '3' < in);
+	} while (in < '1' || '4' < in);
 	
 	if (in == '1')
 	{
@@ -67,7 +71,17 @@ int main()
 		thr1.join();
 		thr2.join();
 	}
-	
+	else if (in == '4')
+	{
+		using CSM = ConcurentStructuresModifier;
+
+		runThreads(CSM(), &CSM::modifyEl1, &CSM::readEl2, 100);
+		runThreads(CSM(), &CSM::removeEl1, &CSM::readEl2);
+		runThreads(CSM(), &CSM::removeEl2, &CSM::readEl1);
+		runThreads(CSM(), &CSM::removeEl1, &CSM::removeEl2);
+		runThreads(CSM(), &CSM::removeEl2, &CSM::removeEl1);
+		runThreads(CSM(), &CSM::removeEl2, &CSM::removeEl5);
+	}
 
 	return 0;
 }
