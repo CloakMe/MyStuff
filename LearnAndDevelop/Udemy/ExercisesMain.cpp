@@ -9,6 +9,7 @@
 #include "FizzBuzz.h"
 #include "ThreadBenchmark.h"
 #include "ConcurentStructuresModifier.h"
+#include "Monitor.h"
 
 using namespace std;
 
@@ -42,10 +43,11 @@ int main()
 		cout << "Please choose\n1 for FizzBuzz game\n"
 			"2 for executing IncrementTask on many threads\n"
 			"3 for Lazy Initialization\n"
-			"4 for Concurent access inside elements of std::forward_list\n";
+			"4 for Concurent access inside elements of std::forward_list\n"
+			"5 for Monitor class\n";
 		cin >> in;
 
-	} while (in < '1' || '4' < in);
+	} while (in < '1' || '5' < in);
 	
 	if (in == '1')
 	{
@@ -81,6 +83,39 @@ int main()
 		runThreads(CSM(), &CSM::removeEl1, &CSM::removeEl2);
 		runThreads(CSM(), &CSM::removeEl2, &CSM::removeEl1);
 		runThreads(CSM(), &CSM::removeEl2, &CSM::removeEl5);
+	}
+	else if (in == '5')
+	{
+		Monitor monitor;
+		monitor.add_user("ivan", 500.0);
+		monitor.add_user("georgi", 1500.51);
+
+		thread thr1{ &Monitor::credit , &monitor, "ivan", 20};
+		thread thr2{ &Monitor::debit, &monitor, "georgi", 100.0};
+		thread thr3{ &Monitor::add_user, &monitor, "stavri", 50.0};
+
+		thr1.join();
+		thr2.join();
+
+		thread thr4{ &Monitor::show, &monitor, "ivan"};
+		thread thr5{ &Monitor::show, &monitor, "georgi" };
+		thread thr6{ &Monitor::show, &monitor, "stavri" };
+
+		thr3.join();
+		thr4.join();
+		thr5.join();
+		thr6.join();
+
+		BankMonitor bankMonitor;
+		bankMonitor.add_user("genadii", 500.0);
+
+		thread thrr1{ &BankMonitor::credit , &bankMonitor, "genadii", 20 };
+		thread thrr2{ &BankMonitor::debit, &bankMonitor, "genadii", 100.0 };
+		thread thrr3{ &BankMonitor::show, &bankMonitor, "genadii"};
+
+		thrr1.join();
+		thrr2.join();
+		thrr3.join();
 	}
 
 	return 0;
