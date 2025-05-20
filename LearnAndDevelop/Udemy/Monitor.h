@@ -64,3 +64,21 @@ private:
 	Bank m_bank;
 	std::mutex m_mutex;
 };
+
+template <typename T>
+class MonitorT
+{
+public:
+	MonitorT<T>(T var = T{}) : m_var(var) {}
+
+    template <typename Func>
+	auto operator()(Func fun)
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		return fun(m_var);
+    }
+private:
+	T m_var;
+
+	std::mutex m_mutex;
+};

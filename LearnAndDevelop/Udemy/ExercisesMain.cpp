@@ -44,10 +44,12 @@ int main()
 			"2 for executing IncrementTask on many threads\n"
 			"3 for Lazy Initialization\n"
 			"4 for Concurent access inside elements of std::forward_list\n"
-			"5 for Monitor class\n";
+			"5 for Monitor class\n"
+			"6 for Generic Monitor class\n"
+			"7 for ThreadPool class\n";
 		cin >> in;
 
-	} while (in < '1' || '5' < in);
+	} while (in < '1' || '6' < in);
 	
 	if (in == '1')
 	{
@@ -90,14 +92,14 @@ int main()
 		monitor.add_user("ivan", 500.0);
 		monitor.add_user("georgi", 1500.51);
 
-		thread thr1{ &Monitor::credit , &monitor, "ivan", 20};
-		thread thr2{ &Monitor::debit, &monitor, "georgi", 100.0};
-		thread thr3{ &Monitor::add_user, &monitor, "stavri", 50.0};
+		thread thr1{ &Monitor::credit , &monitor, "ivan", 20 };
+		thread thr2{ &Monitor::debit, &monitor, "georgi", 100.0 };
+		thread thr3{ &Monitor::add_user, &monitor, "stavri", 50.0 };
 
 		thr1.join();
 		thr2.join();
 
-		thread thr4{ &Monitor::show, &monitor, "ivan"};
+		thread thr4{ &Monitor::show, &monitor, "ivan" };
 		thread thr5{ &Monitor::show, &monitor, "georgi" };
 		thread thr6{ &Monitor::show, &monitor, "stavri" };
 
@@ -111,11 +113,77 @@ int main()
 
 		thread thrr1{ &BankMonitor::credit , &bankMonitor, "genadii", 20 };
 		thread thrr2{ &BankMonitor::debit, &bankMonitor, "genadii", 100.0 };
-		thread thrr3{ &BankMonitor::show, &bankMonitor, "genadii"};
+		thread thrr3{ &BankMonitor::show, &bankMonitor, "genadii" };
 
 		thrr1.join();
 		thrr2.join();
 		thrr3.join();
+	}
+	else if (in == '6')
+	{
+		MonitorT<Bank> monT;
+		auto job1 = [](Bank& bank)
+		{
+			bank.add_user("gesh", 111.1);
+		};
+		thread thr1{ [&monT, job1]()
+			{
+				monT(job1);
+			}
+		};
+		auto job2 = [](Bank& bank)
+		{
+			bank.add_user("todor", 2222.2);
+		};
+		thread thr2{
+			[&monT, job2]() { monT(job2); }
+		};
+
+		thr1.join();
+		thr2.join();
+
+		auto job3 = [](Bank& bank)
+		{
+			bank.debit("todor", 111.1);
+			bank.credit("gesh", 111.1);
+		};
+		thread thr3{ 
+			[&monT, job3]() { monT(job3); }
+		};
+		thr3.join();
+	}
+	else if (in == '7')
+	{
+		MonitorT<Bank> monT;
+		auto job1 = [](Bank& bank)
+		{
+			bank.add_user("gesh", 111.1);
+		};
+		thread thr1{ [&monT, job1]()
+			{
+				monT(job1);
+			}
+		};
+		auto job2 = [](Bank& bank)
+		{
+			bank.add_user("todor", 2222.2);
+		};
+		thread thr2{
+			[&monT, job2]() { monT(job2); }
+		};
+
+		thr1.join();
+		thr2.join();
+
+		auto job3 = [](Bank& bank)
+		{
+			bank.debit("todor", 111.1);
+			bank.credit("gesh", 111.1);
+		};
+		thread thr3{
+			[&monT, job3]() { monT(job3); }
+		};
+		thr3.join();
 	}
 
 	return 0;
