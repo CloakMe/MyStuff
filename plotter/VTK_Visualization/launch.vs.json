@@ -1,0 +1,18 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+        "type": "default",
+        "project": "VTK_Visualization",
+        "projectTarget": "VTK_Visualization", // Replace with your actual target name if different
+        "name": "Debug VTK_Visualization",
+        "request": "launch",
+        "stopAtEntry": false,
+        "cwd": "${workspaceRoot}/build/debian-ssh", // Adjust this path to your actual build directory inside WSL or Windows
+        "environment": [],
+        "externalConsole": false,
+        "args": []
+    }
+  ]
+}
