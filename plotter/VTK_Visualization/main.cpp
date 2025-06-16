@@ -160,16 +160,16 @@ public:
         if (m_visualizations.empty()) return;
 
         // Hide current visualization if any
-        if (m_currentVisualization) {
-            m_currentVisualization->setVisibility(false);
-        }
+        //if (m_currentVisualization) {
+        //    m_currentVisualization->setVisibility(false);
+        //}
 
         // Advance index cyclically
         m_currentIndex = (m_currentIndex + 1) % m_visualizations.size();
         m_currentVisualization = m_visualizations[m_currentIndex].get();
 
         // Show the new current visualization
-        m_currentVisualization->setVisibility(true);
+        //m_currentVisualization->setVisibility(true);
 
         // Request render update if needed
         if (m_renderer) {
