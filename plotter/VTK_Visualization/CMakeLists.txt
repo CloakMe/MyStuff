@@ -17,6 +17,8 @@ find_package(VTK REQUIRED COMPONENTS
 
 find_package(OpenGL REQUIRED)
 
+target_include_directories(VTK_Visualization PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 add_executable(VTK_Visualization main.cpp)
 
 target_link_libraries(VTK_Visualization PRIVATE ${VTK_LIBRARIES} OpenGL::GLX)
