@@ -1,5 +1,5 @@
-rm -rf ./build/debian
-mkdir ./build/debian
-cd ./build/debian
-cmake ../..
+rm -rf ./build-debug
+mkdir ./build-debug
+cd ./build-debug
+cmake ..
 make -j4
