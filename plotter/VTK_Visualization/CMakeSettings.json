@@ -1,0 +1,44 @@
+{
+  "configurations": [
+    {
+      "name": "debian",
+      "generator": "Unix Makefiles",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "gcc_x64" ],
+      "buildRoot": "${projectDir}\\build\\${name}",
+      "installRoot": "${projectDir}\\build\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_CXX_FLAGS",
+          "value": "-I/usr/include/vtk-9.1",
+          "type": "STRING"
+        }
+      ],
+      "intelliSenseMode": "linux-gcc-x64",
+      "includePath": [ "${workspaceRoot}", "/usr/include/vtk-9.1", "/home/admin/vtk/build/install/include/vtk-9.1" ]
+    },
+    {
+      "name": "localhost-ssh",
+      "generator": "Unix Makefiles",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\build\\${name}",
+      "installRoot": "${projectDir}\\build\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "gcc_x64" ],
+      "variables": [
+        {
+          "name": "CMAKE_CXX_FLAGS",
+          "value": "-I/usr/include/vtk-9.1",
+          "type": "STRING"
+        }
+      ],
+      "intelliSenseMode": "linux-gcc-x64",
+      "includePath": [ "${workspaceRoot}", "/usr/include/vtk-9.1", "/home/admin/vtk/build/install/include/vtk-9.1" ]
+    }
+  ]
+}
