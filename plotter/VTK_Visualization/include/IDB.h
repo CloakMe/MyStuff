@@ -10,7 +10,7 @@ namespace visu
         Specific
     };
     
-    public class IDB
+    class IDB
     {
       public:
         virtual void Load() = 0;

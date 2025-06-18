@@ -5,7 +5,7 @@
 
 namespace visu
 {    
-    public class IPresenter
+    class IPresenter
     {
     public:
         virtual void Load() = 0;// — calls IDB::Load internally.
