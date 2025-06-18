@@ -3,6 +3,14 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="presenter/VelocityVisualization.cpp"/>
+    <File Name="presenter/VelocityVisualization.h"/>
+    <File Name="presenter/PressureVisualization.cpp"/>
+    <File Name="presenter/PressureVisualization.h"/>
+    <File Name="presenter/MeshVisualization.cpp"/>
+    <File Name="presenter/MeshVisualization.h"/>
+    <File Name="VisualizationStrategy.cpp"/>
+    <File Name="VisualizationStrategy.h"/>
     <File Name="main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">

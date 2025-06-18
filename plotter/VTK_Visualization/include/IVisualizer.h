@@ -3,9 +3,9 @@
 
 namespace visu
 {
-    class IUI
+    class IVisualizer
     {
     public:
-        virtual void Draw(VisuType drawType)=0;
+        virtual void Render(VisuType drawType)=0;
     };
 }

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project(VTK_Visualization)
 
 find_package(VTK REQUIRED COMPONENTS
@@ -30,3 +32,7 @@ vtk_module_autoinit(
   TARGETS VTK_Visualization
   MODULES VTK::RenderingOpenGL2 VTK::InteractionStyle
 )
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+                ${CMAKE_SOURCE_DIR}/compile_commands.json)
+
