@@ -8,7 +8,7 @@
 
 namespace visu
 {    
-    class VTK_Presenter : IPresenter
+    class VTK_Presenter : public IPresenter
     {
     public:
         VTK_Presenter(std::unique_ptr<IDB> database, std::unique_ptr<IUI> userInteface);
