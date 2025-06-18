@@ -9,16 +9,21 @@ void VTK_CFDVisualizer::Render(VisuType drawType)
    m_interactor->Start();
 }
 
-VTK_CFDVisualizer::VTK_CFDVisualizer(std::unique_ptr<vtkDataSet> dataset) :
-    m_dataset(std::move(dataset))
+VTK_CFDVisualizer::VTK_CFDVisualizer(vtkSmartPointer<vtkDataSet> dataset)    
 {
+    m_dataset = dataset;
     setupUI();
 }
 
 void VTK_CFDVisualizer::setupUI() 
 {
-    interactor->AddObserver(vtkCommand::KeyPressEvent, [this](vtkObject*, unsigned long, void*) {
-        manager.showNext();
-        renderWindow->Render();
-    });
+/*    m_interactor->AddObserver(vtkCommand::KeyPressEvent, [this](vtkObject*, unsigned long, void*) {
+        //m_manager.showNext();
+        m_renderWindow->Render();
+    });*/
 }
+
+void VTK_CFDVisualizer::OnKeyPress() {
+            //manager.showNext();
+            m_renderWindow->Render();
+        }

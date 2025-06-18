@@ -1,4 +1,6 @@
 #include "PressureVisualization.h"
+#include <vtkLookupTable.h>
+#include <vtkPointData.h>
 
 using namespace visu;
 /*

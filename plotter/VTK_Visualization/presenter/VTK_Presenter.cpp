@@ -3,9 +3,9 @@
 using namespace visu;
 using namespace std;
 
-VTK_Presenter::VTK_Presenter(unique_ptr<IDB> database, unique_ptr<IUI> ui) :
+VTK_Presenter::VTK_Presenter(unique_ptr<IDB> database, unique_ptr<IVisualizer> ui) :
     m_IDB(std::move(database)), 
-    m_IUI(std::move(ui))
+    m_IVisualizer(std::move(ui))
 {
     
 }

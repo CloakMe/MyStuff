@@ -1,4 +1,5 @@
 #pragma once
+#include "VisualizationStrategy.h"
 #include <vtkDataSet.h>
 #include <vtkActor.h>
 #include <vtkDataSetMapper.h>
@@ -9,7 +10,6 @@ namespace visu
 
 class MeshVisualization : public VisualizationStrategy 
 {
-    MeshVisualization() = default;
 public:
     void createActors(vtkDataSet* dataset) override;
     void addToRenderer(vtkRenderer* renderer) override;

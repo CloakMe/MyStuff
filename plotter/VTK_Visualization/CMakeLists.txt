@@ -21,9 +21,21 @@ find_package(OpenGL REQUIRED)
 
 add_executable(VTK_Visualization
     main.cpp
-    presenter/VTK_Presenter.cpp )
+    presenter/VTK_Presenter.cpp 
+    presenter/VisualizationFactory.cpp 
+    presenter/MeshVisualization.cpp 
+    presenter/PressureVisualization.cpp 
+    presenter/VelocityVisualization.cpp 
+    DB/VTK_FileSeries.cpp
+    UI/VTK_CFDVisualizer.cpp
+    )
 
-target_include_directories(VTK_Visualization PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(VTK_Visualization PRIVATE 
+${CMAKE_CURRENT_SOURCE_DIR}/include
+/usr/include/vtk-9.1
+)
+
+include_directories(/usr/include/vtk-9.1)
 
 target_link_libraries(VTK_Visualization PRIVATE ${VTK_LIBRARIES} OpenGL::GLX)
 

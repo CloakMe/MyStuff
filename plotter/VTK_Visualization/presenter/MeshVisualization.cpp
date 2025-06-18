@@ -1,4 +1,5 @@
 #include "MeshVisualization.h"
+#include <vtkProperty.h>
 
 using namespace visu;
 

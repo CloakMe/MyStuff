@@ -1,5 +1,8 @@
 #pragma once
-#include "vtkDataSet.h"
+#include "VisualizationStrategy.h"
+#include <vtkDataSet.h>
+#include <memory>
+
 namespace visu
 {   
     class VisualizationFactory 
