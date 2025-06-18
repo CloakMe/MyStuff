@@ -1,4 +1,7 @@
 #include "VisualizationFactory.h"
+#include "MeshVisualization.h"
+#include "PressureVisualization.h"
+#include "VelocityVisualization.h"
 
 using namespace visu;
 

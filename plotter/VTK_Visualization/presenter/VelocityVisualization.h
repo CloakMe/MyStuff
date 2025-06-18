@@ -1,4 +1,5 @@
 #pragma once
+#include "VisualizationStrategy.h"
 #include <vtkDataSet.h>
 #include <vtkActor.h>
 #include <vtkDataSetMapper.h>

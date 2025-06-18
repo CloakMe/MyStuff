@@ -2,6 +2,8 @@
 
 #include "IDB.h"
 #include <string>
+#include <vtkDataSet.h>
+#include <vtkSmartPointer.h>
 
 namespace visu
 {
@@ -13,5 +15,6 @@ namespace visu
         void LoadSpecific(LoadType loadType, std::string value) override;
     private:
         std::string m_fileSeries;
+        vtkSmartPointer<vtkDataSet> m_dataset;
     };
 }

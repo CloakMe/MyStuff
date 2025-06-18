@@ -1,7 +1,9 @@
 #pragma once
+#include "VisualizationStrategy.h"
 #include <vtkDataSet.h>
 #include <vtkActor.h>
 #include <vtkDataSetMapper.h>
+#include <vtkRenderer.h>
 
 namespace visu
 {

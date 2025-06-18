@@ -1,4 +1,6 @@
 #include "VelocityVisualization.h"
+#include <vtkArrowSource.h>
+#include <vtkGlyph3D.h>
 
 using namespace visu;
 
