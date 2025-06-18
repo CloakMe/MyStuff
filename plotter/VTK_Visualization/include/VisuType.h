@@ -2,7 +2,7 @@
 
 namespace visu
 {
-    enum VisuType
+    enum struct VisuType
     {
         Basic,
         VecField,

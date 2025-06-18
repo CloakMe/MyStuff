@@ -1,11 +1,11 @@
 #pragma once
-#include "Type.h"
+#include "VisuType.h"
 
 namespace visu
 {
-    public class IUI
+    class IUI
     {
     public:
-        virtual void Draw(Type drawType)=0;
+        virtual void Draw(VisuType drawType)=0;
     };
 }

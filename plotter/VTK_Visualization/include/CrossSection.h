@@ -2,7 +2,7 @@
 
 namespace visu
 {
-    enum Cross
+    enum struct Cross
     {
         Xfixed,
         Yfixed,
@@ -10,7 +10,7 @@ namespace visu
         Count
     };
     
-    public struct CrossSection
+    struct CrossSection
     {
         Cross cross;
         double value;
