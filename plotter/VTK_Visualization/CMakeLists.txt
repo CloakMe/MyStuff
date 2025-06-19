@@ -30,12 +30,18 @@ add_executable(VTK_Visualization
     UI/VTK_CFDVisualizer.cpp
     )
 
-target_include_directories(VTK_Visualization PRIVATE 
-${CMAKE_CURRENT_SOURCE_DIR}/include
-/usr/include/vtk-9.1
+
+# Add project headers
+set(PROJECT_INCLUDES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/include 
+    ${CMAKE_CURRENT_SOURCE_DIR}/DB 
+    ${CMAKE_CURRENT_SOURCE_DIR}/presenter 
+    ${CMAKE_CURRENT_SOURCE_DIR}/UI 
+    ${VTK_LIBRARIES}
 )
 
-include_directories(/usr/include/vtk-9.1)
+
+target_include_directories(VTK_Visualization PRIVATE ${PROJECT_INCLUDES})
 
 target_link_libraries(VTK_Visualization PRIVATE ${VTK_LIBRARIES} OpenGL::GLX)
 
@@ -47,4 +53,5 @@ vtk_module_autoinit(
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
                 ${CMAKE_SOURCE_DIR}/compile_commands.json)
+
 
