@@ -10,7 +10,8 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 using namespace visu;
 
 
-class VisualizationManager {
+class VisualizationManager 
+{
 public:
     VisualizationManager(
         const vtkSmartPointer<vtkPolyDataAlgorithm>& sharedFilter,
