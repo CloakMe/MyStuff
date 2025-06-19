@@ -10,7 +10,7 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 using namespace visu;
 
 
-class VisualizationManager 
+/*class VisualizationManager 
 {
 public:
     VisualizationManager(
@@ -31,13 +31,13 @@ public:
     // Create actors for all visualizations and add them to the renderer
     void CreateAllActors() 
     {
-/*        for (const auto& vis : m_visualizations) {
+        for (const auto& vis : m_visualizations) {
             vis->createActors(m_filter, m_renderer);
-        }*/
+        }
     }
 
     void showNext() {
-        if (m_visualizations.empty()) return;
+        //if (m_visualizations.empty()) return;
 
         // Hide current visualization if any
         //if (m_currentVisualization) {
@@ -45,8 +45,8 @@ public:
         //}
 
         // Advance index cyclically
-        m_currentIndex = (m_currentIndex + 1) % m_visualizations.size();
-        m_currentVisualization = m_visualizations[m_currentIndex].get();
+        //m_currentIndex = (m_currentIndex + 1) % m_visualizations.size();
+        //m_currentVisualization = m_visualizations[m_currentIndex].get();
 
         // Show the new current visualization
         //m_currentVisualization->setVisibility(true);
@@ -64,7 +64,7 @@ private:
 
     vtkSmartPointer<VisualizationStrategy> m_currentVisualization;
     size_t m_currentIndex; 
-};
+};*/
 
 
 int main(int argc, char* argv[]) {
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    VTK_CFDVisualizer visualizer(argv[1]);
-    visualizer.start();
+    VTK_CFDVisualizer visualizer(nullptr);
+    //visualizer.start();
     return EXIT_SUCCESS;
 }
