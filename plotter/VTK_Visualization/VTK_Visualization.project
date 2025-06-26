@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="VTK_Visualization" Version="11000" InternalType="Console">
+  <VirtualDirectory Name="DB">
+    <File Name="DB/VTK_FileSeries.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="UI">
+    <File Name="UI/VTK_CFDVisualizer.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="presenter">
+    <File Name="presenter/VTK_Presenter.cpp"/>
+    <File Name="presenter/VisualizationFactory.cpp"/>
+    <File Name="presenter/VelocityVisualization.cpp"/>
+    <File Name="presenter/PressureVisualization.cpp"/>
+    <File Name="presenter/MeshVisualization.cpp"/>
+  </VirtualDirectory>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="presenter/VelocityVisualization.cpp"/>
-    <File Name="presenter/VelocityVisualization.h"/>
-    <File Name="presenter/PressureVisualization.cpp"/>
-    <File Name="presenter/PressureVisualization.h"/>
-    <File Name="presenter/MeshVisualization.cpp"/>
-    <File Name="presenter/MeshVisualization.h"/>
-    <File Name="VisualizationStrategy.cpp"/>
-    <File Name="VisualizationStrategy.h"/>
     <File Name="main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
@@ -30,17 +35,16 @@
       <Compiler Options="-gdwarf-2;-O0;-Wall" C_Options="-gdwarf-2;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
         <IncludePath Value="."/>
         <IncludePath Value="/usr/include/vtk-9.1"/>
-        <IncludePath Value="$(ProjectPath)/include"/>
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(ProjectPath)/build-$(WorkspaceConfiguration)/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(ProjectPath)/build-$(WorkspaceConfiguration)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
-        <DebuggerSearchPaths>/mnt/d/workspaces/yStuff/plotter/VTK_Visualization/build-debug</DebuggerSearchPaths>
+        <DebuggerSearchPaths/>
         <PostConnectCommands/>
         <StartupCommands/>
       </Debugger>
@@ -48,14 +52,14 @@
       <PostBuild/>
       <CustomBuild Enabled="yes">
         <Target Name="cmake">cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
-        <RebuildCommand>make clean &amp;&amp; mingw32-make -j4</RebuildCommand>
-        <CleanCommand>make clean</CleanCommand>
+        <RebuildCommand>rm -rf * &amp;&amp; cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 &amp;&amp; make -j4</RebuildCommand>
+        <CleanCommand>rm -rf *</CleanCommand>
         <BuildCommand>make -j4</BuildCommand>
         <PreprocessFileCommand/>
         <SingleFileCommand/>
         <MakefileGenerationCommand/>
         <ThirdPartyToolName>None</ThirdPartyToolName>
-        <WorkingDirectory>$(ProjectPath)/build-debug</WorkingDirectory>
+        <WorkingDirectory>$(WorkspacePath)/build-debug</WorkingDirectory>
       </CustomBuild>
       <AdditionalRules>
         <CustomPostBuild/>
@@ -150,7 +154,7 @@
     </Configuration>
     <Configuration Name="Release_Windows" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-gdwarf-2;-O0;-Wall" C_Options="-gdwarf-2;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
-        <IncludePath Value=".;/usr/include/vtk-9.1;$(ProjectPath)/include"/>
+        <IncludePath Value="."/>
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>

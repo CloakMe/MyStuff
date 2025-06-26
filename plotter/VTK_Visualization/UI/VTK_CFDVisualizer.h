@@ -14,7 +14,7 @@ namespace visu
     class VTK_CFDVisualizer : public IVisualizer
     {
     public:
-        VTK_CFDVisualizer(vtkSmartPointer<vtkDataSet> dataset);
+        VTK_CFDVisualizer(VisualizationConfigurator& configurator);
         
         void Render(VisuType drawType) override;
 
