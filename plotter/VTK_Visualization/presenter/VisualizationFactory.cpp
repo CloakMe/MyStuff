@@ -2,29 +2,33 @@
 #include "MeshVisualization.h"
 #include "PressureVisualization.h"
 #include "VelocityVisualization.h"
+#include "VisuType.h"
 
 using namespace visu;
 
 // Factory implementation
 std::unique_ptr<VisualizationStrategy> VisualizationFactory::createStrategy(
-    const std::string& mode, vtkDataSet* dataset)
+    VisuType visuType, vtkDataSet* dataset)
 {
     if (!dataset) {
         std::cerr << "vtkDataSet pointer is null!" << std::endl;
         return nullptr;
     }
 
-    if (mode == "mesh") {
+    if (visuType == VisuType::Mesh) 
+    {
         auto strategy = std::make_unique<MeshVisualization>();
         strategy->createActors(dataset);
         return strategy;
     }
-    else if (mode == "pressure") {
+    else if (visuType == VisuType::Pressure) 
+    {
         auto strategy = std::make_unique<PressureVisualization>();
         strategy->createActors(dataset);
         return strategy;
     }
-    else if (mode == "velocity") {
+    else if (visuType == VisuType::Velocity) 
+    {
         auto strategy = std::make_unique<VelocityVisualization>();
         strategy->createActors(dataset);
         return strategy;

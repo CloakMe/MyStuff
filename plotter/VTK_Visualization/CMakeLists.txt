@@ -34,7 +34,8 @@ add_executable(VTK_Visualization
 # Add project headers
 set(PROJECT_INCLUDES 
     ${CMAKE_CURRENT_SOURCE_DIR}/include 
-    ${CMAKE_CURRENT_SOURCE_DIR}/DB 
+    ${CMAKE_CURRENT_SOURCE_DIR}/DB
+    ${CMAKE_CURRENT_SOURCE_DIR}/DB/include
     ${CMAKE_CURRENT_SOURCE_DIR}/presenter 
     ${CMAKE_CURRENT_SOURCE_DIR}/UI 
     ${VTK_LIBRARIES}

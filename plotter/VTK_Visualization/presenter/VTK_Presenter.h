@@ -1,6 +1,6 @@
 #pragma once
 #include "IPresenter.h"
-#include "IDB.h"
+#include "VTK_FileLoader.h"
 #include "IVisualizer.h"
 #include "VisuType.h"
 #include "CrossSection.h"
@@ -11,15 +11,16 @@ namespace visu
     class VTK_Presenter : public IPresenter
     {
     public:
-        VTK_Presenter(std::unique_ptr<IDB> database, std::unique_ptr<IVisualizer> userInteface);
+        VTK_Presenter(std::unique_ptr<VTK_FileLoader> database, std::unique_ptr<IVisualizer> userInteface);
         void Load() override;// — calls IDB::Load internally.
         void LoadSpecific(LoadType loadType, std::string value) override;
         void SetVisualizationType(VisuType mode) override; // — switch between mesh or vector field.
         void SetCrossSection(const CrossSection& crossSection) override;
         void UpdateView() override; //— triggers the UI to redraw or refresh.
     private:
-        std::unique_ptr<IDB> m_IDB;
+        std::unique_ptr<IDB> m_fileLoader;
         std::unique_ptr<IVisualizer> m_IVisualizer;
+        VisuType m_visuType;
     };
 }
 
