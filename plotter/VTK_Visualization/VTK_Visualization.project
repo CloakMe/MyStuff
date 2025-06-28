@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="VTK_Visualization" Version="11000" InternalType="Console">
   <VirtualDirectory Name="DB">
-    <File Name="DB/VTK_FileSeries.cpp"/>
+    <File Name="DB/VTK_Database.h"/>
+    <File Name="DB/VTK_Database.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="UI">
-    <File Name="UI/VTK_CFDVisualizer.cpp"/>
+    <VirtualDirectory Name="vtk">
+      <File Name="UI/vtk/VTK_CFDVisualizer.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="presenter">
-    <File Name="presenter/VTK_Presenter.cpp"/>
+    <File Name="presenter/Presenter.h"/>
+    <File Name="presenter/Presenter.cpp"/>
+    <File Name="presenter/VisualizationStrategy.h"/>
+    <File Name="presenter/VisualizationFactory.h"/>
+    <File Name="presenter/VelocityVisualization.h"/>
+    <File Name="presenter/PressureVisualization.h"/>
+    <File Name="presenter/MeshVisualization.h"/>
     <File Name="presenter/VisualizationFactory.cpp"/>
     <File Name="presenter/VelocityVisualization.cpp"/>
     <File Name="presenter/PressureVisualization.cpp"/>

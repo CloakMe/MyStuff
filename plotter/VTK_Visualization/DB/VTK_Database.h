@@ -7,10 +7,10 @@
 
 namespace visu
 {
-    class VTK_FileSeries : public IDB
+    class VTK_Database : public IDB
     {
     public:
-        explicit VTK_FileSeries(const std::string& fileSeries);
+        explicit VTK_Database(const std::string& fileSeries);
         void Load() override;
         void LoadSpecific(LoadType loadType, std::string value) override;
         std::unique_ptr< AbstractDB > GetAbstractDb() override;  
