@@ -1,3 +1,4 @@
+#include "VTK_DBWrapper.h"
 #include "VTK_FileSeries.h"
 #include <vtkDataSetReader.h>
 
@@ -22,7 +23,7 @@ void VTK_FileSeries::LoadSpecific(LoadType loadType, std::string value)
     
 }
 
-vtkSmartPointer<vtkDataSet> VTK_FileSeries::getDataSet() const 
+std::unique_ptr< AbstractDB > VTK_FileSeries::GetAbstractDb() 
 {
-    return m_dataset;
+    return make_unique<VTK_DBWrapper>(m_dataset);
 }
