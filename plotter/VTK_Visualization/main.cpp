@@ -5,8 +5,8 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 #include "presenter/MeshVisualization.h"
 #include "presenter/VisualizationStrategy.h"
 #include "UI/vtk/VTK_CFDVisualizer.h"
-#include "VTK_FileSeries.h"
-#include "VTK_Presenter.h"
+#include "VTK_Database.h"
+#include "Presenter.h"
 #include <vtkPolyDataAlgorithm.h>
 #include <vtkRenderer.h>
 #include <memory>
@@ -79,8 +79,8 @@ int main(int argc, char* argv[])
     }
     
     unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>();
-    unique_ptr<IDB> vtkDatabase = make_unique<VTK_FileSeries>("/home/admin/cfd/cfd3d/build/output/driven_cavity.0.vtk");
-    VTK_Presenter presenter(move(vtkDatabase), move(view));
+    unique_ptr<IDB> vtkDatabase = make_unique<VTK_Database>("/home/admin/cfd/cfd3d/build/output/driven_cavity.0.vtk");
+    Presenter presenter(move(vtkDatabase), move(view));
     //visualizer.start();
     return EXIT_SUCCESS;
 }

@@ -8,10 +8,10 @@
 
 namespace visu
 {    
-    class VTK_Presenter : public IPresenter
+    class Presenter : public IPresenter
     {
     public:
-        VTK_Presenter(std::unique_ptr<IDB> database, std::unique_ptr<IVisualizer> view);
+        Presenter(std::unique_ptr<IDB> database, std::unique_ptr<IVisualizer> view);
         void Load() override;// — calls IDB::Load internally.
         void LoadSpecific(LoadType loadType, std::string value) override;
         void SetVisualizationType(VisuType mode) override; // — switch between mesh or vector field.
