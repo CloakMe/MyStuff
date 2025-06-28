@@ -79,8 +79,10 @@ int main(int argc, char* argv[])
     }
     
     unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>();
-    unique_ptr<IDB> vtkDatabase = make_unique<VTK_Database>("/home/admin/cfd/cfd3d/build/output/driven_cavity.0.vtk");
+    unique_ptr<IDB> vtkDatabase = make_unique<VTK_Database>(argv[1]);
     Presenter presenter(move(vtkDatabase), move(view));
+    presenter.Load();
+    presenter.UpdateView();
     //visualizer.start();
     return EXIT_SUCCESS;
 }
