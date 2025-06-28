@@ -4,10 +4,14 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 
 #include "presenter/MeshVisualization.h"
 #include "presenter/VisualizationStrategy.h"
-#include "UI/VTK_CFDVisualizer.h"
+#include "UI/vtk/VTK_CFDVisualizer.h"
+#include "VTK_FileSeries.h"
+#include "VTK_Presenter.h"
 #include <vtkPolyDataAlgorithm.h>
 #include <vtkRenderer.h>
+#include <memory>
 using namespace visu;
+using namespace std;
 
 
 /*class VisualizationManager 
@@ -73,8 +77,10 @@ int main(int argc, char* argv[])
         std::cerr << "Usage: " << argv[0] << " <input.vtk>" << std::endl;
         return EXIT_FAILURE;
     }
-
-    VTK_CFDVisualizer visualizer(nullptr);
+    
+    unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>();
+    unique_ptr<IDB> vtkDatabase = make_unique<VTK_FileSeries>("/home/admin/cfd/cfd3d/build/output/driven_cavity.0.vtk");
+    VTK_Presenter presenter(move(vtkDatabase), move(view));
     //visualizer.start();
     return EXIT_SUCCESS;
 }

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "VTK_FileLoader.h"
+#include "IDB.h"
 #include <string>
 #include <vtkDataSet.h>
 #include <vtkSmartPointer.h>
 
 namespace visu
 {
-    class VTK_FileSeries : public VTK_FileLoader
+    class VTK_FileSeries : public IDB
     {
     public:
         explicit VTK_FileSeries(const std::string& fileSeries);
         void Load() override;
         void LoadSpecific(LoadType loadType, std::string value) override;
-        vtkSmartPointer<vtkDataSet> getDataSet() const override;  
+        std::unique_ptr< AbstractDB > GetAbstractDb() override;  
 
     private:
         std::string m_fileSeries;

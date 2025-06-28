@@ -27,17 +27,18 @@ add_executable(VTK_Visualization
     presenter/PressureVisualization.cpp 
     presenter/VelocityVisualization.cpp 
     DB/VTK_FileSeries.cpp
-    UI/VTK_CFDVisualizer.cpp
+    UI/vtk/VTK_CFDVisualizer.cpp
+    include/vtk/VTK_DBWrapper.cpp
     )
 
 
 # Add project headers
 set(PROJECT_INCLUDES 
     ${CMAKE_CURRENT_SOURCE_DIR}/include 
-    ${CMAKE_CURRENT_SOURCE_DIR}/DB
-    ${CMAKE_CURRENT_SOURCE_DIR}/DB/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/vtk
+    ${CMAKE_CURRENT_SOURCE_DIR}/DB#/vtk
     ${CMAKE_CURRENT_SOURCE_DIR}/presenter 
-    ${CMAKE_CURRENT_SOURCE_DIR}/UI 
+    ${CMAKE_CURRENT_SOURCE_DIR}/UI/vtk
     ${VTK_LIBRARIES}
 )
 
