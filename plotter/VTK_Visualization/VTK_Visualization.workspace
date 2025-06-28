@@ -5,7 +5,6 @@
     <WorkspaceConfiguration Name="Debug">
       <Environment/>
       <Project Name="VTK_Visualization" ConfigName="Debug_Linux"/>
-      <Project Name="VTK_Visualization" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release">
       <Environment/>

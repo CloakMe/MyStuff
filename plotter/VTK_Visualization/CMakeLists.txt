@@ -21,12 +21,12 @@ find_package(OpenGL REQUIRED)
 
 add_executable(VTK_Visualization
     main.cpp
-    presenter/VTK_Presenter.cpp 
+    presenter/Presenter.cpp 
     presenter/VisualizationFactory.cpp 
     presenter/MeshVisualization.cpp 
     presenter/PressureVisualization.cpp 
     presenter/VelocityVisualization.cpp 
-    DB/VTK_FileSeries.cpp
+    DB/VTK_Database.cpp
     UI/vtk/VTK_CFDVisualizer.cpp
     include/vtk/VTK_DBWrapper.cpp
     )

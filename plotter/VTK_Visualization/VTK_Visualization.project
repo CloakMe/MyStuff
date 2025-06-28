@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="VTK_Visualization" Version="11000" InternalType="Console">
+  <VirtualDirectory Name="include">
+    <VirtualDirectory Name="vtk">
+      <File Name="include/vtk/VTK_DBWrapper.h"/>
+      <File Name="include/vtk/VTK_DBWrapper.cpp"/>
+    </VirtualDirectory>
+    <File Name="include/VisuType.h"/>
+    <File Name="include/IVisualizer.h"/>
+    <File Name="include/IPresenter.h"/>
+    <File Name="include/IDB.h"/>
+    <File Name="include/CrossSection.h"/>
+    <File Name="include/AbstractDB.h"/>
+  </VirtualDirectory>
   <VirtualDirectory Name="DB">
     <File Name="DB/VTK_Database.h"/>
     <File Name="DB/VTK_Database.cpp"/>
@@ -55,7 +67,7 @@
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
         <PostConnectCommands/>
-        <StartupCommands/>
+        <StartupCommands>/home/admin/workspace/cfd3d/build/output/driven_cavity.100.vtk</StartupCommands>
       </Debugger>
       <PreBuild/>
       <PostBuild/>
