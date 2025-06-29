@@ -59,18 +59,24 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/$(OutputFile)" CommandArguments="/home/admin/workspace/cfd3d/build/output/driven_cavity.100.vtk" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
-      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="/usr/bin/gdb" IsExtended="no">
         <DebuggerSearchPaths/>
         <PostConnectCommands/>
-        <StartupCommands>/home/admin/workspace/cfd3d/build/output/driven_cavity.100.vtk</StartupCommands>
+        <StartupCommands/>
       </Debugger>
-      <PreBuild/>
-      <PostBuild/>
+      <PreBuild>
+        <Command Enabled="yes">echo $(WorkspacePath)</Command>
+        <Command Enabled="yes">echo $(WorkspaceConfiguration)</Command>
+        <Command Enabled="yes">pwd</Command>
+      </PreBuild>
+      <PostBuild>
+        <Command Enabled="yes">echo $(WorkspacePath)</Command>
+      </PostBuild>
       <CustomBuild Enabled="yes">
         <Target Name="cmake">cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>
         <RebuildCommand>rm -rf * &amp;&amp; cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 &amp;&amp; make -j4</RebuildCommand>
