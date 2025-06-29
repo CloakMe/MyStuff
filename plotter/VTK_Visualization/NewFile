@@ -388,3 +388,74 @@ Practical Tips
     Keep data loading isolated to classes dedicated to data concerns, separate from visualization or UI.
 
 This approach ensures your classes have clear, single responsibilities and dependencies flow in a maintainable, testable way consistent with SOLID principles
+
+[ 10%] Building CXX object CMakeFiles/VTK_Visualization.dir/UI/vtk/VTK_CFDVisualizer.cpp.o
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp: In member function 'void visu::VTK_CFDVisualizer::Render()':
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:46:21: error: invalid use of incomplete type 'class vtkCallbackCommand'
+   46 |     keypressCallback->SetClientData(this);
+      |                     ^~
+In file included from v_vtk/presenter/VisualizationStrategy.h:2,
+                 from v_vtk/presenter/VisualizationFactory.h:2,
+                 from v_vtk/UI/vtk/VTK_CFDVisualizer.h:4,
+                 from v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:1:
+/usr/include/vtk-9.1/vtkDataSet.h:54:7: note: forward declaration of 'class vtkCallbackCommand'
+   54 | class vtkCallbackCommand;
+      |       ^~~~~~~~~~~~~~~~~~
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:47:21: error: invalid use of incomplete type 'class vtkCallbackCommand'
+   47 |     keypressCallback->SetCallback(KeyPressCallback);
+      |                     ^~
+/usr/include/vtk-9.1/vtkDataSet.h:54:7: note: forward declaration of 'class vtkCallbackCommand'
+   54 | class vtkCallbackCommand;
+      |       ^~~~~~~~~~~~~~~~~~
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:48:28: error: no matching function for call to 'vtkRenderWindowInteractor::AddObserver(vtkCommand::EventIds, vtkSmartPointer<vtkCallbackCommand>&)'
+   48 |     interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/vtk-9.1/vtkDataObject.h:38,
+                 from /usr/include/vtk-9.1/vtkDataSet.h:44:
+/usr/include/vtk-9.1/vtkObject.h:185:17: note: candidate: 'template<class U, class T> long unsigned int vtkObject::AddObserver(long unsigned int, U, void (T::*)(), float)'
+  185 |   unsigned long AddObserver(
+      |                 ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:185:17: note:   template argument deduction/substitution failed:
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:48:28: note:   candidate expects 4 arguments, 2 provided
+   48 |     interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:194:17: note: candidate: 'template<class U, class T> long unsigned int vtkObject::AddObserver(long unsigned int, U, void (T::*)(vtkObject*, long unsigned int, void*), float)'
+  194 |   unsigned long AddObserver(unsigned long event, U observer,
+      |                 ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:194:17: note:   template argument deduction/substitution failed:
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:48:28: note:   candidate expects 4 arguments, 2 provided
+   48 |     interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:210:17: note: candidate: 'template<class U, class T> long unsigned int vtkObject::AddObserver(long unsigned int, U, bool (T::*)(vtkObject*, long unsigned int, void*), float)'
+  210 |   unsigned long AddObserver(unsigned long event, U observer,
+      |                 ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:210:17: note:   template argument deduction/substitution failed:
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:48:28: note:   candidate expects 4 arguments, 2 provided
+   48 |     interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:141:17: note: candidate: 'long unsigned int vtkObject::AddObserver(long unsigned int, vtkCommand*, float)'
+  141 |   unsigned long AddObserver(unsigned long event, vtkCommand*, float priority = 0.0f);
+      |                 ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:141:50: note:   no known conversion for argument 2 from 'vtkSmartPointer<vtkCallbackCommand>' to 'vtkCommand*'
+  141 |   unsigned long AddObserver(unsigned long event, vtkCommand*, float priority = 0.0f);
+      |                                                  ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:142:17: note: candidate: 'long unsigned int vtkObject::AddObserver(const char*, vtkCommand*, float)'
+  142 |   unsigned long AddObserver(const char* event, vtkCommand*, float priority = 0.0f);
+      |                 ^~~~~~~~~~~
+/usr/include/vtk-9.1/vtkObject.h:142:41: note:   no known conversion for argument 1 from 'vtkCommand::EventIds' to 'const char*'
+  142 |   unsigned long AddObserver(const char* event, vtkCommand*, float priority = 0.0f);
+      |                             ~~~~~~~~~~~~^~~~~
+In file included from v_vtk/presenter/VisualizationFactory.h:7:
+/usr/include/vtk-9.1/vtkSmartPointer.h: In instantiation of 'static vtkSmartPointer<T> vtkSmartPointer<T>::New() [with T = vtkCallbackCommand]':
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:45:100:   required from here
+/usr/include/vtk-9.1/vtkSmartPointer.h:225:69: error: incomplete type 'vtkCallbackCommand' used in nested name specifier
+  225 |   static vtkSmartPointer<T> New() { return vtkSmartPointer<T>(T::New(), NoReference()); }
+      |                                                               ~~~~~~^~
+/usr/include/vtk-9.1/vtkSmartPointer.h: In instantiation of 'T* vtkSmartPointer<T>::operator->() const [with T = vtkCallbackCommand]':
+v_vtk/UI/vtk/VTK_CFDVisualizer.cpp:46:21:   required from here
+/usr/include/vtk-9.1/vtkSmartPointer.h:206:43: error: invalid 'static_cast' from type 'vtkObjectBase* const' to type 'vtkCallbackCommand*'
+  206 |   T* operator->() const noexcept { return static_cast<T*>(this->Object); }
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/vtk-9.1/vtkDataSet.h:54:7: note: class type 'vtkCallbackCommand' is incomplete
+   54 | class vtkCallbackCommand;
+      |       ^~~~~~~~~~~~~~~~~~
