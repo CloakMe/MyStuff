@@ -28,6 +28,7 @@ add_executable(VTK_Visualization
     presenter/VelocityVisualization.cpp 
     DB/VTK_Database.cpp
     UI/vtk/VTK_CFDVisualizer.cpp
+    configuration/json/JSONConfigParser.cpp
     include/vtk/VTK_DBWrapper.cpp
     )
 
@@ -39,6 +40,8 @@ set(PROJECT_INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}/DB#/vtk
     ${CMAKE_CURRENT_SOURCE_DIR}/presenter 
     ${CMAKE_CURRENT_SOURCE_DIR}/UI/vtk
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/configuration/json
     ${VTK_LIBRARIES}
 )
 
@@ -46,6 +49,14 @@ set(PROJECT_INCLUDES
 target_include_directories(VTK_Visualization PRIVATE ${PROJECT_INCLUDES})
 
 target_link_libraries(VTK_Visualization PRIVATE ${VTK_LIBRARIES} OpenGL::GLX)
+
+# Copy configuration.json to the executable output directory after build
+add_custom_command(TARGET VTK_Visualization POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/configuration.json"
+        $<TARGET_FILE_DIR:VTK_Visualization>/configuration.json
+)
+
 
 # Mandatory for VTK 9.x module system
 vtk_module_autoinit(

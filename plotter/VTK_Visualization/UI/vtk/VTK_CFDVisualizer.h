@@ -2,6 +2,7 @@
 
 #include "IVisualizer.h"
 #include "VisualizationFactory.h"
+#include "VisuType.h"
 #include <memory>
 #include <vtkDataSet.h>
 #include <vtkRenderWindow.h>
@@ -18,18 +19,23 @@ public:
     VTK_CFDVisualizer();
     
     void Render(std::unique_ptr<AbstractDB> input) override;
-
+    void Change(VisuType displayType) override;
+    
 private:
+    void Render();
+    
     void setupUI();
 
-    static void KeyPressCallback(vtkObject* caller, unsigned long eid, void* clientdata, void* calldata) 
+    static void KeyPressCallback(vtkObject* caller, unsigned long eventId, void* clientdata, void* calldata) 
     {
         VTK_CFDVisualizer* self = static_cast<VTK_CFDVisualizer*>(clientdata);
-        self->OnKeyPress();
+        self->OnKeyPress(caller, eventId, calldata);
     }
 
-    void OnKeyPress();
+    void OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData);
 
     vtkSmartPointer<vtkDataSet> m_dataset;
+    VisuType m_visuType;
 };
+
 }

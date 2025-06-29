@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="VTK_Visualization" Version="11000" InternalType="Console">
+  <VirtualDirectory Name="configuration">
+    <VirtualDirectory Name="json">
+      <File Name="configuration/json/JSONConfigParser.h"/>
+      <File Name="configuration/json/JSONConfigParser.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="external">
+    <File Name="external/json.h"/>
+  </VirtualDirectory>
   <VirtualDirectory Name="include">
     <VirtualDirectory Name="vtk">
       <File Name="include/vtk/VTK_DBWrapper.h"/>
@@ -40,6 +49,7 @@
     <File Name="main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
+    <File Name="configuration.json"/>
     <File Name="CMakeLists.txt"/>
   </VirtualDirectory>
   <Settings Type="Executable">

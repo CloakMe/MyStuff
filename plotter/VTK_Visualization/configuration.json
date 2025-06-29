@@ -1,0 +1,10 @@
+{
+  "visualization": {
+    "pressure": "Pressure",
+    "velocity": "VELOCITY",
+    "mesh": "mesh"
+  },
+  "controls": {
+     "visualization" : "1"
+  }
+}
