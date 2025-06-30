@@ -1,6 +1,9 @@
 #include "VTK_CFDVisualizer.h"
 #include "VTK_DBWrapper.h"
+#include "IKeyControlsConfigurator.h"
 #include <vtkCallbackCommand.h>
+//#include <vtkPointData.h>
+//#include <vtkDataArray.h>
 
 using namespace visu;
 using namespace std;
@@ -16,6 +19,17 @@ void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
     VTK_DBWrapper* vtk_input = static_cast<VTK_DBWrapper*>(input.release());
     m_dataset = (*vtk_input)();
     
+/*    vtkPointData* pointData = m_dataset->GetPointData();
+    int numArrays = pointData->GetNumberOfArrays();
+
+    for (int i = 0; i < numArrays; ++i) {
+        vtkDataArray* array = pointData->GetArray(i);
+        if (array && array->GetNumberOfComponents() == 3) {
+            std::cout << "Vector array with 3 components found: " << array->GetName() << std::endl;
+        }else if(array)
+            std::cout << "Vector array found: " << array->GetName() << std::endl;
+    }*/
+ 
     Render();
 }
 
@@ -66,8 +80,9 @@ void VTK_CFDVisualizer::setupUI()
 void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData) 
 {
     auto interactor = static_cast<vtkRenderWindowInteractor*>(caller);
+        
     std::string key = interactor->GetKeySym();
-    if (key == "1") 
+    if (key == ) 
     {
         if(m_visuType == VisuType::Velocity)
         {

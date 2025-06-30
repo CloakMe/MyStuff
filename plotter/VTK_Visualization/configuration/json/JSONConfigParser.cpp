@@ -34,7 +34,7 @@ bool JSONConfigParser::LoadConfigFromFile(const std::string& filename) {
 }
 
 void JSONConfigParser::SetRootKey(const std::string& rootKey) {
-    m_visualizationKey = rootKey;
+    //m_rootKey = rootKey;
 }
 
 std::string JSONConfigParser::GetValue(const std::string& subConfigKey, const std::string& key) {

@@ -11,6 +11,7 @@ namespace visu
 class PressureVisualization : public VisualizationStrategy 
 {
 public:
+    PressureVisualization();
     void createActors(vtkDataSet* dataset) override;
     void addToRenderer(vtkRenderer* renderer) override;
     void removeFromRenderer(vtkRenderer* renderer) override;

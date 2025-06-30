@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="VTK_Visualization" Version="11000" InternalType="Console">
+  <VirtualDirectory Name="common">
+    <VirtualDirectory Name="vtk">
+      <File Name="common/vtk/VTK_DBWrapper.h"/>
+      <File Name="common/vtk/VTK_DBWrapper.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <VirtualDirectory Name="configuration">
     <VirtualDirectory Name="json">
+      <File Name="configuration/json/KeyControlsConfigurator.cpp"/>
+      <File Name="configuration/json/KeyControlsConfigurator.h"/>
+      <File Name="configuration/json/VisualizationConfigurator.cpp"/>
+      <File Name="configuration/json/VisualizationConfigurator.h"/>
       <File Name="configuration/json/JSONConfigParser.h"/>
       <File Name="configuration/json/JSONConfigParser.cpp"/>
     </VirtualDirectory>
@@ -10,10 +20,8 @@
     <File Name="external/json.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
-    <VirtualDirectory Name="vtk">
-      <File Name="include/vtk/VTK_DBWrapper.h"/>
-      <File Name="include/vtk/VTK_DBWrapper.cpp"/>
-    </VirtualDirectory>
+    <File Name="include/IKeyControlsConfigurator.h"/>
+    <File Name="include/IVisualizationConfigurator.h"/>
     <File Name="include/VisuType.h"/>
     <File Name="include/IVisualizer.h"/>
     <File Name="include/IPresenter.h"/>
@@ -22,8 +30,10 @@
     <File Name="include/AbstractDB.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="DB">
-    <File Name="DB/VTK_Database.h"/>
-    <File Name="DB/VTK_Database.cpp"/>
+    <VirtualDirectory Name="vtk">
+      <File Name="DB/VTK_Database.cpp"/>
+      <File Name="DB/VTK_Database.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="UI">
     <VirtualDirectory Name="vtk">
@@ -32,15 +42,15 @@
   </VirtualDirectory>
   <VirtualDirectory Name="presenter">
     <VirtualDirectory Name="vtk">
-      <File Name="presenter/VisualizationStrategy.h"/>
-      <File Name="presenter/VisualizationFactory.h"/>
-      <File Name="presenter/VisualizationFactory.cpp"/>
-      <File Name="presenter/VelocityVisualization.h"/>
-      <File Name="presenter/VelocityVisualization.cpp"/>
-      <File Name="presenter/PressureVisualization.h"/>
-      <File Name="presenter/PressureVisualization.cpp"/>
-      <File Name="presenter/MeshVisualization.h"/>
-      <File Name="presenter/MeshVisualization.cpp"/>
+      <File Name="presenter/vtk/VisualizationStrategy.h"/>
+      <File Name="presenter/vtk/VisualizationFactory.h"/>
+      <File Name="presenter/vtk/VisualizationFactory.cpp"/>
+      <File Name="presenter/vtk/VelocityVisualization.h"/>
+      <File Name="presenter/vtk/VelocityVisualization.cpp"/>
+      <File Name="presenter/vtk/PressureVisualization.h"/>
+      <File Name="presenter/vtk/PressureVisualization.cpp"/>
+      <File Name="presenter/vtk/MeshVisualization.h"/>
+      <File Name="presenter/vtk/MeshVisualization.cpp"/>
     </VirtualDirectory>
     <File Name="presenter/Presenter.h"/>
     <File Name="presenter/Presenter.cpp"/>
@@ -71,7 +81,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/$(OutputFile)" CommandArguments="/home/admin/workspace/cfd3d/build/output/driven_cavity.100.vtk" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/$(OutputFile)" CommandArguments="/mnt/d/workspaces/cfd3d/build/output/driven_cavity.100.vtk" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
@@ -82,12 +92,10 @@
         <StartupCommands/>
       </Debugger>
       <PreBuild>
-        <Command Enabled="yes">echo $(WorkspacePath)</Command>
-        <Command Enabled="yes">echo $(WorkspaceConfiguration)</Command>
         <Command Enabled="yes">pwd</Command>
       </PreBuild>
       <PostBuild>
-        <Command Enabled="yes">echo $(WorkspacePath)</Command>
+        <Command Enabled="yes">pwd</Command>
       </PostBuild>
       <CustomBuild Enabled="yes">
         <Target Name="cmake">cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1</Target>

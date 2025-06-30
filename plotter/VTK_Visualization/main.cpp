@@ -22,14 +22,8 @@ int main(int argc, char* argv[])
         std::cerr << "Usage: " << argv[0] << " <input.vtk>" << std::endl;
          return EXIT_FAILURE;
     }
-    
     JSONConfigParser& config = JSONConfigParser::Instance();
     config.LoadConfigFromFile("configuration.json");
-    config.SetRootKey("visualization");
-
-    std::string pressureKey = config.GetPressureValue();  // looks under "visualization"
-
-    cout << "pressure = " << pressureKey << endl;
     
     unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>();
     unique_ptr<IDB> vtkDatabase = make_unique<VTK_Database>(argv[1]);

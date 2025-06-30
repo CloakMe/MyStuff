@@ -3,15 +3,18 @@
 #include <vtkPointData.h>
 
 using namespace visu;
-/*
-PressureVisualization::PressureVisualization()
+using namespace std;
+
+PressureVisualization::PressureVisualization() : 
+    m_visuConfigurator(make_unique<VisualizationConfigurator>(VisuType::Pressure))
 {
-}*/
+}
 
 void PressureVisualization::createActors(vtkDataSet* dataset)
 {
+    string pressureField = m_visuConfigurator->getVisuType();
     // Set the active vector array to "pressure" in the point data
-    dataset->GetPointData()->SetActiveVectors("pressure");
+    dataset->GetPointData()->SetActiveVectors(pressureField);
 
     // Set up pressure color mapping
     vtkNew<vtkLookupTable> lut;
@@ -20,9 +23,9 @@ void PressureVisualization::createActors(vtkDataSet* dataset)
     
     mapper->SetInputData(dataset);
     mapper->SetScalarModeToUsePointData();
-    mapper->SelectColorArray("Pressure");
+    mapper->SelectColorArray(pressureField);
     mapper->SetLookupTable(lut);
-    mapper->SetScalarRange(dataset->GetPointData()->GetScalars("Pressure")->GetRange());
+    mapper->SetScalarRange(dataset->GetPointData()->GetScalars(pressureField)->GetRange());
     
     actor->SetMapper(mapper);
 }

@@ -11,6 +11,7 @@ namespace visu
 class MeshVisualization : public VisualizationStrategy 
 {
 public:
+    MeshVisualization();
     void createActors(vtkDataSet* dataset) override;
     void addToRenderer(vtkRenderer* renderer) override;
     void removeFromRenderer(vtkRenderer* renderer) override;

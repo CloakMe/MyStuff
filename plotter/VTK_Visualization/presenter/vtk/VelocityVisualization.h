@@ -11,6 +11,7 @@ namespace visu
 class VelocityVisualization : public VisualizationStrategy 
 {
 public:
+    VelocityVisualization();
     void createActors(vtkDataSet* dataset) override;
     void addToRenderer(vtkRenderer* renderer) override;
     void removeFromRenderer(vtkRenderer* renderer) override;
