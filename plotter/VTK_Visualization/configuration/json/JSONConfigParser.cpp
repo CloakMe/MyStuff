@@ -38,15 +38,15 @@ void JSONConfigParser::SetRootKey(const std::string& rootKey) {
 }
 
 std::string JSONConfigParser::GetValue(const std::string& subConfigKey, const std::string& key) {
-    if (!m_json.hasKey(subConfigKey)) {
+    if (!m_json.hasKey(key)) {
         return "";
     }
 
-    auto& subConfig = m_json[subConfigKey];
+    auto& subConfig = m_json[key];
 
     // Since keys are always lowercase, use exact match
-    if (subConfig.hasKey(key)) {
-        return subConfig[key].ToString();
+    if (subConfig.hasKey(subConfigKey)) {
+        return subConfig[subConfigKey].ToString();
     }
 
     return "";
