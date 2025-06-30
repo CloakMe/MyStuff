@@ -9,6 +9,5 @@ namespace visu
     {
     public:
         virtual void Render(std::unique_ptr<AbstractDB> input)=0;
-        virtual void Change(VisuType displayType)=0;
     };
 }

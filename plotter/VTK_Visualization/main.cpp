@@ -2,8 +2,8 @@
 VTK_MODULE_INIT(vtkRenderingOpenGL2)
 VTK_MODULE_INIT(vtkInteractionStyle)
 
-#include "presenter/MeshVisualization.h"
-#include "presenter/VisualizationStrategy.h"
+#include "presenter/vtk/MeshVisualization.h"
+#include "presenter/vtk/VisualizationStrategy.h"
 #include "UI/vtk/VTK_CFDVisualizer.h"
 #include "VTK_Database.h"
 #include "Presenter.h"

@@ -10,6 +10,9 @@ PressureVisualization::PressureVisualization()
 
 void PressureVisualization::createActors(vtkDataSet* dataset)
 {
+    // Set the active vector array to "pressure" in the point data
+    dataset->GetPointData()->SetActiveVectors("pressure");
+
     // Set up pressure color mapping
     vtkNew<vtkLookupTable> lut;
     lut->SetHueRange(0.667, 0.0); // Blue to red

@@ -55,12 +55,6 @@ void VTK_CFDVisualizer::Render()
     visualization->removeFromRenderer(renderer);
 }
 
-void VTK_CFDVisualizer::Change(VisuType displayType)
-{
-    m_visuType = displayType;
-    Render();
-}
-
 void VTK_CFDVisualizer::setupUI()
 {
 /*    m_interactor->AddObserver(vtkCommand::KeyPressEvent, [this](vtkObject*, unsigned long, void*) {

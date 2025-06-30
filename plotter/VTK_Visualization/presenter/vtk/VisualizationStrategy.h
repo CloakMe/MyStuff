@@ -4,10 +4,9 @@
 namespace visu
 {
 
-class VisualizationStrategy 
+class VisualizationStrategy
 {
 public:
-    //virtual ~VisualizationStrategy() = default;
     virtual void createActors(vtkDataSet* dataset) = 0;
     virtual void addToRenderer(vtkRenderer* renderer) = 0;
     virtual void removeFromRenderer(vtkRenderer* renderer) = 0;

@@ -31,17 +31,19 @@
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="presenter">
+    <VirtualDirectory Name="vtk">
+      <File Name="presenter/VisualizationStrategy.h"/>
+      <File Name="presenter/VisualizationFactory.h"/>
+      <File Name="presenter/VisualizationFactory.cpp"/>
+      <File Name="presenter/VelocityVisualization.h"/>
+      <File Name="presenter/VelocityVisualization.cpp"/>
+      <File Name="presenter/PressureVisualization.h"/>
+      <File Name="presenter/PressureVisualization.cpp"/>
+      <File Name="presenter/MeshVisualization.h"/>
+      <File Name="presenter/MeshVisualization.cpp"/>
+    </VirtualDirectory>
     <File Name="presenter/Presenter.h"/>
     <File Name="presenter/Presenter.cpp"/>
-    <File Name="presenter/VisualizationStrategy.h"/>
-    <File Name="presenter/VisualizationFactory.h"/>
-    <File Name="presenter/VelocityVisualization.h"/>
-    <File Name="presenter/PressureVisualization.h"/>
-    <File Name="presenter/MeshVisualization.h"/>
-    <File Name="presenter/VisualizationFactory.cpp"/>
-    <File Name="presenter/VelocityVisualization.cpp"/>
-    <File Name="presenter/PressureVisualization.cpp"/>
-    <File Name="presenter/MeshVisualization.cpp"/>
   </VirtualDirectory>
   <Description/>
   <Dependencies/>

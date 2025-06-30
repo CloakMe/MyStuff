@@ -36,5 +36,6 @@ std::unique_ptr<VisualizationStrategy> VisualizationFactory::createStrategy(
         strategy->createActors(dataset);
         return strategy;
     }
-    throw std::runtime_error("Unknown visualization mode");
+    std::cerr << "Unknown visualization mode!" << std::endl;
+    return nullptr;
 }
