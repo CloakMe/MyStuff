@@ -22,23 +22,24 @@ find_package(OpenGL REQUIRED)
 add_executable(VTK_Visualization
     main.cpp
     presenter/Presenter.cpp 
-    presenter/VisualizationFactory.cpp 
-    presenter/MeshVisualization.cpp 
-    presenter/PressureVisualization.cpp 
-    presenter/VelocityVisualization.cpp 
-    DB/VTK_Database.cpp
+    presenter/vtk/VisualizationFactory.cpp 
+    presenter/vtk/MeshVisualization.cpp 
+    presenter/vtk/PressureVisualization.cpp 
+    presenter/vtk/VelocityVisualization.cpp 
+    DB/vtk/VTK_Database.cpp
     UI/vtk/VTK_CFDVisualizer.cpp
     configuration/json/JSONConfigParser.cpp
-    include/vtk/VTK_DBWrapper.cpp
+    common/vtk/VTK_DBWrapper.cpp
     )
 
 
 # Add project headers
 set(PROJECT_INCLUDES 
     ${CMAKE_CURRENT_SOURCE_DIR}/include 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/vtk
-    ${CMAKE_CURRENT_SOURCE_DIR}/DB#/vtk
+    ${CMAKE_CURRENT_SOURCE_DIR}/common/vtk
+    ${CMAKE_CURRENT_SOURCE_DIR}/DB/vtk
     ${CMAKE_CURRENT_SOURCE_DIR}/presenter 
+    ${CMAKE_CURRENT_SOURCE_DIR}/presenter/vtk
     ${CMAKE_CURRENT_SOURCE_DIR}/UI/vtk
     ${CMAKE_CURRENT_SOURCE_DIR}/external
     ${CMAKE_CURRENT_SOURCE_DIR}/configuration/json

@@ -19,7 +19,6 @@ public:
     VTK_CFDVisualizer();
     
     void Render(std::unique_ptr<AbstractDB> input) override;
-    void Change(VisuType displayType) override;
     
 private:
     void Render();

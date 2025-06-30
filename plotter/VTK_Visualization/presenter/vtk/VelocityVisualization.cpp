@@ -1,6 +1,7 @@
 #include "VelocityVisualization.h"
 #include <vtkArrowSource.h>
 #include <vtkGlyph3D.h>
+#include <vtkPointData.h>
 
 using namespace visu;
 
@@ -11,7 +12,7 @@ using namespace visu;
 void VelocityVisualization::createActors(vtkDataSet* dataset)
 {
     // Set the active vector array to "velocity" in the point data
-    //dataset->GetPointData()->SetActiveVectors("velocity");
+    dataset->GetPointData()->SetActiveVectors("velocity");
     
     // Create glyphs for velocity vectors
     vtkNew<vtkArrowSource> arrow;
