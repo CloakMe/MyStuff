@@ -1,11 +1,13 @@
 #include "MeshVisualization.h"
 #include <vtkProperty.h>
+#include <memory>
 
 using namespace visu;
 
-/*MeshVisualization::MeshVisualization()
+MeshVisualization::MeshVisualization() : 
+    m_visuConfigurator(make_unique<VisualizationConfigurator>(VisuType::Mesh))
 {
-}*/
+}
 
 void MeshVisualization::createActors(vtkDataSet* dataset)
 {

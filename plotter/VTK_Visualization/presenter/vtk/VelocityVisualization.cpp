@@ -5,14 +5,15 @@
 
 using namespace visu;
 
-/*VelocityVisualization::VelocityVisualization()
+VelocityVisualization::VelocityVisualization() : 
+    m_visuConfigurator(make_unique<VisualizationConfigurator>(VisuType::Velocity))
 {
-}*/
+}
 
 void VelocityVisualization::createActors(vtkDataSet* dataset)
 {
     // Set the active vector array to "velocity" in the point data
-    dataset->GetPointData()->SetActiveVectors("velocity");
+    dataset->GetPointData()->SetActiveVectors(m_visuConfigurator->getVisuType());
     
     // Create glyphs for velocity vectors
     vtkNew<vtkArrowSource> arrow;
