@@ -3,11 +3,11 @@
 #include <memory>
 
 using namespace visu;
+using namespace std;
 
-MeshVisualization::MeshVisualization() : 
-    m_visuConfigurator(make_unique<VisualizationConfigurator>(VisuType::Mesh))
-{
-}
+MeshVisualization::MeshVisualization(const IVisualizationConfigurator& visualizationConfigurator)
+  : m_visualizationConfigurator(visualizationConfigurator)
+{}
 
 void MeshVisualization::createActors(vtkDataSet* dataset)
 {

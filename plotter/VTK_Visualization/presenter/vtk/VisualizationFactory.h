@@ -11,8 +11,11 @@ namespace visu
 class VisualizationFactory 
 {
 public:
+    VisualizationFactory(std::unique_ptr<IVisualizationConfigurator> visualizationConfigurator);
     std::unique_ptr<VisualizationStrategy> createStrategy(
         VisuType visuType, vtkSmartPointer<vtkDataSet> dataset);
+private:
+    std::unique_ptr<IVisualizationConfigurator> m_visualizationConfigurator;
 };
 
 }

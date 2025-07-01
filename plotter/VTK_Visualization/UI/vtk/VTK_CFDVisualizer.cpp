@@ -8,10 +8,13 @@
 using namespace visu;
 using namespace std;
 
-VTK_CFDVisualizer::VTK_CFDVisualizer()
+VTK_CFDVisualizer::VTK_CFDVisualizer(
+    std::unique_ptr<IKeyControlsConfigurator> keyControlsConfigurator, 
+    std::unique_ptr<VisualizationFactory> visualizationFactory)
 {
     m_visuType = VisuType::Mesh;
-    setupUI();
+    m_keyControlsConfigurator = move(keyControlsConfigurator);
+    m_visualizationFactory = move(visualizationFactory);
 }
         
 void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
@@ -37,11 +40,11 @@ void VTK_CFDVisualizer::Render()
 {
     if(m_dataset == nullptr)
         return;
-
-    VisualizationFactory factory;
-    std::unique_ptr<VisualizationStrategy> visualization = factory.createStrategy(m_visuType, m_dataset);
     
-    // Renderer and window
+    // vtk Actor and Mapper
+    std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType, m_dataset);
+    
+    // vtk Renderer and Window
     vtkNew<vtkRenderer> renderer;
     visualization->addToRenderer(renderer);
     //renderer->AddActor(actor);
@@ -52,7 +55,7 @@ void VTK_CFDVisualizer::Render()
     renderWindow->SetSize(800, 600);
     renderWindow->SetWindowName("Working VTK Example");
 
-    // Interactor
+    // vtk Interactor
     vtkNew<vtkRenderWindowInteractor> interactor;
     interactor->SetRenderWindow(renderWindow);
     
@@ -82,7 +85,7 @@ void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId,
     auto interactor = static_cast<vtkRenderWindowInteractor*>(caller);
         
     std::string key = interactor->GetKeySym();
-    if (key == ) 
+    if (key == m_keyControlsConfigurator->getKeyVisuChanger()) 
     {
         if(m_visuType == VisuType::Velocity)
         {

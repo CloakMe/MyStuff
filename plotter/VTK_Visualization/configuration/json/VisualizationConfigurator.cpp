@@ -1,8 +1,7 @@
 #include "VisualizationConfigurator.h"
 #include "JSONConfigParser.h"
 
-visu::VisualizationConfigurator::VisualizationConfigurator(VisuType visuType)
-  : m_visuType(visuType)
+visu::VisualizationConfigurator::VisualizationConfigurator()
 {
 }
 
@@ -10,10 +9,10 @@ visu::VisualizationConfigurator::~VisualizationConfigurator()
 {
 }
 
-std::string visu::VisualizationConfigurator::getVisuType()
+std::string visu::VisualizationConfigurator::getVisuType(VisuType visuType) const
 {
     JSONConfigParser& config = JSONConfigParser::Instance();
-    switch(m_visuType)
+    switch(visuType)
     {
         case VisuType::Pressure:
             return config.GetVelocityValue();

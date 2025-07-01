@@ -9,7 +9,7 @@ visu::KeyControlsConfigurator::~KeyControlsConfigurator()
 {
 }
 
-std::string visu::getKeyVisuChanger()
+std::string visu::KeyControlsConfigurator::getKeyVisuChanger()
 {
-    JSONConfigParser::Instance().GetVisualizationValue();
+    return JSONConfigParser::Instance().GetVisualizationValue();
 }

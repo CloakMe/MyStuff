@@ -37,6 +37,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="UI">
     <VirtualDirectory Name="vtk">
+      <File Name="UI/vtk/VTK_CFDVisualizer.h"/>
       <File Name="UI/vtk/VTK_CFDVisualizer.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
