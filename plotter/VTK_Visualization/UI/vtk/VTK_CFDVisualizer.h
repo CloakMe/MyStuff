@@ -10,13 +10,16 @@
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
 #include <vtkNew.h>
+#include "IKeyControlsConfigurator.h"
 
 namespace visu
 {
 class VTK_CFDVisualizer : public IVisualizer
 {
 public:
-    VTK_CFDVisualizer();
+    VTK_CFDVisualizer(
+        std::unique_ptr<IKeyControlsConfigurator> keyControlsConfigurator, 
+        std::unique_ptr<VisualizationFactory> visualizationFactory);
     
     void Render(std::unique_ptr<AbstractDB> input) override;
     
@@ -34,7 +37,9 @@ private:
     void OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData);
 
     vtkSmartPointer<vtkDataSet> m_dataset;
+    std::unique_ptr<IKeyControlsConfigurator> m_keyControlsConfigurator;
     VisuType m_visuType;
+    std::unique_ptr<VisualizationFactory> m_visualizationFactory;
 };
 
 }

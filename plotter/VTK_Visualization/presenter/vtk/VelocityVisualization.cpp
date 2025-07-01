@@ -4,16 +4,18 @@
 #include <vtkPointData.h>
 
 using namespace visu;
+using namespace std;
 
-VelocityVisualization::VelocityVisualization() : 
-    m_visuConfigurator(make_unique<VisualizationConfigurator>(VisuType::Velocity))
+VelocityVisualization::VelocityVisualization(const IVisualizationConfigurator& visualizationConfigurator)
+  : m_visualizationConfigurator(visualizationConfigurator)
 {
 }
 
 void VelocityVisualization::createActors(vtkDataSet* dataset)
 {
     // Set the active vector array to "velocity" in the point data
-    dataset->GetPointData()->SetActiveVectors(m_visuConfigurator->getVisuType());
+    string velocityVectorName = m_visualizationConfigurator.getVisuType(VisuType::Velocity);
+    dataset->GetPointData()->SetActiveVectors(velocityVectorName.c_str());
     
     // Create glyphs for velocity vectors
     vtkNew<vtkArrowSource> arrow;

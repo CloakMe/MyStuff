@@ -29,6 +29,8 @@ add_executable(VTK_Visualization
     DB/vtk/VTK_Database.cpp
     UI/vtk/VTK_CFDVisualizer.cpp
     configuration/json/JSONConfigParser.cpp
+    configuration/json/VisualizationConfigurator.cpp
+    configuration/json/KeyControlsConfigurator.cpp
     common/vtk/VTK_DBWrapper.cpp
     )
 

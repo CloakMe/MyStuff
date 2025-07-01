@@ -8,11 +8,9 @@ namespace visu
 class VisualizationConfigurator : public IVisualizationConfigurator
 {
 public:
-    VisualizationConfigurator(VisuType visuType);
+    VisualizationConfigurator();
     ~VisualizationConfigurator();
-    std::string getVisuType() override;
-private:
-    VisuType m_visuType;
+    std::string getVisuType(VisuType visuType) const override;
 };
 
 }
