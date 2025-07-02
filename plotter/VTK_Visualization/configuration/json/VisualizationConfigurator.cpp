@@ -15,9 +15,9 @@ std::string visu::VisualizationConfigurator::getVisuType(VisuType visuType) cons
     switch(visuType)
     {
         case VisuType::Pressure:
-            return config.GetVelocityValue();
-        case VisuType::Velocity:
             return config.GetPressureValue();
+        case VisuType::Velocity:
+            return config.GetVelocityValue();
         default:
             return config.GetMeshValue();
     }

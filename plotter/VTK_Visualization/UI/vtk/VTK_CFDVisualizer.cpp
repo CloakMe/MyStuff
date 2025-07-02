@@ -43,7 +43,8 @@ void VTK_CFDVisualizer::Render()
     
     // vtk Actor and Mapper
     std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType, m_dataset);
-    
+    if(visualization.get() == nullptr)
+        return;
     // vtk Renderer and Window
     vtkNew<vtkRenderer> renderer;
     visualization->addToRenderer(renderer);
