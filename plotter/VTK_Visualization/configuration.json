@@ -1,7 +1,7 @@
 {
   "visualization": {
-    "pressure": "Pressure",
-    "velocity": "VELOCITY",
+    "pressure": "pressure",
+    "velocity": "velocity",
     "mesh": "mesh"
   },
   "controls": {
