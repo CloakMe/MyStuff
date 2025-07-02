@@ -68,9 +68,14 @@ void VTK_CFDVisualizer::Render()
     
     
     renderWindow->Render();
+    interactor->Initialize();
     interactor->Start();
     
-    visualization->removeFromRenderer(renderer);
+    // Reset smart pointers (if you hold them as members)
+    renderWindow.Reset();
+    interactor.Reset();
+    renderer.Reset();
+    //visualization->removeFromRenderer(renderer);
 }
 
 void VTK_CFDVisualizer::setupUI()
@@ -84,8 +89,13 @@ void VTK_CFDVisualizer::setupUI()
 void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData) 
 {
     auto interactor = static_cast<vtkRenderWindowInteractor*>(caller);
-        
     std::string key = interactor->GetKeySym();
+    // Close the render window
+    interactor->GetRenderWindow()->Finalize();
+
+    // Stop the interactor event loop
+    interactor->TerminateApp();
+    
     if (key == m_keyControlsConfigurator->getKeyVisuChanger()) 
     {
         if(m_visuType == VisuType::Velocity)
