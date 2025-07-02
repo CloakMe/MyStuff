@@ -22,7 +22,7 @@ void PressureVisualization::createActors(vtkDataSet* dataset)
     vtkPointData* pointData = dataset->GetPointData();
     vtkCellData* cellData = dataset->GetCellData();
     vtkDataSetAttributes* dataSetAttr = cellData != nullptr ? cellData : nullptr;
-    dataSetAttr = pointData != nullptr ? pointData : dataSetAttr;
+    //dataSetAttr = pointData != nullptr ? pointData : dataSetAttr;
     if(!dataSetAttr)
         return;
     

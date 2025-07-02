@@ -1,5 +1,5 @@
-rm -rf ./build-Debug
-mkdir ./build-Debug
-cd ./build-Debug
+rm -rf ./build-debug
+mkdir ./build-debug
+cd ./build-debug
 cmake ..
 make -j4
