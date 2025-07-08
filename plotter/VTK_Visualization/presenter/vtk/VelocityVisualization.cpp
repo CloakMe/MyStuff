@@ -9,15 +9,15 @@
 using namespace visu;
 using namespace std;
 
-VelocityVisualization::VelocityVisualization(const IVisualizationConfigurator& visualizationConfigurator)
-  : m_visualizationConfigurator(visualizationConfigurator)
+VelocityVisualization::VelocityVisualization(const IConfigurator& configurator)
+  : m_configurator(configurator)
 {
 }
 
 vtkSmartPointer<vtkActor> VelocityVisualization::createActors(vtkSmartPointer<vtkDataSet> dataset)
 {
     // Set the active vector array to "velocity" in the point data
-    string velocityVectorName = m_visualizationConfigurator.getVisuType(VisuType::Velocity);
+    string velocityVectorName = m_configurator.GetVelocityValue();
 
     vtkPointData* pointData = dataset->GetPointData();
     vtkCellData* cellData = dataset->GetCellData(); //;
@@ -41,7 +41,7 @@ vtkSmartPointer<vtkActor> VelocityVisualization::createActors(vtkSmartPointer<vt
     glyph->SetInputData(dataset);
     glyph->SetSourceConnection(arrow->GetOutputPort());
     glyph->SetVectorModeToUseVector();
-    glyph->SetScaleFactor(0.1);
+    glyph->SetScaleFactor(m_configurator.GetGlyphScaleFactor());
     glyph->Update();
 
     mapper->SetInputConnection(glyph->GetOutputPort());

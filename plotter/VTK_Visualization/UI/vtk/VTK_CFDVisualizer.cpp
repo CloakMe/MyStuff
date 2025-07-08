@@ -1,39 +1,27 @@
 #include "VTK_CFDVisualizer.h"
+#include "IConfigurator.h"
 #include "VTK_DBWrapper.h"
-#include "IKeyControlsConfigurator.h"
-#include <vtkCallbackCommand.h>
+
 #include <vtkActor.h>
-//#include <vtkPointData.h>
-//#include <vtkDataArray.h>
+#include <vtkCallbackCommand.h>
 
 using namespace visu;
 using namespace std;
 
-VTK_CFDVisualizer::VTK_CFDVisualizer(
-    std::unique_ptr<IKeyControlsConfigurator> keyControlsConfigurator, 
-    std::unique_ptr<VisualizationFactory> visualizationFactory)
+VTK_CFDVisualizer::VTK_CFDVisualizer(const IConfigurator& configurator,
+                                     std::unique_ptr<VisualizationFactory> visualizationFactory)
+                                     : m_configurator(configurator)
 {
     m_visuType = VisuType::Mesh;
-    m_keyControlsConfigurator = move(keyControlsConfigurator);
     m_visualizationFactory = move(visualizationFactory);
+    m_initialized = false;
 }
-        
+
 void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
 {
     VTK_DBWrapper* vtk_input = static_cast<VTK_DBWrapper*>(input.release());
     m_dataset = (*vtk_input)();
-    
-/*    vtkPointData* pointData = m_dataset->GetPointData();
-    int numArrays = pointData->GetNumberOfArrays();
 
-    for (int i = 0; i < numArrays; ++i) {
-        vtkDataArray* array = pointData->GetArray(i);
-        if (array && array->GetNumberOfComponents() == 3) {
-            std::cout << "Vector array with 3 components found: " << array->GetName() << std::endl;
-        }else if(array)
-            std::cout << "Vector array found: " << array->GetName() << std::endl;
-    }*/
- 
     Render();
 }
 
@@ -41,76 +29,81 @@ void VTK_CFDVisualizer::Render()
 {
     if(m_dataset == nullptr)
         return;
-    
-    // vtk Actor and Mapper
+
+    cout << "Successfully started the render method!" << endl;
+
     std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType);
     if(visualization.get() == nullptr)
         return;
-    // vtk Renderer and Window
+    if(!m_initialized) 
+    {
+        cout << "Initialize render window, renderer and interactor!" << endl;
+        m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+        m_renderer = vtkSmartPointer<vtkRenderer>::New();
+        m_interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    }
+    // vtk Actor and Mapper
     vtkSmartPointer<vtkActor> actor = visualization->createActors(m_dataset);
-    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-    renderer->AddActor(actor);
-    //renderer->AddActor(actor);
-    renderer->SetBackground(0.2, 0.3, 0.4); // Non-black background
-        
-    vtkNew<vtkRenderWindow> renderWindow;
-    renderWindow->AddRenderer(renderer);
-    renderWindow->SetSize(800, 600);
-    renderWindow->SetWindowName("Working VTK Example");
+    cout << "Successfully created actor and mapper!" << endl;
+    // vtk Renderer and Window
+
+    m_renderer->AddActor(actor);
+    vector<double> rgb_color = m_configurator.GetBackgroundColor();
+    if(rgb_color.size() == 3)
+        m_renderer->SetBackground(rgb_color[0], rgb_color[1], rgb_color[2]); // Non-black background
+
+    m_renderWindow->AddRenderer(m_renderer);
+    vector<int> windowSize = m_configurator.GetWindowSize();
+    if(windowSize.size() == 2)
+        m_renderWindow->SetSize(windowSize[0], windowSize[1]);
+    m_renderWindow->SetWindowName(m_configurator.GetWindowTitle().c_str());
+    cout << "Successfully created Window properties!" << endl;
 
     // vtk Interactor
-    vtkSmartPointer<vtkRenderWindowInteractor> interactor = 
-	    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    interactor->SetRenderWindow(renderWindow);
-    
-    // Callback
-    vtkSmartPointer<vtkCallbackCommand> keypressCallback = 
-	    vtkSmartPointer<vtkCallbackCommand>::New();
-    keypressCallback->SetClientData(this);
-    keypressCallback->SetCallback(KeyPressCallback);
-    interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());
-    
-    
-    renderWindow->Render();
-    interactor->Initialize();
-    interactor->Start();
+    m_interactor->SetRenderWindow(m_renderWindow);
+
+    m_renderWindow->Render();
+    cout << "Successfully rendered the window!" << endl;
+    if(!m_initialized) {
+        // Callback
+        vtkSmartPointer<vtkCallbackCommand> keypressCallback = vtkSmartPointer<vtkCallbackCommand>::New();
+        keypressCallback->SetClientData(this);
+        keypressCallback->SetCallback(KeyPressCallback);
+        m_interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());
+        m_initialized = true;
+        cout << "Successfully added Callback Observer!" << endl;
+        // Init and start interactor
+        m_interactor->Initialize();
+        m_interactor->Start();
+    }    
     
     cout << "Successfully ended the render method!" << endl;
-    //visualization->removeFromRenderer(renderer);
 }
 
 void VTK_CFDVisualizer::setupUI()
 {
-/*    m_interactor->AddObserver(vtkCommand::KeyPressEvent, [this](vtkObject*, unsigned long, void*) {
-        //m_manager.showNext();
-        m_renderWindow->Render();
-    });*/
+    /*    m_interactor->AddObserver(vtkCommand::KeyPressEvent, [this](vtkObject*, unsigned long, void*) {
+            //m_manager.showNext();
+            m_renderWindow->Render();
+        });*/
 }
 
-void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData) 
+void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData)
 {
     auto interactor = static_cast<vtkRenderWindowInteractor*>(caller);
     std::string key = interactor->GetKeySym();
-    
-    if (key == m_keyControlsConfigurator->getKeyVisuChanger()) 
-    {
-        // Close the render window
-        interactor->GetRenderWindow()->Finalize();
 
-        // Stop the interactor event loop
-        interactor->TerminateApp();
-        if(m_visuType == VisuType::Velocity)
-        {
+    if(key == m_configurator.GetVisualizationValue()) 
+    {
+        m_renderer->RemoveAllViewProps();
+
+        if(m_visuType == VisuType::Velocity) {
             m_visuType = VisuType::Mesh;
             Render();
-        }
-        else if(m_visuType == VisuType::Mesh)
-        {
+        } else if(m_visuType == VisuType::Mesh) {
             m_visuType = VisuType::Pressure;
             Render();
-        }
-        else if(m_visuType == VisuType::Pressure)
-        {
+        } else if(m_visuType == VisuType::Pressure) {
             m_visuType = VisuType::Velocity;
             Render();
         }

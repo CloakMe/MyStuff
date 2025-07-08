@@ -8,10 +8,6 @@
   </VirtualDirectory>
   <VirtualDirectory Name="configuration">
     <VirtualDirectory Name="json">
-      <File Name="configuration/json/KeyControlsConfigurator.cpp"/>
-      <File Name="configuration/json/KeyControlsConfigurator.h"/>
-      <File Name="configuration/json/VisualizationConfigurator.cpp"/>
-      <File Name="configuration/json/VisualizationConfigurator.h"/>
       <File Name="configuration/json/JSONConfigParser.h"/>
       <File Name="configuration/json/JSONConfigParser.cpp"/>
     </VirtualDirectory>
@@ -20,8 +16,7 @@
     <File Name="external/json.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
-    <File Name="include/IKeyControlsConfigurator.h"/>
-    <File Name="include/IVisualizationConfigurator.h"/>
+    <File Name="include/IConfigurator.h"/>
     <File Name="include/VisuType.h"/>
     <File Name="include/IVisualizer.h"/>
     <File Name="include/IPresenter.h"/>

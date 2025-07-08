@@ -1,5 +1,4 @@
 #pragma once
-#include "IVisualizationConfigurator.h"
 #include <vtkDataSet.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>

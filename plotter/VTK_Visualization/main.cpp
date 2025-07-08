@@ -5,8 +5,6 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 #include "presenter/vtk/MeshVisualization.h"
 #include "presenter/vtk/VisualizationStrategy.h"
 #include "UI/vtk/VTK_CFDVisualizer.h"
-#include "configuration/json/VisualizationConfigurator.h"
-#include "configuration/json/KeyControlsConfigurator.h"
 #include "configuration/json/JSONConfigParser.h"
 #include "VTK_Database.h"
 #include "Presenter.h"
@@ -29,8 +27,8 @@ int main(int argc, char* argv[])
     
     JSONConfigParser& config = JSONConfigParser::Instance();
     config.LoadConfigFromFile("configuration.json");
-    auto visuFactory = make_unique<VisualizationFactory>(make_unique<VisualizationConfigurator>());
-    unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>(make_unique<KeyControlsConfigurator>(), move(visuFactory));
+    auto visuFactory = make_unique<VisualizationFactory>(config);
+    unique_ptr<IVisualizer> view = make_unique<VTK_CFDVisualizer>(config, move(visuFactory));
     unique_ptr<IDB> vtkDatabase = make_unique<VTK_Database>(argv[1]);
     Presenter presenter(move(vtkDatabase), move(view));
     presenter.Load();

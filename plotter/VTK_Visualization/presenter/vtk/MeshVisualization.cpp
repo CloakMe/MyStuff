@@ -9,18 +9,20 @@
 using namespace visu;
 using namespace std;
 
-MeshVisualization::MeshVisualization(const IVisualizationConfigurator& visualizationConfigurator)
-  : m_visualizationConfigurator(visualizationConfigurator)
+MeshVisualization::MeshVisualization(const IConfigurator& configurator)
+  : m_configurator(configurator)
 {}
 
 vtkSmartPointer<vtkActor> MeshVisualization::createActors(vtkSmartPointer<vtkDataSet> dataset)
 {
-    vtkSmartPointer<vtkDataSetMapper> mapper;
-    vtkSmartPointer<vtkActor> actor;
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     mapper->SetInputData(dataset);
     actor->SetMapper(mapper);
     actor->GetProperty()->SetRepresentationToWireframe();
-    actor->GetProperty()->SetColor(0.5, 0.5, 0.5);
+    vector<double> rgb_color = m_configurator.GetMeshColor();
+    if(rgb_color.size() == 3)
+        actor->GetProperty()->SetColor(rgb_color[0], rgb_color[1], rgb_color[2]);
     return actor;
 }
 
