@@ -12,8 +12,7 @@ class VisualizationFactory
 {
 public:
     VisualizationFactory(std::unique_ptr<IVisualizationConfigurator> visualizationConfigurator);
-    std::unique_ptr<VisualizationStrategy> createStrategy(
-        VisuType visuType, vtkSmartPointer<vtkDataSet> dataset);
+    std::unique_ptr<VisualizationStrategy> createStrategy(VisuType visuType);
 private:
     std::unique_ptr<IVisualizationConfigurator> m_visualizationConfigurator;
 };

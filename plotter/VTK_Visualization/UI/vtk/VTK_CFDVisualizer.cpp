@@ -2,6 +2,7 @@
 #include "VTK_DBWrapper.h"
 #include "IKeyControlsConfigurator.h"
 #include <vtkCallbackCommand.h>
+#include <vtkActor.h>
 //#include <vtkPointData.h>
 //#include <vtkDataArray.h>
 
@@ -42,12 +43,13 @@ void VTK_CFDVisualizer::Render()
         return;
     
     // vtk Actor and Mapper
-    std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType, m_dataset);
+    std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType);
     if(visualization.get() == nullptr)
         return;
     // vtk Renderer and Window
+    vtkSmartPointer<vtkActor> actor = visualization->createActors(m_dataset);
     vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-    visualization->addToRenderer(renderer);
+    renderer->AddActor(actor);
     //renderer->AddActor(actor);
     renderer->SetBackground(0.2, 0.3, 0.4); // Non-black background
         
