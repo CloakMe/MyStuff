@@ -1,15 +1,404 @@
-In file included from /usr/include/c++/12/memory:76,
-                 from v_vtk/presenter/vtk/VisualizationStrategy.h:6,
-                 from v_vtk/presenter/vtk/VisualizationFactory.h:2,
-                 from v_vtk/presenter/vtk/VisualizationFactory.cpp:1:
-/usr/include/c++/12/bits/unique_ptr.h: In instantiation of 'std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = visu::MeshVisualization; _Args = {unique_ptr<visu::IVisualizationConfigurator, default_delete<visu::IVisualizationConfigurator> >&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<visu::MeshVisualization>]':
-v_vtk/presenter/vtk/VisualizationFactory.cpp:28:55:   required from here
-/usr/include/c++/12/bits/unique_ptr.h:1065:30: error: use of deleted function 'std::unique_ptr<_Tp, _Dp>::unique_ptr(const std::unique_ptr<_Tp, _Dp>&) [with _Tp = visu::IVisualizationConfigurator; _Dp = std::default_delete<visu::IVisualizationConfigurator>]'
- 1065 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
-      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/usr/include/c++/12/bits/unique_ptr.h:514:7: note: declared here
-  514 |       unique_ptr(const unique_ptr&) = delete;
-      |       ^~~~~~~~~~
-In file included from v_vtk/presenter/vtk/VisualizationFactory.cpp:2:
-v_vtk/presenter/vtk/MeshVisualization.h:15:67: note:   initializing argument 1 of 'visu::MeshVisualization::MeshVisualization(std::unique_ptr<visu::IVisualizationConfigurator>)'
-   15 |     MeshVisualization(std::unique_ptr<IVisualizationConfigurator> visualizationConfigurator);
+MESSAGE: Entering directory `/v_vtk/build-debug'
+/bin/bash './VTK_Visualization.sh'
+----------Building project:[ VTK_Visualization - Debug_Linux ]----------
+Executing Pre Build commands ...
+/v_vtk/build-debug
+Done
+[  9%] Building CXX object CMakeFiles/VTK_Visualization.dir/main.cpp.o
+[ 18%] Building CXX object CMakeFiles/VTK_Visualization.dir/presenter/vtk/PressureVisualization.cpp.o
+[ 27%] Building CXX object CMakeFiles/VTK_Visualization.dir/configuration/json/JSONConfigParser.cpp.o
+In file included from /v_vtk/configuration/json/JSONConfigParser.cpp:1:
+/v_vtk/configuration/json/JSONConfigParser.h: In member function 'std::vector<T> JSONConfigParser::GetArrayValue(const std::string&, const std::string&) const':
+/v_vtk/configuration/json/JSONConfigParser.h:68:17: error: 'const class json::JSON' has no member named 'contains'
+   68 |     if (!m_json.contains(parentKey)) {
+      |                 ^~~~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:73:16: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   73 |     if (parent.type() != json::Class::Object) {
+      |                ^~~~
+      |                Type
+/v_vtk/configuration/json/JSONConfigParser.h:73:32: error: 'json::Class' has not been declared
+   73 |     if (parent.type() != json::Class::Object) {
+      |                                ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:78:17: error: 'const class json::JSON' has no member named 'contains'
+   78 |     if (!parent.contains(key)) {
+      |                 ^~~~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:82:41: error: no match for 'operator[]' (operand types are 'const json::JSON' and 'const std::string' {aka 'const std::__cxx11::basic_string<char>'})
+   82 |     const json::JSON& arrayJson = parent[key];
+      |                                         ^
+In file included from /v_vtk/configuration/json/JSONConfigParser.h:4:
+/v_vtk/external/json.h:239:15: note: candidate: 'json::JSON& json::JSON::operator[](unsigned int)'
+  239 |         JSON& operator[]( unsigned index ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:239:36: note:   no known conversion for argument 1 from 'const std::string' {aka 'const std::__cxx11::basic_string<char>'} to 'unsigned int'
+  239 |         JSON& operator[]( unsigned index ) {
+      |                           ~~~~~~~~~^~~~~
+/v_vtk/external/json.h:235:15: note: candidate: 'json::JSON& json::JSON::operator[](const std::string&)' (near match)
+  235 |         JSON& operator[]( const string &key ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:235:15: note:   passing 'const json::JSON*' as 'this' argument discards qualifiers
+/v_vtk/configuration/json/JSONConfigParser.h:83:19: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                   ^~~~
+      |                   Type
+/v_vtk/configuration/json/JSONConfigParser.h:83:35: error: 'json::Class' has not been declared
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                                   ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:89:43: error: no match for 'operator[]' (operand types are 'const json::JSON' and 'size_t' {aka 'long unsigned int'})
+   89 |         const json::JSON& elem = arrayJson[i];
+      |                                           ^
+/v_vtk/external/json.h:239:15: note: candidate: 'json::JSON& json::JSON::operator[](unsigned int)' (near match)
+  239 |         JSON& operator[]( unsigned index ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:239:15: note:   passing 'const json::JSON*' as 'this' argument discards qualifiers
+/v_vtk/external/json.h:235:15: note: candidate: 'json::JSON& json::JSON::operator[](const std::string&)'
+  235 |         JSON& operator[]( const string &key ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:235:41: note:   no known conversion for argument 1 from 'size_t' {aka 'long unsigned int'} to 'const std::string&' {aka 'const std::__cxx11::basic_string<char>&'}
+  235 |         JSON& operator[]( const string &key ) {
+      |                           ~~~~~~~~~~~~~~^~~
+/v_vtk/configuration/json/JSONConfigParser.h:93:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:93:38: error: 'json::Class' has not been declared
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:94:39: error: 'const class json::JSON' has no member named 'get'
+   94 |                 result.push_back(elem.get<double>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:94:43: error: expected primary-expression before 'double'
+   94 |                 result.push_back(elem.get<double>());
+      |                                           ^~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:95:29: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                             ^~~~
+      |                             Type
+/v_vtk/configuration/json/JSONConfigParser.h:95:45: error: 'json::Class' has not been declared
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                                             ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:96:59: error: 'const class json::JSON' has no member named 'get'
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                           ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:96:70: error: expected primary-expression before '>' token
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                                      ^
+/v_vtk/configuration/json/JSONConfigParser.h:96:72: error: expected primary-expression before ')' token
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                                        ^
+/v_vtk/configuration/json/JSONConfigParser.h:101:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:101:38: error: 'json::Class' has not been declared
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:102:39: error: 'const class json::JSON' has no member named 'get'
+  102 |                 result.push_back(elem.get<int>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:102:43: error: expected primary-expression before 'int'
+  102 |                 result.push_back(elem.get<int>());
+      |                                           ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:104:27: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                           ^~~~
+      |                           Type
+/v_vtk/configuration/json/JSONConfigParser.h:104:43: error: 'json::Class' has not been declared
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                                           ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:56: error: 'const class json::JSON' has no member named 'get'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                        ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:60: error: expected primary-expression before 'double'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                            ^~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:60: error: expected ')' before 'double'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                            ^~~~~~
+      |                                                            )
+/v_vtk/configuration/json/JSONConfigParser.h:105:70: error: expected ';' before ')' token
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                                      ^
+      |                                                                      ;
+/v_vtk/configuration/json/JSONConfigParser.h:110:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  110 |             if (elem.type() == json::Class::String) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:110:38: error: 'json::Class' has not been declared
+  110 |             if (elem.type() == json::Class::String) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:111:39: error: 'const class json::JSON' has no member named 'get'
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:111:54: error: expected primary-expression before '>' token
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                                      ^
+/v_vtk/configuration/json/JSONConfigParser.h:111:56: error: expected primary-expression before ')' token
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                                        ^
+/v_vtk/configuration/json/JSONConfigParser.h:118:39: error: 'const class json::JSON' has no member named 'get'
+  118 |                 result.push_back(elem.get<T>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:118:44: error: expected primary-expression before '>' token
+  118 |                 result.push_back(elem.get<T>());
+      |                                            ^
+/v_vtk/configuration/json/JSONConfigParser.h:118:46: error: expected primary-expression before ')' token
+  118 |                 result.push_back(elem.get<T>());
+      |                                              ^
+/v_vtk/configuration/json/JSONConfigParser.cpp: In member function 'virtual double JSONConfigParser::GetGlyphScaleFactor() const':
+/v_vtk/configuration/json/JSONConfigParser.cpp:103:21: error: expected primary-expression before 'double'
+  103 |     return GetValue<double>("glyphScaleFactor", m_windowPropertiesKey);
+      |                     ^~~~~~
+/v_vtk/configuration/json/JSONConfigParser.cpp:103:21: error: expected ';' before 'double'
+  103 |     return GetValue<double>("glyphScaleFactor", m_windowPropertiesKey);
+      |                     ^~~~~~
+      |                     ;
+/v_vtk/configuration/json/JSONConfigParser.cpp:103:27: error: expected unqualified-id before '>' token
+  103 |     return GetValue<double>("glyphScaleFactor", m_windowPropertiesKey);
+      |                           ^
+/v_vtk/configuration/json/JSONConfigParser.h: In instantiation of 'std::vector<T> JSONConfigParser::GetArrayValue(const std::string&, const std::string&) const [with T = double; std::string = std::__cxx11::basic_string<char>]':
+/v_vtk/configuration/json/JSONConfigParser.cpp:83:33:   required from here
+/v_vtk/configuration/json/JSONConfigParser.h:73:16: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   73 |     if (parent.type() != json::Class::Object) {
+      |                ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:83:19: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                   ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:93:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:95:29: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                             ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:101:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:104:27: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                           ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:110:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  110 |             if (elem.type() == json::Class::String) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h: In instantiation of 'std::vector<T> JSONConfigParser::GetArrayValue(const std::string&, const std::string&) const [with T = int; std::string = std::__cxx11::basic_string<char>]':
+/v_vtk/configuration/json/JSONConfigParser.cpp:88:30:   required from here
+/v_vtk/configuration/json/JSONConfigParser.h:73:16: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   73 |     if (parent.type() != json::Class::Object) {
+      |                ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:83:19: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                   ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:93:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:95:29: error: 'json::JSON::Class json::JSON::Type' is private within this context
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                             ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:101:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:104:27: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                           ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+/v_vtk/configuration/json/JSONConfigParser.h:110:22: error: 'json::JSON::Class json::JSON::Type' is private within this context
+  110 |             if (elem.type() == json::Class::String) {
+      |                      ^~~~
+/v_vtk/external/json.h:418:15: note: declared private here
+  418 |         Class Type = Class::Null;
+      |               ^~~~
+make[2]: *** [CMakeFiles/VTK_Visualization.dir/build.make:188: CMakeFiles/VTK_Visualization.dir/configuration/json/JSONConfigParser.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+In file included from /v_vtk/main.cpp:8:
+/v_vtk/configuration/json/JSONConfigParser.h: In member function 'std::vector<T> JSONConfigParser::GetArrayValue(const std::string&, const std::string&) const':
+/v_vtk/configuration/json/JSONConfigParser.h:68:17: error: 'const class json::JSON' has no member named 'contains'
+   68 |     if (!m_json.contains(parentKey)) {
+      |                 ^~~~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:73:16: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   73 |     if (parent.type() != json::Class::Object) {
+      |                ^~~~
+      |                Type
+/v_vtk/configuration/json/JSONConfigParser.h:73:32: error: 'json::Class' has not been declared
+   73 |     if (parent.type() != json::Class::Object) {
+      |                                ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:78:17: error: 'const class json::JSON' has no member named 'contains'
+   78 |     if (!parent.contains(key)) {
+      |                 ^~~~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:82:41: error: no match for 'operator[]' (operand types are 'const json::JSON' and 'const std::string' {aka 'const std::__cxx11::basic_string<char>'})
+   82 |     const json::JSON& arrayJson = parent[key];
+      |                                         ^
+In file included from /v_vtk/configuration/json/JSONConfigParser.h:4:
+/v_vtk/external/json.h:239:15: note: candidate: 'json::JSON& json::JSON::operator[](unsigned int)'
+  239 |         JSON& operator[]( unsigned index ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:239:36: note:   no known conversion for argument 1 from 'const std::string' {aka 'const std::__cxx11::basic_string<char>'} to 'unsigned int'
+  239 |         JSON& operator[]( unsigned index ) {
+      |                           ~~~~~~~~~^~~~~
+/v_vtk/external/json.h:235:15: note: candidate: 'json::JSON& json::JSON::operator[](const std::string&)' (near match)
+  235 |         JSON& operator[]( const string &key ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:235:15: note:   passing 'const json::JSON*' as 'this' argument discards qualifiers
+/v_vtk/configuration/json/JSONConfigParser.h:83:19: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                   ^~~~
+      |                   Type
+/v_vtk/configuration/json/JSONConfigParser.h:83:35: error: 'json::Class' has not been declared
+   83 |     if (arrayJson.type() != json::Class::Array) {
+      |                                   ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:89:43: error: no match for 'operator[]' (operand types are 'const json::JSON' and 'size_t' {aka 'long unsigned int'})
+   89 |         const json::JSON& elem = arrayJson[i];
+      |                                           ^
+/v_vtk/external/json.h:239:15: note: candidate: 'json::JSON& json::JSON::operator[](unsigned int)' (near match)
+  239 |         JSON& operator[]( unsigned index ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:239:15: note:   passing 'const json::JSON*' as 'this' argument discards qualifiers
+/v_vtk/external/json.h:235:15: note: candidate: 'json::JSON& json::JSON::operator[](const std::string&)'
+  235 |         JSON& operator[]( const string &key ) {
+      |               ^~~~~~~~
+/v_vtk/external/json.h:235:41: note:   no known conversion for argument 1 from 'size_t' {aka 'long unsigned int'} to 'const std::string&' {aka 'const std::__cxx11::basic_string<char>&'}
+  235 |         JSON& operator[]( const string &key ) {
+      |                           ~~~~~~~~~~~~~~^~~
+/v_vtk/configuration/json/JSONConfigParser.h:93:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:93:38: error: 'json::Class' has not been declared
+   93 |             if (elem.type() == json::Class::Floating) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:94:39: error: 'const class json::JSON' has no member named 'get'
+   94 |                 result.push_back(elem.get<double>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:94:43: error: expected primary-expression before 'double'
+   94 |                 result.push_back(elem.get<double>());
+      |                                           ^~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:95:29: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                             ^~~~
+      |                             Type
+/v_vtk/configuration/json/JSONConfigParser.h:95:45: error: 'json::Class' has not been declared
+   95 |             } else if (elem.type() == json::Class::Integral) {
+      |                                             ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:96:59: error: 'const class json::JSON' has no member named 'get'
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                           ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:96:70: error: expected primary-expression before '>' token
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                                      ^
+/v_vtk/configuration/json/JSONConfigParser.h:96:72: error: expected primary-expression before ')' token
+   96 |                 result.push_back(static_cast<double>(elem.get<int64_t>()));
+      |                                                                        ^
+/v_vtk/configuration/json/JSONConfigParser.h:101:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:101:38: error: 'json::Class' has not been declared
+  101 |             if (elem.type() == json::Class::Integral) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:102:39: error: 'const class json::JSON' has no member named 'get'
+  102 |                 result.push_back(elem.get<int>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:102:43: error: expected primary-expression before 'int'
+  102 |                 result.push_back(elem.get<int>());
+      |                                           ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:104:27: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                           ^~~~
+      |                           Type
+/v_vtk/configuration/json/JSONConfigParser.h:104:43: error: 'json::Class' has not been declared
+  104 |             else if (elem.type() == json::Class::Floating) {
+      |                                           ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:56: error: 'const class json::JSON' has no member named 'get'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                        ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:60: error: expected primary-expression before 'double'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                            ^~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:105:60: error: expected ')' before 'double'
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                            ^~~~~~
+      |                                                            )
+/v_vtk/configuration/json/JSONConfigParser.h:105:70: error: expected ';' before ')' token
+  105 |                 result.push_back(static_cast<int>(elem.get<double>()));
+      |                                                                      ^
+      |                                                                      ;
+/v_vtk/configuration/json/JSONConfigParser.h:110:22: error: 'const class json::JSON' has no member named 'type'; did you mean 'Type'?
+  110 |             if (elem.type() == json::Class::String) {
+      |                      ^~~~
+      |                      Type
+/v_vtk/configuration/json/JSONConfigParser.h:110:38: error: 'json::Class' has not been declared
+  110 |             if (elem.type() == json::Class::String) {
+      |                                      ^~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:111:39: error: 'const class json::JSON' has no member named 'get'
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:111:54: error: expected primary-expression before '>' token
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                                      ^
+/v_vtk/configuration/json/JSONConfigParser.h:111:56: error: expected primary-expression before ')' token
+  111 |                 result.push_back(elem.get<std::string>());
+      |                                                        ^
+/v_vtk/configuration/json/JSONConfigParser.h:118:39: error: 'const class json::JSON' has no member named 'get'
+  118 |                 result.push_back(elem.get<T>());
+      |                                       ^~~
+/v_vtk/configuration/json/JSONConfigParser.h:118:44: error: expected primary-expression before '>' token
+  118 |                 result.push_back(elem.get<T>());
+      |                                            ^
+/v_vtk/configuration/json/JSONConfigParser.h:118:46: error: expected primary-expression before ')' token
+  118 |                 result.push_back(elem.get<T>());
+      |                                              ^
+/v_vtk/presenter/vtk/PressureVisualization.cpp: In member function 'virtual vtkSmartPointer<vtkActor> visu::PressureVisualization::createActors(vtkSmartPointer<vtkDataSet>)':
+/v_vtk/presenter/vtk/PressureVisualization.cpp:25:47: error: 'const class IConfigurator' has no member named 'getPressureValue'; did you mean 'GetPressureValue'?
+   25 |     string pressureFieldName = m_configurator.getPressureValue();
+      |                                               ^~~~~~~~~~~~~~~~
+      |                                               GetPressureValue
+make[2]: *** [CMakeFiles/VTK_Visualization.dir/build.make:132: CMakeFiles/VTK_Visualization.dir/presenter/vtk/PressureVisualization.cpp.o] Error 1
+/v_vtk/main.cpp: In function 'int main(int, char**)':
+/v_vtk/main.cpp:29:30: error: passing 'const JSONConfigParser' as 'this' argument discards qualifiers [-fpermissive]
+   29 |     config.LoadConfigFromFile("configuration.json");
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/v_vtk/configuration/json/JSONConfigParser.h:16:10: note:   in call to 'bool JSONConfigParser::LoadConfigFromFile(const std::string&)'
+   16 |     bool LoadConfigFromFile(const std::string& filename);
+      |          ^~~~~~~~~~~~~~~~~~
+make[2]: *** [CMakeFiles/VTK_Visualization.dir/build.make:76: CMakeFiles/VTK_Visualization.dir/main.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:83: CMakeFiles/VTK_Visualization.dir/all] Error 2
+make: *** [Makefile:91: all] Error 2
+Executing Post Build commands ...
+/v_vtk/build-debug
+Done
+==== build ended with errors (89 errors, 37 warnings) ===

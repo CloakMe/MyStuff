@@ -11,9 +11,9 @@ using namespace visu;
 using namespace std;
 
 // Factory implementation
-VisualizationFactory::VisualizationFactory(std::unique_ptr<IVisualizationConfigurator> visualizationConfigurator)
+VisualizationFactory::VisualizationFactory(const IConfigurator& configurator)
+    : m_configurator(configurator)
 {
-    m_visualizationConfigurator = move(visualizationConfigurator);
 }
 
 std::unique_ptr<VisualizationStrategy> VisualizationFactory::createStrategy(VisuType visuType)
@@ -21,17 +21,17 @@ std::unique_ptr<VisualizationStrategy> VisualizationFactory::createStrategy(Visu
     unique_ptr<VisualizationStrategy> strategy = nullptr;
     if (visuType == VisuType::Mesh) 
     {
-        strategy = make_unique<MeshVisualization>(*m_visualizationConfigurator);
+        strategy = make_unique<MeshVisualization>(m_configurator);
         return strategy;
     }
     else if (visuType == VisuType::Pressure) 
     {
-        strategy = make_unique<PressureVisualization>(*m_visualizationConfigurator);
+        strategy = make_unique<PressureVisualization>(m_configurator);
         return strategy;
     }
     else if (visuType == VisuType::Velocity) 
     {
-        strategy = make_unique<VelocityVisualization>(*m_visualizationConfigurator);
+        strategy = make_unique<VelocityVisualization>(m_configurator);
         return strategy;
     }
     cerr << "Unknown visualization mode!" << endl;

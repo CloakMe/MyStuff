@@ -12,8 +12,8 @@
 using namespace visu;
 using namespace std;
 
-PressureVisualization::PressureVisualization(const IVisualizationConfigurator& visualizationConfigurator)
-  : m_visualizationConfigurator(visualizationConfigurator)
+PressureVisualization::PressureVisualization(const IConfigurator& configurator)
+  : m_configurator(configurator)
 {
     
 }
@@ -21,8 +21,8 @@ PressureVisualization::PressureVisualization(const IVisualizationConfigurator& v
 vtkSmartPointer<vtkActor> PressureVisualization::createActors(vtkSmartPointer<vtkDataSet> dataset)
 {// Set the active vector array to "pressure" in the point/cell data
     vtkPointData* pointData = dataset->GetPointData();
-    vtkCellData* cellData = dataset->GetCellData(); //;
-    string pressureFieldName = m_visualizationConfigurator.getVisuType(VisuType::Pressure);
+    vtkCellData* cellData = dataset->GetCellData();
+    string pressureFieldName = m_configurator.GetPressureValue();
     bool pointDataOk = false,
          cellDataOk = false;
     vtkDataArray* dataArray = nullptr;
@@ -36,31 +36,18 @@ vtkSmartPointer<vtkActor> PressureVisualization::createActors(vtkSmartPointer<vt
     }
     if(!cellDataOk && !pointDataOk)
         return nullptr;
-    /*
-
-    std::cout << "Available arrays in PointData:" << std::endl;
-    for (int i = 0; i < numArrays; ++i)
-    {
-        vtkDataArray* array = pointData->GetArray(i);
-        if (array) {
-            std::cout << "Array " << i << ": " << array->GetName() << std::endl;
-        }
-    }
-    if(result == -1)
-    {
-        cerr << "Could not set Pressure Active scalars!" << endl;
-        return strategy;
-    }
-    */
+ 
     // Set up pressure color mapping
     vtkSmartPointer<vtkLookupTable> lut = vtkSmartPointer<vtkLookupTable>::New();
-    lut->SetHueRange(0.667, 0.0); // Blue to red
+    vector<double> hue = m_configurator.GetPressureHue();
+    if(hue.size() == 2)
+        lut->SetHueRange(hue[0], hue[1]); // Blue to red
     lut->Build();
 
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
     mapper->SetScalarModeToUseCellData();
-    mapper->SetInputData(dataset); 
+    mapper->SetInputData(dataset);
     mapper->SelectColorArray(pressureFieldName.c_str());
     mapper->SetLookupTable(lut);
     mapper->SetScalarRange(dataArray->GetRange());

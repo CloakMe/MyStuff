@@ -1,4 +1,5 @@
 #pragma once
+#include "IConfigurator.h"
 #include "VisualizationStrategy.h"
 #include "VisuType.h"
 #include <vtkSmartPointer.h>
@@ -11,10 +12,10 @@ namespace visu
 class VisualizationFactory 
 {
 public:
-    VisualizationFactory(std::unique_ptr<IVisualizationConfigurator> visualizationConfigurator);
+    VisualizationFactory(const IConfigurator& configurator);
     std::unique_ptr<VisualizationStrategy> createStrategy(VisuType visuType);
 private:
-    std::unique_ptr<IVisualizationConfigurator> m_visualizationConfigurator;
+    const IConfigurator& m_configurator;
 };
 
 }
