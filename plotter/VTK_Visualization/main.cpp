@@ -33,5 +33,7 @@ int main(int argc, char* argv[])
     Presenter presenter(move(vtkDatabase), move(view));
     presenter.Load();
     presenter.UpdateView();
+
+    _CrtDumpMemoryLeaks();
     return EXIT_SUCCESS;
 }
