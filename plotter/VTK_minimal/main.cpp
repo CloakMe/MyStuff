@@ -84,6 +84,7 @@ int main2() {
 #include <vtkClipDataSet.h>
 #include <vtkDataSetMapper.h>
 #include <vtkPlane.h>
+#include <vtkHexahedron.h>
 
 // Callback to update clipping plane origin on slider interaction
 class SliderCallback : public vtkCommand
@@ -111,103 +112,64 @@ public:
 
 int main()
 {
-	auto points = vtkSmartPointer<vtkPoints>::New();
+	// Create points for two connected parallelepipeds
+    auto points = vtkSmartPointer<vtkPoints>::New();
 
-    // Define points (example coordinates, can be adjusted)
-    // Bottom square base
-    points->InsertNextPoint(0.0, 0.0, 0.0); // 0
-    points->InsertNextPoint(1.0, 0.0, 0.0); // 1
-    points->InsertNextPoint(1.0, 1.0, 0.0); // 2
-    points->InsertNextPoint(0.0, 1.0, 0.0); // 3
+    // Coordinates of 12 points for two hexahedrons sharing a face along the x-axis
+    points->InsertNextPoint(0.0, 0.0, 0.0);  // 0
+    points->InsertNextPoint(1.0, 0.0, 0.0);  // 1
+    points->InsertNextPoint(1.0, 1.0, 0.0);  // 2
+    points->InsertNextPoint(0.0, 1.0, 0.0);  // 3
+    points->InsertNextPoint(0.0, 0.0, 1.0);  // 4
+    points->InsertNextPoint(1.0, 0.0, 1.0);  // 5
+    points->InsertNextPoint(1.0, 1.0, 1.0);  // 6
+    points->InsertNextPoint(0.0, 1.0, 1.0);  // 7
 
-    // Points elevated for tetra and pyramid construction
-    points->InsertNextPoint(0.5, 0.5, 0.5);  // 4 - center elevated point (for middle layer tetra)
-    points->InsertNextPoint(0.5, 0.5, 1.0);  // 5 - top pyramid peak
+    // Second hexahedron points, shifted by 1 along x-axis sharing one face with first hexahedron
+    points->InsertNextPoint(1.0, 0.0, 0.0);  // 8 (same as 1)
+    points->InsertNextPoint(2.0, 0.0, 0.0);  // 9
+    points->InsertNextPoint(2.0, 1.0, 0.0);  // 10
+    points->InsertNextPoint(1.0, 1.0, 0.0);  // 11 (same as 2)
+    points->InsertNextPoint(1.0, 0.0, 1.0);  // 12 (same as 5)
+    points->InsertNextPoint(2.0, 0.0, 1.0);  // 13
+    points->InsertNextPoint(2.0, 1.0, 1.0);  // 14
+    points->InsertNextPoint(1.0, 1.0, 1.0);  // 15 (same as 6)
 
-    // Additional points to form the tetrahedrons with peaks pointing up/down
-    points->InsertNextPoint(0.5, 0.0, 0.5);  // 6
-    points->InsertNextPoint(1.0, 0.5, 0.5);  // 7
-    points->InsertNextPoint(0.5, 1.0, 0.5);  // 8
-    points->InsertNextPoint(0.0, 0.5, 0.5);  // 9
-
-    // Create unstructured grid
+    // Create the unstructured grid
     auto ugrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     ugrid->SetPoints(points);
 
-    // Define tetrahedrons for bottom layer (4 tetras)
-    // Tetra 1: points 0,1,6,4
-    auto tetra1 = vtkSmartPointer<vtkTetra>::New();
-    tetra1->GetPointIds()->SetId(0, 0);
-    tetra1->GetPointIds()->SetId(1, 1);
-    tetra1->GetPointIds()->SetId(2, 6);
-    tetra1->GetPointIds()->SetId(3, 4);
-    ugrid->InsertNextCell(tetra1->GetCellType(), tetra1->GetPointIds());
+    // First hexahedron
+    auto hex1 = vtkSmartPointer<vtkHexahedron>::New();
+    hex1->GetPointIds()->SetId(0, 0);
+    hex1->GetPointIds()->SetId(1, 1);
+    hex1->GetPointIds()->SetId(2, 2);
+    hex1->GetPointIds()->SetId(3, 3);
+    hex1->GetPointIds()->SetId(4, 4);
+    hex1->GetPointIds()->SetId(5, 5);
+    hex1->GetPointIds()->SetId(6, 6);
+    hex1->GetPointIds()->SetId(7, 7);
 
-    // Tetra 2: points 1,2,7,4
-    auto tetra2 = vtkSmartPointer<vtkTetra>::New();
-    tetra2->GetPointIds()->SetId(0, 1);
-    tetra2->GetPointIds()->SetId(1, 2);
-    tetra2->GetPointIds()->SetId(2, 7);
-    tetra2->GetPointIds()->SetId(3, 4);
-    ugrid->InsertNextCell(tetra2->GetCellType(), tetra2->GetPointIds());
+    ugrid->InsertNextCell(hex1->GetCellType(), hex1->GetPointIds());
 
-    // Tetra 3: points 2,3,8,4
-    auto tetra3 = vtkSmartPointer<vtkTetra>::New();
-    tetra3->GetPointIds()->SetId(0, 2);
-    tetra3->GetPointIds()->SetId(1, 3);
-    tetra3->GetPointIds()->SetId(2, 8);
-    tetra3->GetPointIds()->SetId(3, 4);
-    ugrid->InsertNextCell(tetra3->GetCellType(), tetra3->GetPointIds());
+    // Second hexahedron
+    auto hex2 = vtkSmartPointer<vtkHexahedron>::New();
+    // Note: points 8,11,12,15 are duplicated versions of points 1,2,5,6
+    hex2->GetPointIds()->SetId(0, 8);
+    hex2->GetPointIds()->SetId(1, 9);
+    hex2->GetPointIds()->SetId(2,10);
+    hex2->GetPointIds()->SetId(3,11);
+    hex2->GetPointIds()->SetId(4,12);
+    hex2->GetPointIds()->SetId(5,13);
+    hex2->GetPointIds()->SetId(6,14);
+    hex2->GetPointIds()->SetId(7,15);
 
-    // Tetra 4: points 3,0,9,4
-    auto tetra4 = vtkSmartPointer<vtkTetra>::New();
-    tetra4->GetPointIds()->SetId(0, 3);
-    tetra4->GetPointIds()->SetId(1, 0);
-    tetra4->GetPointIds()->SetId(2, 9);
-    tetra4->GetPointIds()->SetId(3, 4);
-    ugrid->InsertNextCell(tetra4->GetCellType(), tetra4->GetPointIds());
+    ugrid->InsertNextCell(hex2->GetCellType(), hex2->GetPointIds());
 
-    // Middle layer tetrahedrons
-    // Tetra 5: points 6,7,4,5 (peak upward)
-    auto tetra5 = vtkSmartPointer<vtkTetra>::New();
-    tetra5->GetPointIds()->SetId(0, 6);
-    tetra5->GetPointIds()->SetId(1, 7);
-    tetra5->GetPointIds()->SetId(2, 4);
-    tetra5->GetPointIds()->SetId(3, 5);
-    ugrid->InsertNextCell(tetra5->GetCellType(), tetra5->GetPointIds());
+    // Now ugrid contains the two hexahedron cells forming a parallelepiped split in two parts.
 
-    // Tetra 6: points 7,8,4,5 (peak upward)
-    auto tetra6 = vtkSmartPointer<vtkTetra>::New();
-    tetra6->GetPointIds()->SetId(0, 7);
-    tetra6->GetPointIds()->SetId(1, 8);
-    tetra6->GetPointIds()->SetId(2, 4);
-    tetra6->GetPointIds()->SetId(3, 5);
-    ugrid->InsertNextCell(tetra6->GetCellType(), tetra6->GetPointIds());
-
-    // Tetra 7: points 8,9,4,5 (peak upward)
-    auto tetra7 = vtkSmartPointer<vtkTetra>::New();
-    tetra7->GetPointIds()->SetId(0, 8);
-    tetra7->GetPointIds()->SetId(1, 9);
-    tetra7->GetPointIds()->SetId(2, 4);
-    tetra7->GetPointIds()->SetId(3, 5);
-    ugrid->InsertNextCell(tetra7->GetCellType(), tetra7->GetPointIds());
-
-    // Tetra 8: points 9,6,4,5 (peak "downward" - inverted orientation)
-    auto tetra8 = vtkSmartPointer<vtkTetra>::New();
-    tetra8->GetPointIds()->SetId(0, 9);
-    tetra8->GetPointIds()->SetId(1, 6);
-    tetra8->GetPointIds()->SetId(2, 4);
-    tetra8->GetPointIds()->SetId(3, 5);
-    ugrid->InsertNextCell(tetra8->GetCellType(), tetra8->GetPointIds());
-
-    // Upper layer pyramid (4-point base + apex)
-    auto pyramid = vtkSmartPointer<vtkPyramid>::New();
-    pyramid->GetPointIds()->SetId(0, 6);
-    pyramid->GetPointIds()->SetId(1, 7);
-    pyramid->GetPointIds()->SetId(2, 8);
-    pyramid->GetPointIds()->SetId(3, 9);
-    pyramid->GetPointIds()->SetId(4, 5); // apex pointing upward
-    ugrid->InsertNextCell(pyramid->GetCellType(), pyramid->GetPointIds());
+    // (Optional) You can write or visualize this grid using VTK rendering pipeline
+	
     // Assume you have some vtkPolyData* inputData representing the object
     vtkSmartPointer<vtkDataSet> inputData = ugrid; // Your 3D object
 
