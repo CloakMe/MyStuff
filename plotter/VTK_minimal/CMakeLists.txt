@@ -12,8 +12,12 @@ find_package(VTK REQUIRED COMPONENTS
   CommonDataModel
   FiltersCore
   RenderingCore
+  RenderingAnnotation
   InteractionStyle
+  InteractionWidgets
+  FiltersSources
   RenderingOpenGL2
+  
 )
 
 
@@ -30,7 +34,10 @@ target_link_libraries(MinimalVTKExample PRIVATE
   VTK::CommonDataModel
   VTK::FiltersCore
   VTK::RenderingCore
+  VTK::RenderingAnnotation
   VTK::InteractionStyle
+  VTK::InteractionWidgets
+  VTK::FiltersSources
   VTK::RenderingOpenGL2
   # add other required VTK targets here
 )

@@ -32,6 +32,8 @@
   </VirtualDirectory>
   <VirtualDirectory Name="UI">
     <VirtualDirectory Name="vtk">
+      <File Name="UI/vtk/SliderWidgetWrapper.h"/>
+      <File Name="UI/vtk/SliderWidgetWrapper.cpp"/>
       <File Name="UI/vtk/VTK_CFDVisualizer.h"/>
       <File Name="UI/vtk/VTK_CFDVisualizer.cpp"/>
     </VirtualDirectory>
