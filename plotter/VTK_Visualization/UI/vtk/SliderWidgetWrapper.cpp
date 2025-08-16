@@ -8,6 +8,9 @@
 #include <vtkPlane.h>
 #include <vtkCommand.h>
 
+#include <iostream>
+using namespace std;
+
 SliderWidgetWrapper::SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteractor> interactor,
                                          vtkSmartPointer<vtkPlane> clipPlane_,
                                          Axis initialAxis,
@@ -82,9 +85,9 @@ void SliderWidgetWrapper::UpdateSliderAndPlane() {
 
     // Request render update if available (optional)
 
-    //if (sliderWidget->GetInteractor()) {
-    //    sliderWidget->GetInteractor()->GetRenderWindow()->Render();
-    //}
+//    if (sliderWidget->GetInteractor()) {
+//        sliderWidget->GetInteractor()->GetRenderWindow()->Render();
+//    }
 }
 
 void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
@@ -104,13 +107,19 @@ void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
         case Axis::Y: origin[1] = value; break;
         case Axis::Z: origin[2] = value; break;
     }
-    parent->clipPlane->SetOrigin(origin);
+    parent->clipPlane->SetOrigin(value, 0.0, 0.0 /*origin*/);
 
-    if (parent->userCallback) {
-        parent->userCallback(value); // notify external user if needed
-    }
+//    if (parent->userCallback) {
+//        parent->userCallback(value); // notify external user if needed
+//    }
 
     if (sliderWidget->GetInteractor()) {
         sliderWidget->GetInteractor()->GetRenderWindow()->Render();
+        cout << "rendered through interactor" << endl;
     }
+//    else
+//    {
+//        parent->m_RenderWindow->Render();
+//        cout << "rendered using public render window" << endl;
+//    }
 }

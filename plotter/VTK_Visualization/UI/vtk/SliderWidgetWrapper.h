@@ -34,7 +34,7 @@ private:
     vtkSmartPointer<vtkSliderWidget> sliderWidget;
     vtkSmartPointer<vtkPlane> clipPlane;
     vtkSmartPointer<vtkSliderRepresentation2D> sliderRepresentation;
-
+    
     Axis currentAxis;
 
     // Callback class listens to slider interaction
