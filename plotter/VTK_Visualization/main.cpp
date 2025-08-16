@@ -34,6 +34,6 @@ int main(int argc, char* argv[])
     presenter.Load();
     presenter.UpdateView();
 
-    _CrtDumpMemoryLeaks();
+    //_CrtDumpMemoryLeaks();
     return EXIT_SUCCESS;
 }
