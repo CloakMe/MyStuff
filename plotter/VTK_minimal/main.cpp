@@ -114,58 +114,59 @@ int main()
 {
 	// Create points for two connected parallelepipeds
     auto points = vtkSmartPointer<vtkPoints>::New();
-
-    // Coordinates of 12 points for two hexahedrons sharing a face along the x-axis
-    points->InsertNextPoint(0.0, 0.0, 0.0);  // 0
-    points->InsertNextPoint(1.0, 0.0, 0.0);  // 1
-    points->InsertNextPoint(1.0, 1.0, 0.0);  // 2
-    points->InsertNextPoint(0.0, 1.0, 0.0);  // 3
-    points->InsertNextPoint(0.0, 0.0, 1.0);  // 4
-    points->InsertNextPoint(1.0, 0.0, 1.0);  // 5
-    points->InsertNextPoint(1.0, 1.0, 1.0);  // 6
-    points->InsertNextPoint(0.0, 1.0, 1.0);  // 7
-
-    // Second hexahedron points, shifted by 1 along x-axis sharing one face with first hexahedron
-    points->InsertNextPoint(1.0, 0.0, 0.0);  // 8 (same as 1)
-    points->InsertNextPoint(2.0, 0.0, 0.0);  // 9
-    points->InsertNextPoint(2.0, 1.0, 0.0);  // 10
-    points->InsertNextPoint(1.0, 1.0, 0.0);  // 11 (same as 2)
-    points->InsertNextPoint(1.0, 0.0, 1.0);  // 12 (same as 5)
-    points->InsertNextPoint(2.0, 0.0, 1.0);  // 13
-    points->InsertNextPoint(2.0, 1.0, 1.0);  // 14
-    points->InsertNextPoint(1.0, 1.0, 1.0);  // 15 (same as 6)
-
-    // Create the unstructured grid
+	// Create the unstructured grid
     auto ugrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    ugrid->SetPoints(points);
+	{
+		// Coordinates of 12 points for two hexahedrons sharing a face along the x-axis
+		points->InsertNextPoint(0.0, 0.0, 0.0);  // 0
+		points->InsertNextPoint(1.0, 0.0, 0.0);  // 1
+		points->InsertNextPoint(1.0, 1.0, 0.0);  // 2
+		points->InsertNextPoint(0.0, 1.0, 0.0);  // 3
+		points->InsertNextPoint(0.0, 0.0, 1.0);  // 4
+		points->InsertNextPoint(1.0, 0.0, 1.0);  // 5
+		points->InsertNextPoint(1.0, 1.0, 1.0);  // 6
+		points->InsertNextPoint(0.0, 1.0, 1.0);  // 7
 
-    // First hexahedron
-    auto hex1 = vtkSmartPointer<vtkHexahedron>::New();
-    hex1->GetPointIds()->SetId(0, 0);
-    hex1->GetPointIds()->SetId(1, 1);
-    hex1->GetPointIds()->SetId(2, 2);
-    hex1->GetPointIds()->SetId(3, 3);
-    hex1->GetPointIds()->SetId(4, 4);
-    hex1->GetPointIds()->SetId(5, 5);
-    hex1->GetPointIds()->SetId(6, 6);
-    hex1->GetPointIds()->SetId(7, 7);
+		// Second hexahedron points, shifted by 1 along x-axis sharing one face with first hexahedron
+		points->InsertNextPoint(1.0, 0.0, 0.0);  // 8 (same as 1)
+		points->InsertNextPoint(2.0, 0.0, 0.0);  // 9
+		points->InsertNextPoint(2.0, 1.0, 0.0);  // 10
+		points->InsertNextPoint(1.0, 1.0, 0.0);  // 11 (same as 2)
+		points->InsertNextPoint(1.0, 0.0, 1.0);  // 12 (same as 5)
+		points->InsertNextPoint(2.0, 0.0, 1.0);  // 13
+		points->InsertNextPoint(2.0, 1.0, 1.0);  // 14
+		points->InsertNextPoint(1.0, 1.0, 1.0);  // 15 (same as 6)
 
-    ugrid->InsertNextCell(hex1->GetCellType(), hex1->GetPointIds());
+		
+		ugrid->SetPoints(points);
 
-    // Second hexahedron
-    auto hex2 = vtkSmartPointer<vtkHexahedron>::New();
-    // Note: points 8,11,12,15 are duplicated versions of points 1,2,5,6
-    hex2->GetPointIds()->SetId(0, 8);
-    hex2->GetPointIds()->SetId(1, 9);
-    hex2->GetPointIds()->SetId(2,10);
-    hex2->GetPointIds()->SetId(3,11);
-    hex2->GetPointIds()->SetId(4,12);
-    hex2->GetPointIds()->SetId(5,13);
-    hex2->GetPointIds()->SetId(6,14);
-    hex2->GetPointIds()->SetId(7,15);
+		// First hexahedron
+		auto hex1 = vtkSmartPointer<vtkHexahedron>::New();
+		hex1->GetPointIds()->SetId(0, 0);
+		hex1->GetPointIds()->SetId(1, 1);
+		hex1->GetPointIds()->SetId(2, 2);
+		hex1->GetPointIds()->SetId(3, 3);
+		hex1->GetPointIds()->SetId(4, 4);
+		hex1->GetPointIds()->SetId(5, 5);
+		hex1->GetPointIds()->SetId(6, 6);
+		hex1->GetPointIds()->SetId(7, 7);
 
-    ugrid->InsertNextCell(hex2->GetCellType(), hex2->GetPointIds());
+		ugrid->InsertNextCell(hex1->GetCellType(), hex1->GetPointIds());
 
+		// Second hexahedron
+		auto hex2 = vtkSmartPointer<vtkHexahedron>::New();
+		// Note: points 8,11,12,15 are duplicated versions of points 1,2,5,6
+		hex2->GetPointIds()->SetId(0, 8);
+		hex2->GetPointIds()->SetId(1, 9);
+		hex2->GetPointIds()->SetId(2,10);
+		hex2->GetPointIds()->SetId(3,11);
+		hex2->GetPointIds()->SetId(4,12);
+		hex2->GetPointIds()->SetId(5,13);
+		hex2->GetPointIds()->SetId(6,14);
+		hex2->GetPointIds()->SetId(7,15);
+
+		ugrid->InsertNextCell(hex2->GetCellType(), hex2->GetPointIds());
+	}
     // Now ugrid contains the two hexahedron cells forming a parallelepiped split in two parts.
 
     // (Optional) You can write or visualize this grid using VTK rendering pipeline
@@ -182,7 +183,7 @@ int main()
     // Create clipping plane with normal along +X axis
     vtkSmartPointer<vtkPlane> clipPlane = vtkSmartPointer<vtkPlane>::New();
 	clipPlane->SetNormal(1.0, 0.0, 0.0);
-	clipPlane->SetOrigin(xMin, 0.0, 0.0);
+	clipPlane->SetOrigin(xMax, 0.0, 0.0);
 
 	vtkSmartPointer<vtkClipDataSet> clipper = vtkSmartPointer<vtkClipDataSet>::New();
 	clipper->SetInputData(inputData); // generic vtkDataSet
@@ -213,7 +214,7 @@ int main()
     vtkSmartPointer<vtkSliderRepresentation2D> sliderRep = vtkSmartPointer<vtkSliderRepresentation2D>::New();
     sliderRep->SetMinimumValue(xMin);
     sliderRep->SetMaximumValue(xMax);
-    sliderRep->SetValue(xMin);
+    sliderRep->SetValue(xMax);
     sliderRep->SetTitleText("Cut X");
 
     // Position slider on screen (bottom right corner)
@@ -222,14 +223,14 @@ int main()
     sliderRep->GetPoint2Coordinate()->SetCoordinateSystemToNormalizedDisplay();
     sliderRep->GetPoint2Coordinate()->SetValue(0.95, 0.1);
 
-    sliderRep->SetSliderLength(0.02);
-    sliderRep->SetSliderWidth(0.03);
-    sliderRep->SetEndCapLength(0.01);
-    sliderRep->SetEndCapWidth(0.03);
-    sliderRep->SetTubeWidth(0.005);
-    sliderRep->SetLabelFormat("%0.2f");
-    sliderRep->SetTitleHeight(0.02);
-    sliderRep->SetLabelHeight(0.02);
+    //sliderRep->SetSliderLength(0.02);
+    //sliderRep->SetSliderWidth(0.03);
+    //sliderRep->SetEndCapLength(0.01);
+    //sliderRep->SetEndCapWidth(0.03);
+    //sliderRep->SetTubeWidth(0.005);
+    //sliderRep->SetLabelFormat("%0.2f");
+    //sliderRep->SetTitleHeight(0.02);
+    //sliderRep->SetLabelHeight(0.02);
 
     // Create slider widget
     vtkSmartPointer<vtkSliderWidget> sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();

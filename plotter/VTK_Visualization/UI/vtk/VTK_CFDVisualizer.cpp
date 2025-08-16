@@ -1,9 +1,12 @@
 #include "VTK_CFDVisualizer.h"
 #include "IConfigurator.h"
 #include "VTK_DBWrapper.h"
+#include "SliderWidgetWrapper.h"
+#include "vtkClipDataSet.h"
 
 #include <vtkActor.h>
 #include <vtkCallbackCommand.h>
+#include <memory>
 
 using namespace visu;
 using namespace std;
@@ -45,6 +48,8 @@ void VTK_CFDVisualizer::Render()
     // vtk Actor and Mapper
     vtkSmartPointer<vtkActor> actor = visualization->createActors(m_dataset);
     cout << "Successfully created actor and mapper!" << endl;
+       
+   
     // vtk Renderer and Window
 
     m_renderer->AddActor(actor);
@@ -65,6 +70,24 @@ void VTK_CFDVisualizer::Render()
     m_renderWindow->Render();
     cout << "Successfully rendered the window!" << endl;
     if(!m_initialized) {
+        // Get bounds to determine slider range (xMin, xMax)
+        double bounds[6];
+        m_dataset->GetBounds(bounds);
+        double xMin = bounds[0];
+        double xMax = bounds[1];
+
+        // Create clipping plane with normal along +X axis
+        vtkSmartPointer<vtkPlane> clipPlane = vtkSmartPointer<vtkPlane>::New();
+        clipPlane->SetNormal(1.0, 0.0, 0.0);
+        clipPlane->SetOrigin(xMax, 0.0, 0.0);
+
+        vtkSmartPointer<vtkClipDataSet> clipper = vtkSmartPointer<vtkClipDataSet>::New();
+        clipper->SetInputData(m_dataset); // generic vtkDataSet
+        clipper->SetClipFunction(clipPlane);
+        clipper->InsideOutOn();
+        clipper->Update();
+        m_slider = make_unique<SliderWidgetWrapper>(m_interactor, clipPlane, Axis::X, xMin, xMax);
+        
         // Callback
         vtkSmartPointer<vtkCallbackCommand> keypressCallback = vtkSmartPointer<vtkCallbackCommand>::New();
         keypressCallback->SetClientData(this);

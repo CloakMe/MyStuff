@@ -4,6 +4,8 @@
 #include "VisualizationFactory.h"
 #include "VisuType.h"
 #include "IConfigurator.h"
+#include "SliderWidgetWrapper.h"
+
 #include <memory>
 #include <vtkDataSet.h>
 #include <vtkRenderWindow.h>
@@ -45,6 +47,7 @@ private:
     vtkSmartPointer<vtkRenderWindow> m_renderWindow;
     vtkSmartPointer<vtkRenderer> m_renderer;
     vtkSmartPointer<vtkRenderWindowInteractor> m_interactor;
+    std::unique_ptr<SliderWidgetWrapper> m_slider;
 };
 
 }

@@ -8,12 +8,14 @@ find_package(VTK REQUIRED COMPONENTS
   CommonCore
   CommonDataModel
   RenderingCore
+  RenderingAnnotation
   IOLegacy          # For vtkDataSetReader, vtkStructuredGridReader, etc.
   FiltersCore       # For vtkGlyph3D
   FiltersSources    # For vtkArrowSource
   CommonDataModel   # For vtkPointData
   RenderingFreeType
   InteractionStyle
+  InteractionWidgets
   RenderingOpenGL2
 )
 
@@ -28,6 +30,7 @@ add_executable(VTK_Visualization
     presenter/vtk/VelocityVisualization.cpp 
     DB/vtk/VTK_Database.cpp
     UI/vtk/VTK_CFDVisualizer.cpp
+    UI/vtk/SliderWidgetWrapper.cpp
     configuration/json/JSONConfigParser.cpp
     common/vtk/VTK_DBWrapper.cpp
     )
