@@ -12,12 +12,10 @@
 using namespace std;
 
 SliderWidgetWrapper::SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteractor> interactor,
-                                         vtkSmartPointer<vtkPlane> clipPlane_,
-                                         Axis initialAxis,
-                                         double minValue,
-                                         double maxValue)
-    : clipPlane(clipPlane_), currentAxis(initialAxis)
+                                         Axis initialAxis) :
+     currentAxis(initialAxis)
 {
+	m_clipPlane = vtkSmartPointer<vtkPlane>::New();
     // Create slider representation
     sliderRepresentation = vtkSmartPointer<vtkSliderRepresentation2D>::New();
     sliderRepresentation->SetTitleText("Cut Axis");
@@ -27,7 +25,7 @@ SliderWidgetWrapper::SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteract
     sliderRepresentation->GetPoint1Coordinate()->SetValue(0.8, 0.1);
     sliderRepresentation->GetPoint2Coordinate()->SetCoordinateSystemToNormalizedDisplay();
     sliderRepresentation->GetPoint2Coordinate()->SetValue(0.95, 0.1);
-
+    // Create slider widget
     sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();
     sliderWidget->SetInteractor(interactor);
     sliderWidget->SetRepresentation(sliderRepresentation);
@@ -38,13 +36,19 @@ SliderWidgetWrapper::SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteract
     callback = vtkSmartPointer<SliderCallback>::New();
     callback->parent = this;
     sliderWidget->AddObserver(vtkCommand::InteractionEvent, callback);
-
-    UpdateSliderAndPlane();
+    
+    m_clipper = vtkSmartPointer<vtkClipDataSet>::New();
 }
 
 void SliderWidgetWrapper::SetAxis(Axis newAxis) {
-    currentAxis = newAxis;
-    UpdateSliderAndPlane();
+    // Set plane normal based on axis
+    double normal[3] = {0,0,0};
+    switch (newAxis) {
+        case Axis::X: normal[0] = 1.0; break;
+        case Axis::Y: normal[1] = 1.0; break;
+        case Axis::Z: normal[2] = 1.0; break;
+    }
+    m_clipPlane->SetNormal(normal);
 }
 
 Axis SliderWidgetWrapper::GetAxis() const {
@@ -55,39 +59,44 @@ void SliderWidgetWrapper::SetValueChangedCallback(std::function<void(double)> cb
     userCallback = cb;
 }
 
-void SliderWidgetWrapper::UpdateSliderAndPlane() {
-    // Get current slider value range (can be cached or passed in constructor)
-
-    // Example: you might want to store min/max somewhere; here assume fixed 0-1 for example purpose
-    double minVal = 0.0, maxVal = 1.0; // ideally pass real bounds to constructor and store them!
-
-    sliderRepresentation->SetMinimumValue(minVal);
-    sliderRepresentation->SetMaximumValue(maxVal);
-
-    // Set initial slider value to minVal for reset
-    sliderRepresentation->SetValue(maxVal);
-
-    // Set plane normal based on axis
-    double normal[3] = {0,0,0};
-    switch (currentAxis) {
-        case Axis::X: normal[0] = 1.0; break;
-        case Axis::Y: normal[1] = 1.0; break;
-        case Axis::Z: normal[2] = 1.0; break;
+void SliderWidgetWrapper::SetupClipPlane(
+    vtkSmartPointer<vtkDataSet> dataset, 
+    vtkSmartPointer<vtkMapper> mapper, 
+    Axis currentAxis)
+{
+	// Get bounds to determine slider range (xMin, xMax)
+	double bounds[6];
+    dataset->GetBounds(bounds);
+    double min = bounds[0];
+    double max = bounds[1];
+	switch (currentAxis) {
+        case Axis::X:
+			m_clipPlane->SetOrigin(max, 0.0, 0.0); 
+			break;
+        case Axis::Y: 
+			min = bounds[2]; max = bounds[3];
+			m_clipPlane->SetOrigin(0.0, max, 0.0);
+			break;
+        case Axis::Z: 
+			min = bounds[4]; max = bounds[5];
+			m_clipPlane->SetOrigin(0.0, 0.0, max); 
+			break;
     }
-    clipPlane->SetNormal(normal);
-
-    // Set plane origin position corresponding to minVal (assuming origin coords on axis)
-    double origin[3] = {0, 0, 0};
-    origin[0] = (currentAxis == Axis::X) ? minVal : 0.0;
-    origin[1] = (currentAxis == Axis::Y) ? minVal : 0.0;
-    origin[2] = (currentAxis == Axis::Z) ? minVal : 0.0;
-    clipPlane->SetOrigin(origin);
-
-    // Request render update if available (optional)
-
-//    if (sliderWidget->GetInteractor()) {
-//        sliderWidget->GetInteractor()->GetRenderWindow()->Render();
-//    }
+    // Set plane normal based on axis
+    SetAxis(currentAxis);
+    
+    // setup vtkClipDataSet
+	m_clipper->SetInputData(dataset); // generic vtkDataSet
+    m_clipper->SetClipFunction(m_clipPlane);
+    m_clipper->InsideOutOn();
+    m_clipper->Update();
+    
+    mapper->SetInputConnection(m_clipper->GetOutputPort());
+    
+    // Create slider representation
+    sliderRepresentation->SetMinimumValue(min);
+    sliderRepresentation->SetMaximumValue(max);
+    sliderRepresentation->SetValue(max);
 }
 
 void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
@@ -95,7 +104,7 @@ void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
                                                   void*)
 {
     vtkSliderWidget* sliderWidget = reinterpret_cast<vtkSliderWidget*>(caller);
-    if (!sliderWidget || !parent || !parent->clipPlane)
+    if (!sliderWidget || !parent || !parent->m_clipPlane)
         return;
 
     double value = static_cast<vtkSliderRepresentation*>(sliderWidget->GetRepresentation())->GetValue();
@@ -107,7 +116,7 @@ void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
         case Axis::Y: origin[1] = value; break;
         case Axis::Z: origin[2] = value; break;
     }
-    parent->clipPlane->SetOrigin(value, 0.0, 0.0 /*origin*/);
+    parent->m_clipPlane->SetOrigin(origin);
 
 //    if (parent->userCallback) {
 //        parent->userCallback(value); // notify external user if needed

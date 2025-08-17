@@ -19,6 +19,11 @@ VTK_CFDVisualizer::VTK_CFDVisualizer(const IConfigurator& configurator,
     m_visuType = VisuType::Mesh;
     m_visualizationFactory = move(visualizationFactory);
     m_initialized = false;
+    cout << "Initialize render window, renderer and interactor!" << endl;
+    m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+    m_renderer = vtkSmartPointer<vtkRenderer>::New();
+    m_interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    m_slider = make_unique<SliderWidgetWrapper>(m_interactor, Axis::X);
 }
 
 void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
@@ -63,17 +68,10 @@ void VTK_CFDVisualizer::Render()
     std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType);
     if(visualization.get() == nullptr)
         return;
-    if(!m_initialized) 
-    {
-        cout << "Initialize render window, renderer and interactor!" << endl;
-        m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-        m_renderer = vtkSmartPointer<vtkRenderer>::New();
-        m_interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    }
+
     // vtk Actor and Mapper
     vtkSmartPointer<vtkActor> actor = visualization->createActors(m_dataset);
     cout << "Successfully created actor and mapper!" << endl;
-       
    
     // vtk Renderer and Window
 
@@ -91,53 +89,9 @@ void VTK_CFDVisualizer::Render()
 
     // vtk Interactor
     m_interactor->SetRenderWindow(m_renderWindow);
+    vtkSmartPointer<vtkMapper> smartMapper = vtkSmartPointer<vtkMapper>::Take(actor->GetMapper());
+    m_slider->SetupClipPlane(m_dataset, smartMapper, Axis::X);
 
-    // Get bounds to determine slider range (xMin, xMax)
-    double bounds[6];
-    m_dataset->GetBounds(bounds);
-    double xMin = bounds[0];
-    double xMax = bounds[1];
-
-    // Create clipping plane with normal along +X axis
-    vtkSmartPointer<vtkPlane> clipPlane = vtkSmartPointer<vtkPlane>::New();
-    clipPlane->SetNormal(1.0, 0.0, 0.0);
-    clipPlane->SetOrigin(xMax, 0.0, 0.0);
-
-    vtkSmartPointer<vtkClipDataSet> clipper = vtkSmartPointer<vtkClipDataSet>::New();
-    clipper->SetInputData(m_dataset); // generic vtkDataSet
-    clipper->SetClipFunction(clipPlane);
-    clipper->InsideOutOn();
-    clipper->Update();
-    
-    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-	mapper->SetInputConnection(clipper->GetOutputPort());
-    actor->SetMapper(mapper);
-    
-    // Create slider representation
-    vtkSmartPointer<vtkSliderRepresentation2D> sliderRep = vtkSmartPointer<vtkSliderRepresentation2D>::New();
-    sliderRep->SetMinimumValue(xMin);
-    sliderRep->SetMaximumValue(xMax);
-    sliderRep->SetValue(xMax);
-    sliderRep->SetTitleText("Cut X");
-    
-    // Position slider on screen (bottom right corner)
-    sliderRep->GetPoint1Coordinate()->SetCoordinateSystemToNormalizedDisplay();
-    sliderRep->GetPoint1Coordinate()->SetValue(0.8, 0.1);
-    sliderRep->GetPoint2Coordinate()->SetCoordinateSystemToNormalizedDisplay();
-    sliderRep->GetPoint2Coordinate()->SetValue(0.95, 0.1);
-    // Create slider widget
-    vtkSmartPointer<vtkSliderWidget> sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();
-    sliderWidget->SetInteractor(m_interactor);
-    sliderWidget->SetRepresentation(sliderRep);
-    sliderWidget->SetAnimationModeToAnimate();
-    sliderWidget->EnabledOn();
-    
-    // Setup callback to update clipping plane when slider moves
-    vtkSmartPointer<SliderCallback2> callback = vtkSmartPointer<SliderCallback2>::New();
-    callback->m_Plane = clipPlane;
-    callback->m_RenderWindow = m_renderWindow;
-    sliderWidget->AddObserver(vtkCommand::InteractionEvent, callback);
-    
     m_renderWindow->Render();
     cout << "Successfully rendered the window!" << endl;
     if(!m_initialized) {
