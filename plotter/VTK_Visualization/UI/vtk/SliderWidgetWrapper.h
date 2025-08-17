@@ -8,40 +8,46 @@
 #include <vtkClipDataSet.h>
 #include <vtkMapper.h>
 #include <vtkDataSet.h>
+#include <vtkAlgorithmOutput.h>
 #include <functional>
 
+namespace visu{
+    
 enum class Axis { X, Y, Z };
 
 class SliderWidgetWrapper {
 public:
     // Constructor: interactor, clipPlane, axis selection, bounds for slider
-    SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteractor> interactor,
-                        Axis initialAxis);
+    SliderWidgetWrapper();
 
     // Change the axis - update internal state, plane normal, slider range
     void SetAxis(Axis newAxis);
-
+    
     // Get current axis
     Axis GetAxis() const;
-
-    // Get the slider widget (for attaching or customizations)
-    vtkSmartPointer<vtkSliderWidget> GetSliderWidget() const;
-
-    // Set callback for slider value changes (optional)
-    void SetValueChangedCallback(std::function<void(double)> callback);
     
-	// Initialize the m_clipPlane
-	void SetupClipPlane(
-        vtkSmartPointer<vtkDataSet> dataset, 
-        vtkSmartPointer<vtkMapper> mapper, 
-        Axis currentAxis);    
+    // Set m_callback for slider value changes (optional)
+    void SetValueChangedCallback(std::function<void(double)> m_callback);
+    
+	// setup clip axis and cut value
+    void SetupClipPlane(vtkSmartPointer<vtkDataSet> dataset, Axis newAxis);
+    
+    void Initialize(
+        vtkSmartPointer<vtkDataSet> dataset,
+        vtkSmartPointer<vtkRenderWindowInteractor> interactor);
+        
+    vtkAlgorithmOutput* GetOutputPort();
+        
 private:
-    vtkSmartPointer<vtkSliderWidget> sliderWidget;
+    vtkSmartPointer<vtkSliderWidget> m_sliderWidget;
     vtkSmartPointer<vtkPlane> m_clipPlane;
-    vtkSmartPointer<vtkSliderRepresentation2D> sliderRepresentation;
+    vtkSmartPointer<vtkSliderRepresentation2D> m_sliderRepresentation;
     vtkSmartPointer<vtkClipDataSet> m_clipper;
-    Axis currentAxis;
-
+    Axis m_axis;
+    
+    // Optional user m_callback to notify axis value changes
+    std::function<void(double)> userCallback;
+    
     // Callback class listens to slider interaction
     class SliderCallback : public vtkCommand {
     public:
@@ -50,9 +56,7 @@ private:
 
         SliderWidgetWrapper* parent = nullptr;
     };
-
-    vtkSmartPointer<SliderCallback> callback;
-
-    // Optional user callback to notify axis value changes
-    std::function<void(double)> userCallback;
+    vtkSmartPointer<SliderCallback> m_callback;
 };
+
+}
