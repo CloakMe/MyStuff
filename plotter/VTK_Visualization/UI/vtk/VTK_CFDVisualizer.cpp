@@ -23,7 +23,7 @@ VTK_CFDVisualizer::VTK_CFDVisualizer(const IConfigurator& configurator,
     m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
     m_renderer = vtkSmartPointer<vtkRenderer>::New();
     m_interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    m_slider = make_unique<SliderWidgetWrapper>(m_interactor, Axis::X);
+    m_slider = make_unique<SliderWidgetWrapper>();
 }
 
 void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
@@ -33,30 +33,6 @@ void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
 
     Render();
 }
-
-// Callback to update clipping plane origin on slider interaction
-class SliderCallback2 : public vtkCommand
-{
-public:
-    static SliderCallback2* New() {
-        return new SliderCallback2;
-    }
-    void Execute(vtkObject* caller, unsigned long, void*) override
-    {
-        vtkSliderWidget* sliderWidget = reinterpret_cast<vtkSliderWidget*>(caller);
-        double value = static_cast<vtkSliderRepresentation*>(sliderWidget->GetRepresentation())->GetValue();
-
-        // Update the plane origin to move clipping plane at slider value along x-axis
-        // Plane normal pointing along +x means clipping everything with x > slider_value
-        m_Plane->SetOrigin(value, 0.0, 0.0);
-
-        // Request render window to re-render
-        m_RenderWindow->Render();
-    }
-
-    vtkPlane* m_Plane = nullptr;
-    vtkRenderWindow* m_RenderWindow = nullptr;
-};
 
 void VTK_CFDVisualizer::Render()
 {
@@ -72,26 +48,32 @@ void VTK_CFDVisualizer::Render()
     // vtk Actor and Mapper
     vtkSmartPointer<vtkActor> actor = visualization->createActors(m_dataset);
     cout << "Successfully created actor and mapper!" << endl;
-   
+        
     // vtk Renderer and Window
-
     m_renderer->AddActor(actor);
-    vector<double> rgb_color = m_configurator.GetBackgroundColor();
-    if(rgb_color.size() == 3)
-        m_renderer->SetBackground(rgb_color[0], rgb_color[1], rgb_color[2]); // Non-black background
+    
+    if(!m_initialized)
+    {
+        vector<double> rgb_color = m_configurator.GetBackgroundColor();
+        if(rgb_color.size() == 3)
+            m_renderer->SetBackground(rgb_color[0], rgb_color[1], rgb_color[2]); // Non-black background
 
-    m_renderWindow->AddRenderer(m_renderer);
-    vector<int> windowSize = m_configurator.GetWindowSize();
-    if(windowSize.size() == 2)
-        m_renderWindow->SetSize(windowSize[0], windowSize[1]);
-    m_renderWindow->SetWindowName(m_configurator.GetWindowTitle().c_str());
-    cout << "Successfully created Window properties!" << endl;
+        m_renderWindow->AddRenderer(m_renderer);
+        vector<int> windowSize = m_configurator.GetWindowSize();
+        if(windowSize.size() == 2)
+            m_renderWindow->SetSize(windowSize[0], windowSize[1]);
+        m_renderWindow->SetWindowName(m_configurator.GetWindowTitle().c_str());
+        cout << "Successfully created Window properties!" << endl;
 
-    // vtk Interactor
-    m_interactor->SetRenderWindow(m_renderWindow);
-    vtkSmartPointer<vtkMapper> smartMapper = vtkSmartPointer<vtkMapper>::Take(actor->GetMapper());
-    m_slider->SetupClipPlane(m_dataset, smartMapper, Axis::X);
-
+        // vtk plane clipper and slider
+    
+        // vtk Interactor
+        m_interactor->SetRenderWindow(m_renderWindow);
+    }
+    m_slider->Initialize(m_dataset, m_interactor);
+    actor->GetMapper()->SetInputConnection(m_slider->GetOutputPort());
+    //m_slider->SetupClipPlane(m_dataset, Axis::X);
+    
     m_renderWindow->Render();
     cout << "Successfully rendered the window!" << endl;
     if(!m_initialized) {
@@ -105,7 +87,7 @@ void VTK_CFDVisualizer::Render()
         // Init and start interactor
         m_interactor->Initialize();
         m_interactor->Start();
-    }    
+    }
     
     cout << "Successfully ended the render method!" << endl;
 }
@@ -139,3 +121,4 @@ void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId,
         }
     }
 }
+

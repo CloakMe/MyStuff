@@ -7,37 +7,25 @@
 #include <vtkDataSetMapper.h>
 #include <vtkPlane.h>
 #include <vtkCommand.h>
+#include <vtkActor.h>
 
 #include <iostream>
+
 using namespace std;
+using namespace visu;
 
-SliderWidgetWrapper::SliderWidgetWrapper(vtkSmartPointer<vtkRenderWindowInteractor> interactor,
-                                         Axis initialAxis) :
-     currentAxis(initialAxis)
+SliderWidgetWrapper::SliderWidgetWrapper()
 {
-	m_clipPlane = vtkSmartPointer<vtkPlane>::New();
-    // Create slider representation
-    sliderRepresentation = vtkSmartPointer<vtkSliderRepresentation2D>::New();
-    sliderRepresentation->SetTitleText("Cut Axis");
-
-    // Slider position on screen (customize as needed)
-    sliderRepresentation->GetPoint1Coordinate()->SetCoordinateSystemToNormalizedDisplay();
-    sliderRepresentation->GetPoint1Coordinate()->SetValue(0.8, 0.1);
-    sliderRepresentation->GetPoint2Coordinate()->SetCoordinateSystemToNormalizedDisplay();
-    sliderRepresentation->GetPoint2Coordinate()->SetValue(0.95, 0.1);
-    // Create slider widget
-    sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();
-    sliderWidget->SetInteractor(interactor);
-    sliderWidget->SetRepresentation(sliderRepresentation);
-    sliderWidget->SetAnimationModeToAnimate();
-    sliderWidget->EnabledOn();
-
-    // Setup callback
-    callback = vtkSmartPointer<SliderCallback>::New();
-    callback->parent = this;
-    sliderWidget->AddObserver(vtkCommand::InteractionEvent, callback);
-    
     m_clipper = vtkSmartPointer<vtkClipDataSet>::New();
+	m_clipPlane = vtkSmartPointer<vtkPlane>::New();
+    m_sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();
+    
+    // Setup m_callback
+    m_callback = vtkSmartPointer<SliderCallback>::New();
+    m_callback->parent = this;
+    m_sliderWidget->AddObserver(vtkCommand::InteractionEvent, m_callback);
+    
+    m_axis = Axis::X;
 }
 
 void SliderWidgetWrapper::SetAxis(Axis newAxis) {
@@ -49,27 +37,69 @@ void SliderWidgetWrapper::SetAxis(Axis newAxis) {
         case Axis::Z: normal[2] = 1.0; break;
     }
     m_clipPlane->SetNormal(normal);
+    m_axis = newAxis;
 }
 
 Axis SliderWidgetWrapper::GetAxis() const {
-    return currentAxis;
+    return m_axis;
 }
 
 void SliderWidgetWrapper::SetValueChangedCallback(std::function<void(double)> cb) {
     userCallback = cb;
 }
 
-void SliderWidgetWrapper::SetupClipPlane(
-    vtkSmartPointer<vtkDataSet> dataset, 
-    vtkSmartPointer<vtkMapper> mapper, 
-    Axis currentAxis)
+void SliderWidgetWrapper::Initialize(
+    vtkSmartPointer<vtkDataSet> dataset,
+    vtkSmartPointer<vtkRenderWindowInteractor> interactor)
 {
-	// Get bounds to determine slider range (xMin, xMax)
-	double bounds[6];
+    // setup vtkClipDataSet
+	m_clipper->SetInputData(dataset); // generic vtkDataSet
+    SetupClipPlane(dataset, Axis::X);
+    m_clipper->SetClipFunction(m_clipPlane);
+    m_clipper->InsideOutOn();
+    m_clipper->Update();
+
+    // Get bounds to determine slider range (xMin, xMax)
+    double bounds[6];
     dataset->GetBounds(bounds);
     double min = bounds[0];
     double max = bounds[1];
-	switch (currentAxis) {
+    // Create slider representation
+    m_sliderRepresentation = vtkSmartPointer<vtkSliderRepresentation2D>::New();
+    m_sliderRepresentation->SetTitleText("Cut Axis");
+    m_sliderRepresentation->SetMinimumValue(min);
+    m_sliderRepresentation->SetMaximumValue(max);
+    m_sliderRepresentation->SetValue(max);
+    //m_sliderRepresentation->SetAnimationModeToJump();
+     
+    // Slider position on screen (customize as needed)
+    m_sliderRepresentation->GetPoint1Coordinate()->SetCoordinateSystemToNormalizedDisplay();
+    m_sliderRepresentation->GetPoint1Coordinate()->SetValue(0.8, 0.1);
+    m_sliderRepresentation->GetPoint2Coordinate()->SetCoordinateSystemToNormalizedDisplay();
+    m_sliderRepresentation->GetPoint2Coordinate()->SetValue(0.95, 0.1);
+        
+    // Create slider widget
+    m_sliderWidget->SetInteractor(interactor);
+    m_sliderWidget->SetRepresentation(m_sliderRepresentation);
+    m_sliderWidget->SetAnimationModeToJump();
+    m_sliderWidget->EnabledOn();
+}
+
+vtkAlgorithmOutput* SliderWidgetWrapper::GetOutputPort()
+{
+    return m_clipper->GetOutputPort();
+}
+
+void SliderWidgetWrapper::SetupClipPlane(
+    vtkSmartPointer<vtkDataSet> dataset,
+    Axis newAxis)
+{
+    // Get bounds to determine slider range (xMin, xMax)
+    double bounds[6];
+    dataset->GetBounds(bounds);
+    double min = bounds[0];
+    double max = bounds[1];
+	switch (newAxis) {
         case Axis::X:
 			m_clipPlane->SetOrigin(max, 0.0, 0.0); 
 			break;
@@ -83,31 +113,17 @@ void SliderWidgetWrapper::SetupClipPlane(
 			break;
     }
     // Set plane normal based on axis
-    SetAxis(currentAxis);
-    
-    // setup vtkClipDataSet
-	m_clipper->SetInputData(dataset); // generic vtkDataSet
-    m_clipper->SetClipFunction(m_clipPlane);
-    m_clipper->InsideOutOn();
-    m_clipper->Update();
-    
-    mapper->SetInputConnection(m_clipper->GetOutputPort());
-    
-    // Create slider representation
-    sliderRepresentation->SetMinimumValue(min);
-    sliderRepresentation->SetMaximumValue(max);
-    sliderRepresentation->SetValue(max);
+    SetAxis(newAxis);
 }
 
 void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
                                                   unsigned long,
                                                   void*)
 {
-    vtkSliderWidget* sliderWidget = reinterpret_cast<vtkSliderWidget*>(caller);
-    if (!sliderWidget || !parent || !parent->m_clipPlane)
+    if (!parent || !parent->m_clipPlane || !parent->m_sliderWidget)
         return;
 
-    double value = static_cast<vtkSliderRepresentation*>(sliderWidget->GetRepresentation())->GetValue();
+    double value = static_cast<vtkSliderRepresentation*>(parent->m_sliderWidget->GetRepresentation())->GetValue();
 
     // Update plane origin based on current axis
     double origin[3] = {0.0, 0.0, 0.0};
@@ -122,8 +138,8 @@ void SliderWidgetWrapper::SliderCallback::Execute(vtkObject* caller,
 //        parent->userCallback(value); // notify external user if needed
 //    }
 
-    if (sliderWidget->GetInteractor()) {
-        sliderWidget->GetInteractor()->GetRenderWindow()->Render();
+    if (parent->m_sliderWidget->GetInteractor()) {
+        parent->m_sliderWidget->GetInteractor()->GetRenderWindow()->Render();
         cout << "rendered through interactor" << endl;
     }
 //    else
