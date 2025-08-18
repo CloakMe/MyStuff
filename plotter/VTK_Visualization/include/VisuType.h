@@ -7,7 +7,8 @@ namespace visu
         Basic,
         Mesh,
         Pressure,
-        Velocity,
+        VelocityMagnitude,
+        VelocityGlyph,
         Count
     };
 }

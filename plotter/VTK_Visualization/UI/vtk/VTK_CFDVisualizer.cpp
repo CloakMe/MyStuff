@@ -54,7 +54,9 @@ void VTK_CFDVisualizer::Render()
     
     // vtk plane clipper and slider
     m_slider->Initialize(m_dataset, m_interactor);
+
     actor->GetMapper()->SetInputConnection(m_slider->GetOutputPort());
+    
     //m_slider->SetupClipPlane(m_dataset, Axis::X);
     
     m_renderWindow->Render();
@@ -106,14 +108,14 @@ void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId,
     {
         m_renderer->RemoveAllViewProps();
 
-        if(m_visuType == VisuType::Velocity) {
+        if(m_visuType == VisuType::VelocityMagnitude) {
             m_visuType = VisuType::Mesh;
             Render();
         } else if(m_visuType == VisuType::Mesh) {
             m_visuType = VisuType::Pressure;
             Render();
         } else if(m_visuType == VisuType::Pressure) {
-            m_visuType = VisuType::Velocity;
+            m_visuType = VisuType::VelocityMagnitude;
             Render();
         }
     }
