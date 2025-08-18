@@ -66,11 +66,12 @@ void SliderWidgetWrapper::Initialize(
     double max = bounds[1];
     // Create slider representation
     m_sliderRepresentation = vtkSmartPointer<vtkSliderRepresentation2D>::New();
+    m_sliderRepresentation->SetTubeWidth(0.025 /*percentage*/);
+    m_sliderRepresentation->SetSliderWidth(0.05 /*percentage*/);
     m_sliderRepresentation->SetTitleText("Cut Axis");
     m_sliderRepresentation->SetMinimumValue(min);
     m_sliderRepresentation->SetMaximumValue(max);
-    m_sliderRepresentation->SetValue(max);
-    //m_sliderRepresentation->SetAnimationModeToJump();
+    m_sliderRepresentation->SetValue(max);    
      
     // Slider position on screen (customize as needed)
     m_sliderRepresentation->GetPoint1Coordinate()->SetCoordinateSystemToNormalizedDisplay();
@@ -83,6 +84,7 @@ void SliderWidgetWrapper::Initialize(
     m_sliderWidget->SetRepresentation(m_sliderRepresentation);
     m_sliderWidget->SetAnimationModeToJump();
     m_sliderWidget->EnabledOn();
+    
 }
 
 vtkAlgorithmOutput* SliderWidgetWrapper::GetOutputPort()

@@ -24,6 +24,7 @@ VTK_CFDVisualizer::VTK_CFDVisualizer(const IConfigurator& configurator,
     m_renderer = vtkSmartPointer<vtkRenderer>::New();
     m_interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     m_slider = make_unique<SliderWidgetWrapper>();
+    setupUI();
 }
 
 void VTK_CFDVisualizer::Render(std::unique_ptr<AbstractDB> input)
@@ -38,7 +39,6 @@ void VTK_CFDVisualizer::Render()
 {
     if(m_dataset == nullptr)
         return;
-
     cout << "Successfully started the render method!" << endl;
 
     std::unique_ptr<VisualizationStrategy> visualization = m_visualizationFactory->createStrategy(m_visuType);
@@ -52,24 +52,7 @@ void VTK_CFDVisualizer::Render()
     // vtk Renderer and Window
     m_renderer->AddActor(actor);
     
-    if(!m_initialized)
-    {
-        vector<double> rgb_color = m_configurator.GetBackgroundColor();
-        if(rgb_color.size() == 3)
-            m_renderer->SetBackground(rgb_color[0], rgb_color[1], rgb_color[2]); // Non-black background
-
-        m_renderWindow->AddRenderer(m_renderer);
-        vector<int> windowSize = m_configurator.GetWindowSize();
-        if(windowSize.size() == 2)
-            m_renderWindow->SetSize(windowSize[0], windowSize[1]);
-        m_renderWindow->SetWindowName(m_configurator.GetWindowTitle().c_str());
-        cout << "Successfully created Window properties!" << endl;
-
-        // vtk plane clipper and slider
-    
-        // vtk Interactor
-        m_interactor->SetRenderWindow(m_renderWindow);
-    }
+    // vtk plane clipper and slider
     m_slider->Initialize(m_dataset, m_interactor);
     actor->GetMapper()->SetInputConnection(m_slider->GetOutputPort());
     //m_slider->SetupClipPlane(m_dataset, Axis::X);
@@ -77,11 +60,6 @@ void VTK_CFDVisualizer::Render()
     m_renderWindow->Render();
     cout << "Successfully rendered the window!" << endl;
     if(!m_initialized) {
-        // Callback
-        vtkSmartPointer<vtkCallbackCommand> keypressCallback = vtkSmartPointer<vtkCallbackCommand>::New();
-        keypressCallback->SetClientData(this);
-        keypressCallback->SetCallback(KeyPressCallback);
-        m_interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());
         m_initialized = true;
         cout << "Successfully added Callback Observer!" << endl;
         // Init and start interactor
@@ -98,6 +76,25 @@ void VTK_CFDVisualizer::setupUI()
             //m_manager.showNext();
             m_renderWindow->Render();
         });*/
+    vector<double> rgb_color = m_configurator.GetBackgroundColor();
+    if(rgb_color.size() == 3)
+        m_renderer->SetBackground(rgb_color[0], rgb_color[1], rgb_color[2]); // Non-black background
+
+    m_renderWindow->AddRenderer(m_renderer);
+    vector<int> windowSize = m_configurator.GetWindowSize();
+    if(windowSize.size() == 2)
+        m_renderWindow->SetSize(windowSize[0], windowSize[1]);
+    m_renderWindow->SetWindowName(m_configurator.GetWindowTitle().c_str());
+    cout << "Successfully created Window properties!" << endl;
+
+    // vtk Interactor
+    m_interactor->SetRenderWindow(m_renderWindow);
+    
+    // Callback
+    vtkSmartPointer<vtkCallbackCommand> keypressCallback = vtkSmartPointer<vtkCallbackCommand>::New();
+    keypressCallback->SetClientData(this);
+    keypressCallback->SetCallback(KeyPressCallback);
+    m_interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());    
 }
 
 void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData)
