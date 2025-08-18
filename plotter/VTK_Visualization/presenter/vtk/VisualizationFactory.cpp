@@ -1,7 +1,8 @@
 #include "VisualizationFactory.h"
 #include "MeshVisualization.h"
 #include "PressureVisualization.h"
-#include "VelocityVisualization.h"
+#include "VelocityGlyphVisualization.h"
+#include "VelocityMagnitudeVisualization.h"
 #include "VisuType.h"
 #include <vtkPointData.h>
 #include <vtkDataArray.h>
@@ -29,11 +30,17 @@ std::unique_ptr<VisualizationStrategy> VisualizationFactory::createStrategy(Visu
         strategy = make_unique<PressureVisualization>(m_configurator);
         return strategy;
     }
-    else if (visuType == VisuType::Velocity) 
+    else if (visuType == VisuType::VelocityMagnitude) 
     {
-        strategy = make_unique<VelocityVisualization>(m_configurator);
+        strategy = make_unique<VelocityMagnitudeVisualization>(m_configurator);
         return strategy;
     }
+    else if (visuType == VisuType::VelocityGlyph) 
+    {
+        strategy = make_unique<VelocityGlyphVisualization>(m_configurator);
+        return strategy;
+    }
+    
     cerr << "Unknown visualization mode!" << endl;
     return nullptr;
 }

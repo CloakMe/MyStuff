@@ -32,6 +32,8 @@
   </VirtualDirectory>
   <VirtualDirectory Name="UI">
     <VirtualDirectory Name="vtk">
+      <File Name="UI/vtk/ScalarBarFactory.cpp"/>
+      <File Name="UI/vtk/ScalarBarFactory.h"/>
       <File Name="UI/vtk/SliderWidgetWrapper.h"/>
       <File Name="UI/vtk/SliderWidgetWrapper.cpp"/>
       <File Name="UI/vtk/VTK_CFDVisualizer.h"/>
@@ -40,11 +42,13 @@
   </VirtualDirectory>
   <VirtualDirectory Name="presenter">
     <VirtualDirectory Name="vtk">
+      <File Name="presenter/vtk/VelocityGlyphVisualization.cpp"/>
+      <File Name="presenter/vtk/VelocityGlyphVisualization.h"/>
+      <File Name="presenter/vtk/VelocityMagnitudeVisualization.cpp"/>
+      <File Name="presenter/vtk/VelocityMagnitudeVisualization.h"/>
       <File Name="presenter/vtk/VisualizationStrategy.h"/>
       <File Name="presenter/vtk/VisualizationFactory.h"/>
       <File Name="presenter/vtk/VisualizationFactory.cpp"/>
-      <File Name="presenter/vtk/VelocityVisualization.h"/>
-      <File Name="presenter/vtk/VelocityVisualization.cpp"/>
       <File Name="presenter/vtk/PressureVisualization.h"/>
       <File Name="presenter/vtk/PressureVisualization.cpp"/>
       <File Name="presenter/vtk/MeshVisualization.h"/>

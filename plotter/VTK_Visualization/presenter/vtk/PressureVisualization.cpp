@@ -19,17 +19,17 @@ PressureVisualization::PressureVisualization(const IConfigurator& configurator)
 }
 
 vtkSmartPointer<vtkActor> PressureVisualization::createActors(vtkSmartPointer<vtkDataSet> dataset)
-{// Set the active vector array to "pressure" in the point/cell data
+{   // Set the active vector array to "pressure" in the point/cell data
     vtkPointData* pointData = dataset->GetPointData();
     vtkCellData* cellData = dataset->GetCellData();
     string pressureFieldName = m_configurator.GetPressureValue();
     bool pointDataOk = false,
-         cellDataOk = false;
+        cellDataOk = false;
     vtkDataArray* dataArray = nullptr;
     if(pointData && -1 != pointData->SetActiveScalars(pressureFieldName.c_str())) {
         pointDataOk = true;
         dataArray = pointData->GetScalars(pressureFieldName.c_str());
-    } 
+    }
     else if(cellData && -1 != cellData->SetActiveScalars(pressureFieldName.c_str())) {
         cellDataOk = true;
         dataArray = cellData->GetScalars(pressureFieldName.c_str());
@@ -51,7 +51,10 @@ vtkSmartPointer<vtkActor> PressureVisualization::createActors(vtkSmartPointer<vt
     mapper->SelectColorArray(pressureFieldName.c_str());
     mapper->SetLookupTable(lut);
     mapper->SetScalarRange(dataArray->GetRange());
-    
+    // You cannot easily clip glyphs already generated; 
+    // clipping needs to happen at the dataset level before glyphing.
+    // mapper->SetInputConnection(glyph->GetOutputPort());
+
     actor->SetMapper(mapper);
     return actor;
 }
