@@ -13,8 +13,11 @@ public:
     virtual std::string GetVelocityValue() const =0;
     virtual std::string GetMeshValue() const =0;
 
-    // Example getter for controls sub-configuration (optional)
-    virtual std::string GetVisualizationValue() const =0;
+    // Control key for changing the visualization type: Mesh, Pressure, Velo
+    virtual std::string GetVisualizationCtrl() const =0;
+    
+    // Control key for changing the cross-section/cut axis
+    virtual std::string GetCutAxisCtrl() const =0;
 
     // Returns a string representation of the window title
     virtual std::string GetWindowTitle() const =0;
