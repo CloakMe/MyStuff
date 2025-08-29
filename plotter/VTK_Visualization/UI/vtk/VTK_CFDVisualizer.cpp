@@ -53,7 +53,7 @@ void VTK_CFDVisualizer::Render()
     m_renderer->AddActor(actor);
     
     // vtk plane clipper and slider
-    m_slider->Initialize(m_dataset, m_interactor);
+    m_slider->Update(m_dataset, m_interactor, m_slider->GetAxis());
     actor->GetMapper()->SetInputConnection(m_slider->GetOutputPort());
     //m_slider->SetupClipPlane(m_dataset, Axis::X);
     
@@ -94,7 +94,7 @@ void VTK_CFDVisualizer::setupUI()
     vtkSmartPointer<vtkCallbackCommand> keypressCallback = vtkSmartPointer<vtkCallbackCommand>::New();
     keypressCallback->SetClientData(this);
     keypressCallback->SetCallback(KeyPressCallback);
-    m_interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());    
+    m_interactor->AddObserver(vtkCommand::KeyPressEvent, keypressCallback.GetPointer());
 }
 
 void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId, void* callData)
@@ -102,20 +102,29 @@ void VTK_CFDVisualizer::OnKeyPress(vtkObject* caller, long unsigned int eventId,
     auto interactor = static_cast<vtkRenderWindowInteractor*>(caller);
     std::string key = interactor->GetKeySym();
 
-    if(key == m_configurator.GetVisualizationValue()) 
+    if(key == m_configurator.GetVisualizationCtrl()) 
     {
         m_renderer->RemoveAllViewProps();
 
         if(m_visuType == VisuType::Velocity) {
             m_visuType = VisuType::Mesh;
-            Render();
         } else if(m_visuType == VisuType::Mesh) {
             m_visuType = VisuType::Pressure;
-            Render();
         } else if(m_visuType == VisuType::Pressure) {
             m_visuType = VisuType::Velocity;
-            Render();
         }
+        Render();
+    }
+    else if(key == m_configurator.GetCutAxisCtrl())
+    {
+        if(m_slider->GetAxis() == Axis::X) {
+            m_slider->SetupClipPlane(m_dataset, Axis::Y);
+        } else if(m_slider->GetAxis() == Axis::Y) {
+            m_slider->SetupClipPlane(m_dataset, Axis::Z);
+        } else if(m_slider->GetAxis() == Axis::Z) {
+            m_slider->SetupClipPlane(m_dataset, Axis::X);
+        }
+        Render();
     }
 }
 

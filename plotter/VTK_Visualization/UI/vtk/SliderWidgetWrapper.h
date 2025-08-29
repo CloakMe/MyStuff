@@ -32,9 +32,10 @@ public:
 	// setup clip axis and cut value
     void SetupClipPlane(vtkSmartPointer<vtkDataSet> dataset, Axis newAxis);
     
-    void Initialize(
+    void Update(
         vtkSmartPointer<vtkDataSet> dataset,
-        vtkSmartPointer<vtkRenderWindowInteractor> interactor);
+        vtkSmartPointer<vtkRenderWindowInteractor> interactor,
+        Axis axis);
         
     vtkAlgorithmOutput* GetOutputPort();
         

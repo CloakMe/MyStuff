@@ -69,8 +69,12 @@ std::string JSONConfigParser::GetMeshValue() const {
     return GetValue("mesh", m_visualizationKey);
 }
 
-std::string JSONConfigParser::GetVisualizationValue() const {
+std::string JSONConfigParser::GetVisualizationCtrl() const {
     return GetValue("visualization", m_controlsKey);
+}
+
+std::string JSONConfigParser::GetCutAxisCtrl() const {
+    return GetValue("cutaxis", m_controlsKey);
 }
 
 // Returns a string representation of the window title

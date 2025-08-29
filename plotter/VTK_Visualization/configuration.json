@@ -5,7 +5,8 @@
     "mesh": "mesh"
   },
   "controls": {
-     "visualization" : "1"
+     "visualization" : "1",
+     "cutaxis" : "2"
   },
   "windowProperties" : {
       "background" : [0.2, 0.3, 0.4],

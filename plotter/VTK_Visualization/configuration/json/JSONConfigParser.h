@@ -26,8 +26,13 @@ public:
     std::string GetPressureValue() const override;
     std::string GetVelocityValue() const override;
     std::string GetMeshValue() const override;
-    // Example getter for controls sub-configuration (optional)
-    std::string GetVisualizationValue() const override;
+
+    // Control key for changing the visualization type: Mesh, Pressure, Velo
+    virtual std::string GetVisualizationCtrl() const override;
+    
+    // Control key for changing the cross-section/cut axis
+    virtual std::string GetCutAxisCtrl() const override;
+    
     // Returns a string representation of the window title
     std::string GetWindowTitle() const override;
     // Returns the background color as a vector of floats/doubles
