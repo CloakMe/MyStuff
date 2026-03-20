@@ -4,10 +4,13 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include "windows.h"
-#define _CRTDBG_MAP_ALLOC //to get more details
+#ifdef _WIN32
+    #include "windows.h"
+    #define _CRTDBG_MAP_ALLOC //to get more details
+    #include <crtdbg.h>   //for malloc and free
+#endif
 #include <stdlib.h>  
-#include <crtdbg.h>   //for malloc and free
+
 #include "PerfectForwarding.h"
 
 using namespace std;
@@ -24,11 +27,12 @@ void showType(int val)
 int main()
 {
 	cout << "hello world Resource" << endl;
+#ifdef _WIN32
 	_CrtMemState sOld;
 	_CrtMemState sNew;
 	_CrtMemState sDiff;
 	_CrtMemCheckpoint(&sOld); //take a snapshot
-	
+#endif
 	//universal initialization
 	int x{ 5 };
 	int y{ 7 };
@@ -53,7 +57,7 @@ int main()
 	//nullptr
 	showType(pX);
 	showType(x);
-	showType(NULL);
+	//showType(NULL);
 	showType(nullptr);
 
 	//chrono
@@ -64,7 +68,7 @@ int main()
 
 	//rule of five
 	RuleOfFive();
-
+#ifdef _WIN32
 	//detect memory leaks for rule of five
 	OutputDebugString("hi");
 	_CrtMemCheckpoint(&sNew); //take a snapshot 
@@ -77,6 +81,7 @@ int main()
 		OutputDebugString("-----------_CrtDumpMemoryLeaks ---------");
 		_CrtDumpMemoryLeaks();
 	}
+#endif
 	return 0;
 }
 

@@ -69,10 +69,10 @@ template <typename T>
 class MonitorT
 {
 public:
-	MonitorT<T>(T var = T{}) : m_var(var) {}
+	MonitorT<T>(T var = T() : m_var(var) {}
 
     template <typename Func>
-	auto operator()(Func fun)
+	auto MonitorT<T>::operator()(Func fun)
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 		return fun(m_var);
