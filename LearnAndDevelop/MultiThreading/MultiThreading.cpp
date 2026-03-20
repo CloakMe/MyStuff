@@ -29,7 +29,7 @@ static void display(double d, std::mutex& mutex)
 
 int main()
 {
-	std::cout << "Hello World!\n";
+	std::cout << "Hello World-!\n";
 	MutexUsage mutexUsage;
 	mutexUsage.runTwoJobs(
 		static_cast<void(*)(int, std::mutex&)>(display), 

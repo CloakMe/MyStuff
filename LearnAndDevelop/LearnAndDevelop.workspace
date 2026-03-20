@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLite_Workspace Name="LearnAndDevelop" Version="10000">
+  <Project Name="LearnAndDevelop" Path="LearnAndDevelop.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="NoConfig">
+      <Environment/>
+      <Project Name="LearnAndDevelop" ConfigName="NoConfig"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="debug">
+      <Environment/>
+      <Project Name="LearnAndDevelop" ConfigName="debug_udemydp"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="debug_MultiThreading">
+      <Environment/>
+      <Project Name="LearnAndDevelop" ConfigName="debug_udemy"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="debug_Udemy">
+      <Environment/>
+      <Project Name="LearnAndDevelop" ConfigName="debug_udemy"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

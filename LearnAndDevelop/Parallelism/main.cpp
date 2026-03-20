@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <execution>
+#include <stdexcept>
 
 using namespace std;
 
@@ -47,7 +48,7 @@ template<typename T>
 T call_c11algo(const std::vector<T>& vec, T a)
 {
 	typename vector<T>::const_iterator it = find_if(execution::par, vec.begin(), vec.end(), [a](const int& val) {
-		throw exception("Throw Now!");
+		throw runtime_error("Throw Now!");
 		return val > a ? true : false;
 	});
 

@@ -2,6 +2,7 @@
 #include <forward_list>
 #include <mutex>
 #include <string>
+#include <thread>
 
 // Helper to invoke member function with or without argument
 template<typename Obj, typename Func1, typename Func2, typename... Args>
