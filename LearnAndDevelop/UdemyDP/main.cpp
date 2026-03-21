@@ -2,10 +2,10 @@
 #include "BitmapProxy.h"
 
 int main() {
-	Image * img = new BitmapProxy{ "D:/wkspaces/yStuff/LearnAndDevelop/UdemyDP/ImageProxy/banner.txt" };
+	Image * img = new BitmapProxy{ "./Smiley.txt" };
 	img->Load();
 	img->Display();
-	img->Load("D:/workspaces/yStuff/LearnAndDevelop/UdemyDP/ImageProxy/Smiley.txt");
+	img->Load("./banner.txt");
 	img->Display();
 	delete img;
 }

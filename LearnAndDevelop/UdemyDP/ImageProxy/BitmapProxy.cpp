@@ -42,4 +42,5 @@ void BitmapProxy::Load()
 void BitmapProxy::Load(const std::string& fileName) 
 {
 	SetFileName(fileName);
+    m_Loaded = false;
 }
