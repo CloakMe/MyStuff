@@ -13,3 +13,8 @@ add_library(ImageProxy ${ImageProxy_SOURCES})
 # Headers visible to consumers (UdemyDP executable)
 target_include_directories(ImageProxy PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/banner.txt
+     DESTINATION ${CMAKE_BINARY_DIR})
+     
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Smiley.txt
+     DESTINATION ${CMAKE_BINARY_DIR})

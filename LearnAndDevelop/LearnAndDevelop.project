@@ -35,11 +35,11 @@
       <File Name="Udemy/Worker.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="UdemyDP">
+      <File Name="UdemyDP/main.cpp"/>
       <VirtualDirectory Name="ImageProxy">
         <File Name="UdemyDP/ImageProxy/Bitmap.cpp"/>
         <File Name="UdemyDP/ImageProxy/BitmapProxy.cpp"/>
         <File Name="UdemyDP/ImageProxy/Image.cpp"/>
-        <File Name="UdemyDP/ImageProxy/main.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
