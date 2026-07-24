@@ -37,15 +37,19 @@ int main()
 	int x{ 5 };
 	int y{ 7 };
 	vector<int> vec{ 4,3,2,5,1 };
-	for (auto elem : vec)
+	for (auto elem : vec) // makes a copy of each element in vec
 		cout << elem << endl;
+    for(const auto& elem : vec) // makes a reference to each element in vec
+        cout << elem << endl;
 	string str{ "Let us begin" };
-
+    
 	//perfect forwarding
 	int * pX = &x;
 	int & rX = x;
 	ForwardAB(x, &x, rX, pX);
-
+    
+    Foo("hi", 6, "women");
+    
 	//auto
 	auto strIter = str.begin();
 	string::iterator strIter2 = str.begin();
