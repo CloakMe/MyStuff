@@ -9,7 +9,7 @@ void setup()
 	pinMode(2, INPUT_PULLUP); // wake pin (INT0)
   
   // pinMode(13, OUTPUT); // DEBUG
-  SleepLowPower(6 * 60); //6 hours
+  // SleepLowPower(6 * 60); //6 hours
   // blink(); // DEBUG
 }
 	
@@ -41,7 +41,7 @@ void SleepLowPower(int minutes)
 void waterStep() // takes 20 sec for watering 900ml of water with water pump
 {
   digitalWrite(VALVE_PIN, HIGH); // turn on the solenoid valve
-  delay(40000); // 40 sec in milliseconds
+  delay(65000); // 65 sec in milliseconds
   digitalWrite(VALVE_PIN, LOW); // turn oFF the solenoid valve
 }
 
