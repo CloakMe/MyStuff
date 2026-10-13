@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from uploadTavex import pcloudUpload
 
 def save_gold_coin_price(url, coinName):
     # https://tavex.bg/en/gold/austrian-ducat-gold-coin/
@@ -42,3 +43,4 @@ if __name__ == "__main__":
     url = "https://tavex.bg/en/gold/"
     save_gold_coin_price(url, mariana)
     save_gold_coin_price(url, austDucat)
+    pcloudUpload()
