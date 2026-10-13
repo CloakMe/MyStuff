@@ -33,7 +33,7 @@
 // ===========================
 // User configuration
 // ===========================
-#define TRIGGER_PIN            13     // digital input for the event trigger
+#define TRIGGER_PIN             3     // digital input for the event trigger
 #define TRIGGER_ACTIVE_STATE    HIGH  // HIGH for most PIR modules; LOW for a button to GND
 #define NUM_CAPTURES            10    // how many images to capture in total (n)
 #define DEBOUNCE_MS              50   // confirm the trigger is still active after this delay
@@ -130,7 +130,7 @@ bool captureAndSave(int index) {
   }
 
   char path[40];
-  snprintf(path, sizeof(path), "/sdcard/img_%04d.jpg", index);
+  snprintf(path, sizeof(path), "/img_%04d.jpg", index);
 
   File file = SD_MMC.open(path, FILE_WRITE);
   if (!file) {
@@ -162,7 +162,7 @@ void setup() {
   // Use INPUT_PULLUP + TRIGGER_ACTIVE_STATE = LOW for a plain push button to GND.
   // Use plain INPUT for an active-HIGH sensor module (PIR, IR break-beam, etc.)
   
-  // pinMode(TRIGGER_PIN, INPUT);
+  pinMode(TRIGGER_PIN, INPUT);
   
   if (!initCamera()) {
     Serial.println("Halting: camera init failed");
@@ -173,7 +173,7 @@ void setup() {
     Serial.println("Halting: SD init failed");
     while (true) delay(1000);
   }
-  pinMode(TRIGGER_PIN, INPUT_PULLDOWN);
+  // pinMode(TRIGGER_PIN, INPUT_PULLDOWN);
   captureAndSave(1);
   Serial.printf("Ready. Waiting for %d trigger events on GPIO%d...\n", NUM_CAPTURES, TRIGGER_PIN);
 }

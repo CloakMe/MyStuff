@@ -1,13 +1,18 @@
 /*
-  SDMMC_Force_Format
-  --------------------
-  Forces a real FAT32 format on the SD card using the low-level ESP-IDF
-  API directly (esp_vfs_fat_sdcard_format), instead of relying on the
-  Arduino SD_MMC wrapper's format_if_mount_failed flag.
+  SDMMC_AutoRepair
+  ------------------
+  Mounts the SD card and tests whether it's actually writable. If the
+  write test fails, it force-formats the card (FAT32) and tests again.
+  If the write test passes, nothing is touched - no unnecessary erasing.
 
-  WARNING: this ERASES the card completely. Only run this once to fix
-  a card that won't mount/write correctly; you don't need it for
-  normal operation afterward.
+  This also tells apart two different failure modes:
+    - Mount fails to even initialize the card at all -> almost always a
+      physical/wiring/power issue. Formatting can't fix this; reseat
+      the card or check wiring instead.
+    - Mount "succeeds" but writing still fails -> a filesystem-level
+      problem. This is what force-formatting actually fixes.
+
+  WARNING: if formatting does trigger, it ERASES the card completely.
 
   Board: AI-Thinker ESP32-CAM
 */
@@ -17,13 +22,33 @@
 #include "driver/sdmmc_defs.h"
 #include "sdmmc_cmd.h"
 
-sdmmc_card_t *card;
+sdmmc_card_t *card = NULL;
+
+bool testWrite() {
+  FILE *f = fopen("/sdcard/write_test.tmp", "w");
+  if (f == NULL) {
+    return false;
+  }
+  bool ok = (fprintf(f, "write test\n") > 0);
+  fclose(f);
+
+  if (ok) {
+    // Clean up the probe file - don't leave clutter behind
+    remove("/sdcard/write_test.tmp");
+  }
+  return ok;
+}
+
+void printCardInfo() {
+  Serial.println("Card info:");
+  sdmmc_card_print_info(stdout, card);
+}
 
 void setup() {
   Serial.begin(115200);
   delay(500);
   Serial.println();
-  Serial.println("=== SD force-format tool ===");
+  Serial.println("=== SD auto-repair tool ===");
 
   esp_vfs_fat_sdmmc_mount_config_t mount_config = {
     .format_if_mount_failed = true,
@@ -34,57 +59,56 @@ void setup() {
   sdmmc_host_t host = SDMMC_HOST_DEFAULT();
 
   sdmmc_slot_config_t slot_config = SDMMC_SLOT_CONFIG_DEFAULT();
-  slot_config.width = 1;  // 1-bit mode, matches the rest of the project
+  slot_config.width = 1;  // 1-bit mode
 
-  Serial.println("Mounting (will auto-format if the current FS is unreadable)...");
+  Serial.println("Mounting SD card...");
   esp_err_t ret = esp_vfs_fat_sdmmc_mount("/sdcard", &host, &slot_config, &mount_config, &card);
 
   if (ret != ESP_OK) {
     if (ret == ESP_FAIL) {
-      Serial.println("FAIL: could not mount filesystem, even after attempting auto-format");
+      Serial.println("FAIL: card responded, but no readable filesystem and auto-format also failed.");
+      Serial.println("Try running the force-format tool again, or test a different card.");
     } else {
-      Serial.printf("FAIL: could not initialize the card (%s)\n", esp_err_to_name(ret));
+      Serial.printf("FAIL: could not initialize the card at all (%s)\n", esp_err_to_name(ret));
+      Serial.println();
+      Serial.println("This usually means a WIRING or PHYSICAL CONTACT issue, not a filesystem");
+      Serial.println("problem - formatting will not fix it. Try reseating the card firmly,");
+      Serial.println("checking the SD slot connection, or testing a different card.");
     }
     return;
   }
 
-  Serial.println("Card mounted. Card info:");
-  sdmmc_card_print_info(stdout, card);
+  Serial.println("Card mounted. Testing write access...");
+  if (testWrite()) {
+    Serial.println("OK: card is writable. No formatting needed.");
+    printCardInfo();
+    Serial.println();
+    Serial.println("=== Card is healthy - safe to use as-is ===");
+    return;
+  }
 
+  Serial.println("Write test FAILED despite a successful mount.");
+  Serial.println("This is the 'mounts but isn't really usable' case - forcing a real reformat...");
   Serial.println();
-  Serial.println("Now forcing an explicit FAT32 format regardless of mount state...");
+
   ret = esp_vfs_fat_sdcard_format("/sdcard", card);
   if (ret != ESP_OK) {
     Serial.printf("FAIL: force format failed (%s)\n", esp_err_to_name(ret));
     return;
   }
-  Serial.println("OK: force format completed");
+  Serial.println("Force format completed. Re-testing write access...");
 
-  Serial.println();
-  Serial.println("--- Verifying: writing a test file ---");
-  FILE *f = fopen("/sdcard/test.txt", "w");
-  if (f == NULL) {
-    Serial.println("FAIL: could not open test.txt for writing, even after format");
-    return;
+  if (testWrite()) {
+    printCardInfo();
+    Serial.println();
+    Serial.println("=== SUCCESS: card was reformatted and is now writable ===");
+  } else {
+    Serial.println();
+    Serial.println("=== STILL FAILING after a full reformat ===");
+    Serial.println("This points to a hardware/wiring issue rather than a filesystem one -");
+    Serial.println("try reseating the card, testing a different card, or checking the SD");
+    Serial.println("slot's CLK/CMD/D0 connections and pull-ups.");
   }
-  fprintf(f, "Hello after force format\n");
-  fclose(f);
-  Serial.println("OK: wrote test.txt successfully");
-
-  Serial.println("--- Reading it back ---");
-  f = fopen("/sdcard/test.txt", "r");
-  if (f == NULL) {
-    Serial.println("FAIL: could not reopen test.txt for reading");
-    return;
-  }
-  char line[128];
-  if (fgets(line, sizeof(line), f) != NULL) {
-    Serial.printf("Contents: %s", line);
-  }
-  fclose(f);
-
-  Serial.println();
-  Serial.println("=== SUCCESS: card is now formatted and working ===");
 }
 
 void loop() {
