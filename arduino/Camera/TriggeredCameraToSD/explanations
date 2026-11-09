@@ -1,0 +1,4 @@
+Quick reminders as you make the switch, since it's been a while since we set this up:
+
+Add an external ~10kΩ pull-down resistor from GPIO3 to GND, so the pin has a defined rest state (same reasoning as before — floating inputs cause phantom triggers).
+GPIO3 is your board's UART0 RX line — the same wire your USB-serial adapter uses. While the adapter is connected, its TX output will interfere with reading the sensor there. Flash as normal with it connected, but disconnect the adapter (or just its TX wire) before testing the actual trigger, or the sensor reading will be unreliable.

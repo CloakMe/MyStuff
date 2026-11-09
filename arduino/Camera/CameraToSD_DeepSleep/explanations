@@ -1,0 +1,35 @@
+Before the code, one important constraint, because it changes the wiring: deep-sleep wakeup (ext0/ext1) only works on RTC-capable GPIOs, and GPIO3 isn’t one. So the PIR has to go back on GPIO13, which is RTC-capable. That means I need to retract something. The GPIO13/SD-card conflict I kept pointing to was very likely a red herring. The real causes of your write failures were the /sdcard path bug and the card’s filesystem. With the SD card in 1-bit mode, GPIO13 is a common choice for PIR sensors on the ESP32-CAM. If you ever see SD errors that only happen while the PIR is active, tell me and we’ll revisit.
+Ran a command, created a file, shared files
+
+I kept your camera settings (QVGA, 10 MHz clock, quality 15) and the corrected /img_%04d.jpg path. It uses the same camera_pins.h, which has to sit in the sketch folder.
+
+How it works now
+
+    Wake logic: it only takes a photo when woken by the PIR. Power-on and reset just wait and then sleep, with no photo. Set CAPTURE_ON_POWER_ON to 1 if you want a test shot at boot.
+    Duplicate-photo guard: a PIR holds its output HIGH for several seconds. After each photo the sketch waits for the pin to fall before re-arming. If the PIR is still active, it naps 5 s and checks again.
+    No overwriting: photo numbering skips any img_XXXX.jpg that already exists. Otherwise a reset would restart at 1 and overwrite your earlier photos.
+    Warm-up frames: the first frames after waking are often dark or tinted, so it discards 3 before the real shot.
+    Camera power-down: PWDN is held high during sleep. If the camera ever fails to initialize after a wake, set POWER_DOWN_CAMERA_IN_SLEEP to 0 to rule this out.
+
+I also fixed two bugs in my earlier code. The camera config left fb_location and grab_mode uninitialized (the stock example sets them), which can cause odd frame-buffer behavior and may have contributed to your FB-OVF errors. The old sketch also read fb->len after returning the buffer. If you keep your standalone version, apply the first fix there too.
+
+Wiring the PIR (HC-SR501 or similar)
+PIR pin	ESP32-CAM pin
+VCC	5V
+GND	GND
+OUT	GPIO13 (IO13)
+
+    Voltage: the HC-SR501 outputs about 3.3 V on OUT even when powered from 5 V, so it connects directly to GPIO13. The voltage divider I suggested earlier isn’t needed for this module. If yours is a different model, measure OUT with a multimeter first.
+    GPIO0 jumper: the GPIO0-to-GND link is only for flashing. Remove it for normal running, or the board will keep booting into upload mode.
+    Module settings: the HC-SR501 has two trim pots (delay time and sensitivity) and an H/L jumper. For discrete photos, set the delay to minimum. The L (single trigger) jumper position gives the cleanest one-event-one-photo behavior. H (repeat trigger) also works, since the sketch handles a long-held output.
+    Warm-up: the PIR needs 30–60 s after power-up and can fire randomly during that time. That’s why the first boot waits 30 s (PIR_WARMUP_MS). Set it to 0 while testing.
+    Testing without a PIR: briefly touch a jumper wire from the 3V3 pin to GPIO13 to simulate motion. Use 3V3, never 5V. The board is already wired for this because the sketch holds GPIO13 low with an internal pull-down.
+    USB adapter: unlike GPIO3, GPIO13 doesn’t share a line with your USB-serial adapter. You can keep the adapter connected and watch the Serial Monitor while testing the trigger.
+
+Deep sleep on the AI-Thinker board still draws a few milliamps, not the microamps of a bare ESP32 chip, because of the onboard regulator and other parts. It’s much better than staying awake, but plan battery life accordingly.
+
+https://coolplaydev.com/esp32-pir-motion-sensor
+https://lastminuteengineers.com/esp32-cam-pinout-reference/
+The sensitivity potentiometer adjusts the sensor’s detection range. Turning the potentiometer clockwise increases the range, and turning it counterclockwise decreases it.
+
+The time delay potentiometer, on the other hand, controls how long the output stays HIGH after motion is detected. Turning the potentiometer clockwise increases the delay and time, while turning counterclockwise decreases it. This can be adjusted from about 3 seconds up to 300 seconds.
