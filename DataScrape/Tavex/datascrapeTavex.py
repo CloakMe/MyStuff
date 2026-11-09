@@ -1,12 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from uploadTavex import pcloudUpload
 
 def save_gold_coin_price(url, coinName):
     # https://tavex.bg/en/gold/austrian-ducat-gold-coin/
     urlFull = url + coinName
-    response = requests.get(urlFull)
-
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/130.0.0.0 Safari/537.36"
+        ),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://www.google.com/",
+    }
+    print(urlFull)
+    response = requests.get(urlFull, headers=headers, timeout=10)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -22,7 +33,9 @@ def save_gold_coin_price(url, coinName):
         else:
             print("Price information not found.")
     else:
-        print("Failed to retrieve the webpage.")
+        print(f"Failed to retrieve the webpage with status code:{response.status_code}")
+        print(response.text)
+        print(response.headers)
 
 def append_to_file(fileName, price):
     # Get current date and time
@@ -42,3 +55,4 @@ if __name__ == "__main__":
     url = "https://tavex.bg/en/gold/"
     save_gold_coin_price(url, mariana)
     save_gold_coin_price(url, austDucat)
+    pcloudUpload()

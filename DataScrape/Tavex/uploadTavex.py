@@ -1,31 +1,7 @@
-from pcloud import PyCloud
-
-def pcloudUpload():
-    paro = read_string_from_file('1')
-    # Authenticate with your pCloud account
-    pc = PyCloud('angelow@protonmail.com', paro)
-
-    target_directory = '/Datascrape/Tavex'  # Target directory in pCloud
-
-    # Call listfolder with the specified path
-    response = pc.listfolder(path=target_directory)
-
-    # Check if the request was successful
-    if response['result'] == 0:
-        # Now setup the upload file
-        local_file_path = ['austrian-ducat-gold-coin.txt', 'french-20francs-marianne.txt'] #E:\MyStuff\datascrape\tavex\
-        # Extract folder ID from the response
-        folder_id = response['metadata']['folderid']
-        print(f"Folder ID for '{target_directory}' is: {folder_id}")
-        upload_response = pc.uploadfile(files=local_file_path, folderid=folder_id)
-        if upload_response['result'] == 0:
-            print("File uploaded successfully!")
-        else:
-            print("Error uploading file:", upload_response['error'])
-    else:
-        print("Error retrieving folder ID:", response['error'])
-    
-
+from pathlib import Path
+import requests
+import json
+import sys
 
 def read_string_from_file(filename):
     """
@@ -48,3 +24,37 @@ def read_string_from_file(filename):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+        
+def load_token():
+    p_map_as_str = read_string_from_file('1')
+    return json.loads(p_map_as_str)
+    
+def pcloudUpload():
+    remote_folder = "/Datascrape/Tavex"      # must already exist
+    local_files = ['austrian-ducat-gold-coin.txt', 'french-20francs-marianne.txt']
+    headers, params = {}, {"path": remote_folder, "nopartial": 1}
+    token = load_token()
+    if token["kind"] == "oauth":
+        headers["Authorization"] = f"Bearer {token['value']}"
+    else:
+        params["auth"] = token["value"]
+
+    for name in local_files:
+        try:
+            with open(name, "rb") as f:
+                r = requests.post(
+                    f"https://{token['host']}/uploadfile",
+                    params=params, headers=headers,
+                    files={"file": (Path(name).name, f)},
+                    timeout=300,
+                )
+            data = r.json()
+            if data.get("result") != 0:
+                print(f"Failed {name}: {data.get('result')} {data.get('error')}")
+            else:
+                print("Upload complete:", data["metadata"][0]["name"])
+        except (OSError, requests.RequestException) as e:
+            print(f"Failed {name}: {e}")
+
+
+
