@@ -33,7 +33,7 @@
 // ===========================
 // User configuration
 // ===========================
-#define TRIGGER_PIN             3     // digital input for the event trigger
+#define TRIGGER_PIN             13     // digital input for the event trigger
 #define TRIGGER_ACTIVE_STATE    HIGH  // HIGH for most PIR modules; LOW for a button to GND
 #define NUM_CAPTURES            10    // how many images to capture in total (n)
 #define DEBOUNCE_MS              50   // confirm the trigger is still active after this delay
@@ -67,10 +67,10 @@ bool initCamera() {
   config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn  = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 10000000;
+  config.xclk_freq_hz = 10000000; 20000000
   config.pixel_format  = PIXFORMAT_JPEG;   // JPEG is what we write straight to a file
   config.frame_size    = FRAMESIZE_QVGA; // FRAMESIZE_QVGA is lower quality; FRAMESIZE_UXGA is higher
-  config.jpeg_quality   = 15;
+  config.jpeg_quality   = 15; // 12
   config.fb_count       = 1;
 
   if (psramFound()) {
